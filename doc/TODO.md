@@ -62,6 +62,7 @@ npm install layer-websdk@beta --save
 ###webim所有接口的xmpp协议(邹金海)和react协议(仝瑶)的文档整理
 ###webim所有接口的测试用例整理
 ###RectMix:将ReactJS转成ReactNative生成app(IOS/ANDROID) (刘伟展)
+###npm version更加返回话，遵循semver规则 todo
 
 
  
