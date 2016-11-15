@@ -1,52 +1,109 @@
 // @flow
 
-import { StyleSheet } from 'react-native'
+import { StyleSheet, PixelRatio } from 'react-native'
 import { Colors, Metrics } from '../../Themes'
+import { create } from '../../Lib/PlatformStyleSheet'
 
-export default StyleSheet.create({
+console.log(PixelRatio.get())
+
+export default create({
   container: {
-    paddingTop: 70,
-    backgroundColor: Colors.background
+    backgroundColor: Colors.login,
+    ios: {
+      paddingTop: 100,
+    },
+    android: {
+      paddingTop: 57.5,
+    }
   },
   form: {
-    backgroundColor: Colors.snow,
-    margin: Metrics.baseMargin,
-    borderRadius: 4
+    alignItems: 'center',
+    ios: {
+      marginTop: 53,
+      marginHorizontal: 20,
+    },
+    android: {
+      marginTop: 31.5,
+      marginBottom: 32,
+      borderRadius: 2,
+      // and only
+      elevation: 3,
+      marginHorizontal: 25.5,
+    }
+  },
+  borderBottom: {
+    borderBottomWidth: 1 / PixelRatio.get(),
+    borderBottomColor: Colors.centerLine
   },
   row: {
-    paddingVertical: Metrics.doubleBaseMargin,
-    paddingHorizontal: Metrics.doubleBaseMargin
+    alignSelf: 'stretch',
+    backgroundColor: Colors.snow,
+    ios: {
+      borderRadius: 2,
+      marginBottom: 15,
+      borderBottomWidth: 1,
+      borderBottomColor: '#adb9c1',
+      paddingHorizontal: Metrics.doubleBaseMargin,
+    },
+    android: {
+
+    }
+  },
+  // 提示行
+  tips: {
+    color: Colors.almostWhite,
+    textAlign: 'center'
+  },
+  tipRow: {
+    alignItems: 'center',
+  },
+  tipsButtonWrapper: {
+    // alignSelf: 'stretch',
+    marginLeft: 6
   },
   rowLabel: {
     color: Colors.charcoal
   },
+  // 输入框
   textInput: {
-    height: 40,
-    color: Colors.coal
+    height: 50,
+    color: Colors.almostBlack,
+    android: {
+    }
   },
   textInputReadonly: {
     height: 40,
-    color: Colors.steel
+    color: Colors.steel,
+    backgroundColor: Colors.snow
   },
+  // sign in 按钮
   loginRow: {
     paddingBottom: Metrics.doubleBaseMargin,
-    paddingHorizontal: Metrics.doubleBaseMargin,
     flexDirection: 'row'
   },
   loginButtonWrapper: {
-    flex: 1
+    flex: 1,
+    alignSelf: 'stretch',
   },
   loginButton: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: Colors.charcoal,
-    backgroundColor: Colors.panther,
-    padding: 6
+    marginTop: 32,
+    backgroundColor: Colors.buttonSignin,
+    padding: 10,
+    android: {
+      // and only
+      elevation: 3,
+    }
   },
   loginText: {
     textAlign: 'center',
     color: Colors.silver
   },
+  signUpText: {
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'solid',
+    textDecorationColor: '#fff',
+  },
+  // 顶部logo
   topLogo: {
     alignSelf: 'center',
     resizeMode: 'contain'

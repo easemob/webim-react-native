@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   Image,
   Keyboard,
-  LayoutAnimation
+  LayoutAnimation,
+  Platform
 } from 'react-native'
 import { connect } from 'react-redux'
 import Styles from './Styles/LoginScreenStyle'
@@ -44,8 +45,8 @@ class LoginScreen extends React.Component {
   constructor (props: LoginScreenProps) {
     super(props)
     this.state = {
-      username: 'reactnative@infinite.red',
-      password: 'password',
+      // username: 'reactnative@infinite.red11123',
+      // password: 'password',
       visibleHeight: Metrics.screenHeight,
       topLogo: { width: Metrics.screenWidth }
     }
@@ -111,12 +112,48 @@ class LoginScreen extends React.Component {
     const { fetching } = this.props
     const editable = !fetching
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
+    let otherView = '<Text></Text>';
+
+    if( Platform.OS == 'android' ) {
+      otherView = [
+        <View key='button' style={[Styles.loginRow]}>
+          <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+            <View style={Styles.loginButton}>
+              <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>,
+        <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
+          <Text style={Styles.tips}>{I18n.t('signUpTips')}</Text>
+          <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.pop}>
+            <Text style={[Styles.loginText, Styles.signUpText]}>{I18n.t('signUp')}</Text>
+          </TouchableOpacity>
+        </View>
+      ]
+    }
+
+    if( Platform.OS == 'ios' ) {
+      otherView = <View style={[Styles.loginRow]}>
+        <Text style={Styles.tips}>{I18n.t('SignUpTips')}</Text>
+        <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+          {/* <View style={Styles.loginButton}> */}
+          <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
+          {/* </View> */}
+        </TouchableOpacity>
+        <TouchableOpacity style={Styles.loginButtonWrapper} onPress={NavigationActions.pop}>
+          <View style={Styles.loginButton}>
+            <Text style={Styles.loginText}>{I18n.t('cancel')}</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    }
+
     return (
       <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps>
         <Image source={Images.logo} style={[Styles.topLogo, this.state.topLogo]} />
         <View style={Styles.form}>
-          <View style={Styles.row}>
-            <Text style={Styles.rowLabel}>{I18n.t('username')}</Text>
+          <View style={[Styles.row, Styles.borderBottom]}>
+            {/* <Text style={Styles.rowLabel}>{I18n.t('username')}</Text> */}
             <TextInput
               ref='username'
               style={textInputStyle}
@@ -129,11 +166,14 @@ class LoginScreen extends React.Component {
               onChangeText={this.handleChangeUsername}
               underlineColorAndroid='transparent'
               onSubmitEditing={() => this.refs.password.focus()}
-              placeholder={I18n.t('username')} />
+              placeholder={I18n.t('username')}
+              placeholderTextColor={Styles.placeholderTextColor}
+              selectionColor={Styles.selectionColor}
+            />
           </View>
 
           <View style={Styles.row}>
-            <Text style={Styles.rowLabel}>{I18n.t('password')}</Text>
+            {/* <Text style={Styles.rowLabel}>{I18n.t('password')}</Text> */}
             <TextInput
               ref='password'
               style={textInputStyle}
@@ -147,21 +187,13 @@ class LoginScreen extends React.Component {
               onChangeText={this.handleChangePassword}
               underlineColorAndroid='transparent'
               onSubmitEditing={this.handlePressLogin}
-              placeholder={I18n.t('password')} />
+              placeholder={I18n.t('password')}
+              placeholderTextColor={Styles.plachholder}
+              selectionColor ={Styles.selectionColor}
+            />
           </View>
 
-          <View style={[Styles.loginRow]}>
-            <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-              <View style={Styles.loginButton}>
-                <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={Styles.loginButtonWrapper} onPress={NavigationActions.pop}>
-              <View style={Styles.loginButton}>
-                <Text style={Styles.loginText}>{I18n.t('cancel')}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          {otherView}
         </View>
 
       </ScrollView>
