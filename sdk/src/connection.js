@@ -22,7 +22,7 @@ if (window.XDomainRequest) {
     };
 }
 
-Strophe.Request.prototype._newXHR = function () {
+window.Strophe.Request.prototype._newXHR = function () {
     var xhr = _utils.xmlrequest(true);
     if (xhr.overrideMimeType) {
         xhr.overrideMimeType('text/xml');
@@ -32,7 +32,7 @@ Strophe.Request.prototype._newXHR = function () {
     return xhr;
 };
 
-Strophe.Websocket.prototype._closeSocket = function () {
+window.Strophe.Websocket.prototype._closeSocket = function () {
     if (this.socket) {
         var me = this;
         setTimeout(function () {
@@ -59,8 +59,14 @@ Strophe.Websocket.prototype._closeSocket = function () {
  * this will trigger socket.onError, therefore _doDisconnect again.
  * Fix it by overide  _onMessage
  */
-Strophe.Websocket.prototype._onMessage = function (message) {
-    WebIM && WebIM.config.isDebug && console.log(WebIM.utils.ts() + 'recv:', message.data);
+window.Strophe.Websocket.prototype._onMessage = function (message) {
+    // WebIM && WebIM.config.isDebug && console.log(WebIM.utils.ts() + 'recv:', message.data);
+    if (WebIM && WebIM.config.isDebug) {
+        console.group('%crecv # ', 'color: green; font-size: large')
+        console.log('%c' + message.data, 'color: green');
+        console.groupEnd();
+    }
+
     var elem, data;
     // check for closing stream
     // var close = '<close xmlns="urn:ietf:params:xml:ns:xmpp-framing" />';
@@ -466,8 +472,8 @@ var _loginCallback = function (status, msg, conn) {
         }
     } else if (status == Strophe.Status.DISCONNECTED) {
         if (conn.isOpened()) {
-            if (Demo.conn.autoReconnectNumTotal < Demo.conn.autoReconnectNumMax) {
-                Demo.conn.reconnect();
+            if (conn.autoReconnectNumTotal < conn.autoReconnectNumMax) {
+                conn.reconnect();
                 return;
             } else {
                 error = {
@@ -706,7 +712,6 @@ connection.prototype.heartBeat = function () {
     var me = this;
     //IE8: strophe auto switch from ws to BOSH, need heartbeat
     var isNeed = !/^ws|wss/.test(me.url) || /mobile/.test(navigator.userAgent);
-
     if (this.heartBeatID || !isNeed) {
         return;
     }

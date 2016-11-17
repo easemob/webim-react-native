@@ -3080,7 +3080,7 @@
              */
             _dataRecv: function (req, raw) {
                 Strophe.info("_dataRecv called");
-                WebIM && WebIM.config.isDebug && Strophe.info(JSON.stringify(req));
+                WebIM && WebIM.config.isDebug && Strophe.info(raw);
                 var elem = this._proto._reqToData(req);
                 if (elem === null) {
                     return;
@@ -5685,7 +5685,7 @@
     }
 
 
-})(function (Strophe, build, msg, iq, pres) {
+}.bind(window))(function (Strophe, build, msg, iq, pres) {
     window.Strophe = Strophe;
     window.$build = build;
     window.$msg = msg;
