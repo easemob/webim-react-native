@@ -10,12 +10,21 @@ import ReduxPersist from '../Config/ReduxPersist'
 // Styles
 import styles from './Styles/RootContainerStyle'
 
+
+// import WebIM from '../Lib/WebIM'
+// import WebIMActions from '../Redux/WebIMRedux'
+
 class RootContainer extends Component {
+
   componentDidMount () {
     // if redux persist is not active fire startup action
     if (!ReduxPersist.active) {
       this.props.startup()
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps)
   }
 
   render () {
@@ -29,7 +38,8 @@ class RootContainer extends Component {
 }
 
 const mapStateToDispatch = (dispatch) => ({
-  startup: () => dispatch(StartupActions.startup())
+  startup: () => dispatch(StartupActions.startup()),
+  // dispatch: dispatch
 })
 
 export default connect(null, mapStateToDispatch)(RootContainer)

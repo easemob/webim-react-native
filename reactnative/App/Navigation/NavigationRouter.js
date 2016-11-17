@@ -6,12 +6,13 @@ import Styles from './Styles/NavigationContainerStyle'
 import NavigationDrawer from './NavigationDrawer'
 import NavItems from './NavItems'
 import CustomNavBar from '../Components/CustomNavBar'
+import { Actions as NavigationActions } from 'react-native-router-flux'
+
 
 // screens identified by the router
 import PresentationScreen from '../Containers/PresentationScreen'
 import AllComponentsScreen from '../Containers/AllComponentsScreen'
 import UsageExamplesScreen from '../Containers/UsageExamplesScreen'
-import LoginScreen from '../Containers/LoginScreen'
 import ListviewExample from '../Containers/ListviewExample'
 import ListviewGridExample from '../Containers/ListviewGridExample'
 import ListviewSectionsExample from '../Containers/ListviewSectionsExample'
@@ -19,6 +20,10 @@ import MapviewExample from '../Containers/MapviewExample'
 import APITestingScreen from '../Containers/APITestingScreen'
 import ThemeScreen from '../Containers/ThemeScreen'
 import DeviceInfoScreen from '../Containers/DeviceInfoScreen'
+
+// custom
+import LoginScreen from '../Containers/LoginScreen'
+import ContactsScreen from '../Containers/ContactsScreen'
 
 /* **************************
 * Documentation: https://github.com/aksonov/react-native-router-flux
@@ -33,7 +38,6 @@ class NavigationRouter extends Component {
             <Scene key='presentationScreen' component={PresentationScreen} title='Ignite' renderLeftButton={NavItems.hamburgerButton} />
             <Scene key='componentExamples' component={AllComponentsScreen} title='Components' />
             <Scene key='usageExamples' component={UsageExamplesScreen} title='Usage' rightTitle='Example' onRight={() => window.alert('Example Pressed')} />
-            <Scene initial key='login' component={LoginScreen} title='Login' hideNavBar />
             <Scene key='listviewExample' component={ListviewExample} title='Listview Example' />
             <Scene key='listviewGridExample' component={ListviewGridExample} title='Listview Grid' />
             <Scene key='listviewSectionsExample' component={ListviewSectionsExample} title='Listview Sections' />
@@ -43,6 +47,8 @@ class NavigationRouter extends Component {
 
             {/* Custom navigation bar example */}
             <Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar} />
+            <Scene initial key='login' component={LoginScreen} title='Login' hideNavBar />
+            <Scene  key='contacts' component={ContactsScreen} title='Contacts' navBar={CustomNavBar}/>
           </Scene>
         </Scene>
       </Router>

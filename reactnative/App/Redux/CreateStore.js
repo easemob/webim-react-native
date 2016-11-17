@@ -6,6 +6,8 @@ import createSagaMiddleware from 'redux-saga'
 import R from 'ramda'
 import RehydrationServices from '../Services/RehydrationServices'
 import ReduxPersist from '../Config/ReduxPersist'
+//
+import thunkMiddleware from 'redux-thunk';
 
 // creates the store
 export default (rootReducer, rootSaga) => {
@@ -14,10 +16,12 @@ export default (rootReducer, rootSaga) => {
   const middleware = []
   const enhancers = []
 
+  middleware.push(thunkMiddleware)
+
   /* ------------- Saga Middleware ------------- */
 
-  const sagaMiddleware = createSagaMiddleware()
-  middleware.push(sagaMiddleware)
+  // const sagaMiddleware = createSagaMiddleware()
+  // middleware.push(sagaMiddleware)
 
   /* ------------- Logger Middleware ------------- */
 
@@ -54,7 +58,7 @@ export default (rootReducer, rootSaga) => {
   }
 
   // kick off root saga
-  sagaMiddleware.run(rootSaga)
+  // sagaMiddleware.run(rootSaga)
 
   return store
 }

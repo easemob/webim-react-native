@@ -8,6 +8,7 @@ console.log(PixelRatio.get())
 
 export default create({
   container: {
+    flex: 1,
     backgroundColor: Colors.login,
     ios: {
       paddingTop: 100,
@@ -81,12 +82,17 @@ export default create({
     paddingBottom: Metrics.doubleBaseMargin,
     flexDirection: 'row'
   },
+  buttonLoginRow: {
+    // paddingTop: 32,
+    // zIndex: -1,
+    // height: 30
+  },
   loginButtonWrapper: {
-    flex: 1,
-    alignSelf: 'stretch',
+    // flex: 1,
+    // alignSelf: 'stretch',
+    
   },
   loginButton: {
-    marginTop: 32,
     backgroundColor: Colors.buttonSignin,
     padding: 10,
     android: {

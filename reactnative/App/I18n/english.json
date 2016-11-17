@@ -24,4 +24,9 @@
   "themeSettings": "Theme Settings",
   "deviceDetails": "Device Details",
   "noItems": "No Items",
+  "invalidID": "Invalid id",
+  "invalidPassword": "Invalid password",
+  "contactTabContacts": "Contacts",
+  "contactTabChats": "Chats",
+  "contactTabSettings": "Settings"
 }

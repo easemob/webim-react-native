@@ -34,9 +34,8 @@ const colorsIos = {
   andBgStart: '#3e5c78',
   andBgEnd: '#243e55',
   andPlachholder: '#adb9c1',
-  android: {
-
-  }
+  //
+  coolGrey50: 'rgba(173, 185, 193, 0.5)'
 }
 
 const colorsAndroid = {

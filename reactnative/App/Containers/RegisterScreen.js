@@ -26,7 +26,7 @@ type LoginScreenProps = {
   attemptLogin: () => void
 }
 
-class LoginScreen extends React.Component {
+class RegisterScreen extends React.Component {
 
   props: LoginScreenProps
 
@@ -238,4 +238,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen)
