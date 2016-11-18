@@ -1,12 +1,16 @@
 'use strict';
 
-import 'easemob-websdk/dist/strophe-1.2.8'
+import 'easemob-websdk/dist/strophe-1.2.8.js'
 import websdk from 'easemob-websdk'
 import xmldom from 'xmldom'
 import config from './WebIMConfig'
 
 // init DOMParser / document for strophe and sdk
 // window.WebIM.config.isDebug = true
+console = console || {}
+console.group = console.group || {}
+console.groupEnd = console.groupEnd || {}
+
 let WebIM = window.WebIM = websdk;
 window.WebIM.config = config;
 window.DOMParser = xmldom.DOMParser;
@@ -23,13 +27,16 @@ if (WebIM.config.isDebug) {
   }
 
   window.Strophe.log = function (level, msg) {
-    console.log(ts(), level, msg);
+    if(__DEV__) console.log(ts(), level, msg);
   };
-  
+
   window.Strophe.Connection.prototype.rawOutput = function (data) {
-    console.group('%csend # ' + ts(), 'color: blue; font-size: large')
-    console.log('%c' + data, 'color: blue');
-    console.groupEnd();
+    try {
+      console.group('%csend # ' + ts(), 'color: blue; font-size: large')
+      console.log('%c' + data, 'color: blue');
+      console.groupEnd();
+    }catch(e) {
+    }
   };
 }
 

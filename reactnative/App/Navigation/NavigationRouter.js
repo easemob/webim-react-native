@@ -23,6 +23,7 @@ import DeviceInfoScreen from '../Containers/DeviceInfoScreen'
 
 // custom
 import LoginScreen from '../Containers/LoginScreen'
+import RegisterScreen from '../Containers/RegisterScreen'
 import ContactsScreen from '../Containers/ContactsScreen'
 
 /* **************************
@@ -48,9 +49,10 @@ class NavigationRouter extends Component {
             {/* Custom navigation bar example */}
             <Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar} />
             <Scene initial key='login' component={LoginScreen} title='Login' hideNavBar />
-            <Scene  key='contacts' component={ContactsScreen} title='Contacts' navBar={CustomNavBar}/>
+            <Scene  key='register' component={RegisterScreen} title='Register' hideNavBar />
+            <Scene key='contacts' component={ContactsScreen} title='Contacts'/>
           </Scene>
-        </Scene>
+      </Scene>
       </Router>
     )
   }

@@ -46,7 +46,7 @@ class LoginScreen extends React.Component {
   constructor (props: LoginScreenProps) {
     super(props)
     this.state = {
-      // username: 'reactnative@infinite.red11123',
+      // username: Platform.OS,
       // password: 'password',
       visibleHeight: Metrics.screenHeight,
       topLogo: { width: Metrics.screenWidth }
@@ -57,7 +57,7 @@ class LoginScreen extends React.Component {
   componentWillReceiveProps (newProps) {
     this.forceUpdate()
     // Did the login attempt complete?
-    if (this.isAttempting && !newProps.fetching) {
+    if (this.isAttempting && !newProps.fetching && !newProps.error) {
       NavigationActions.contacts();
 
       // NavigationActions.pop()
@@ -95,7 +95,7 @@ class LoginScreen extends React.Component {
     })
   }
 
-  handlePressLogin = () => {
+  handlePressLogin = (e) => {
 
     const { username, password } = this.state
 
@@ -137,7 +137,7 @@ class LoginScreen extends React.Component {
         </View>,
         <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
           <Text style={Styles.tips}>{I18n.t('signUpTips')}</Text>
-          <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.pop}>
+          <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.register}>
             <Text style={[Styles.loginText, Styles.signUpText]}>{I18n.t('signUp')}</Text>
           </TouchableOpacity>
         </View>
@@ -148,7 +148,7 @@ class LoginScreen extends React.Component {
       otherView = [
         <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
           <Text style={Styles.tips}>{I18n.t('signUpTips')}</Text>
-          <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.pop}>
+          <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.register}>
             <Text style={[Styles.loginText, Styles.signUpText]}>{I18n.t('signUp')}</Text>
           </TouchableOpacity>
         </View>
@@ -201,20 +201,22 @@ class LoginScreen extends React.Component {
               />
             </View>
 
-              {otherView}
-            </View>
-          </ScrollView>
+            {otherView}
+          </View>
+        </ScrollView>
 
-          {
-            (() => {
-              if( Platform.OS == 'ios') {
-                return <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
+        {
+          (() => {
+            if( Platform.OS == 'ios') {
+              return (
+                <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
                   <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-                    <View style={Styles.loginButton}>
-                      <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
+                      <View style={Styles.loginButton}>
+                        <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                )
               }
             })()
           }
@@ -228,7 +230,8 @@ class LoginScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    fetching: state.login.fetching
+    fetching: state.login.fetching,
+    error: state.login.error
   }
 }
 

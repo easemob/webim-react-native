@@ -31,6 +31,7 @@
 		6B25966C54B344989581E48B /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D2339491C64D8797E4CA78 /* libAirMaps.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A6F88DA99C8C4156AFE8A8AA /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 586D357196914E65A28502EB /* libRNVectorIcons.a */; };
+		AD34A5A01DDEE225005A101D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = AD34A59F1DDEE225005A101D /* main.jsbundle */; };
 		C1820A4AE9FF4018AE97CAF6 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2181674B9B04AEAA2CBD9B4 /* EvilIcons.ttf */; };
 		C8FDF6D2DEFD41098D396FFD /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683712866E474532A97C380F /* libRNDeviceInfo.a */; };
 		CC7C043539A54D5485361E3B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D3B4B7CB16B44FBBDCBE872 /* Ionicons.ttf */; };
@@ -210,7 +211,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
@@ -243,6 +243,7 @@
 		9D3B4B7CB16B44FBBDCBE872 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		9E30E05462554BFD8A9C66CF /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
 		A2181674B9B04AEAA2CBD9B4 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		AD34A59F1DDEE225005A101D /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = app/main.jsbundle; sourceTree = "<group>"; };
 		B190BFCA1A0D425C85191CA0 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		C27774C4CDD54CEFB00E6660 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		CF241E19B6B44790869A0FD0 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/RNI18n.xcodeproj"; sourceTree = "<group>"; };
@@ -365,7 +366,7 @@
 		13B07FAE1A68108700A75B9A /* app */ = {
 			isa = PBXGroup;
 			children = (
-				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
+				AD34A59F1DDEE225005A101D /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -826,6 +827,7 @@
 				6708726EF68441B496E2D49E /* Foundation.ttf in Resources */,
 				CC7C043539A54D5485361E3B /* Ionicons.ttf in Resources */,
 				FF6A83FF6DCC460787BDEEA6 /* MaterialIcons.ttf in Resources */,
+				AD34A5A01DDEE225005A101D /* main.jsbundle in Resources */,
 				02813AA4E85940C69743CCE3 /* Octicons.ttf in Resources */,
 				42970E9DAA1948FD99D1BDF3 /* Zocial.ttf in Resources */,
 			);
@@ -1105,7 +1107,7 @@
 				00E356F71AD99517003FC87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "app" */ = {
 			isa = XCConfigurationList;
@@ -1114,7 +1116,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "app" */ = {
 			isa = XCConfigurationList;
@@ -1123,7 +1125,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

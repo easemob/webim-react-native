@@ -4,8 +4,6 @@ import { StyleSheet, PixelRatio } from 'react-native'
 import { Colors, Metrics } from '../../Themes'
 import { create } from '../../Lib/PlatformStyleSheet'
 
-console.log(PixelRatio.get())
-
 export default create({
   container: {
     flex: 1,
@@ -73,7 +71,7 @@ export default create({
     }
   },
   textInputReadonly: {
-    height: 40,
+    // height: 40,
     color: Colors.steel,
     backgroundColor: Colors.snow
   },
@@ -92,7 +90,7 @@ export default create({
   loginButtonWrapper: {
     // flex: 1,
     // alignSelf: 'stretch',
-    // height: 50
+
   },
   loginButton: {
     backgroundColor: Colors.buttonSignin,

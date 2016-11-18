@@ -14,21 +14,21 @@ import {
   Platform
 } from 'react-native'
 import { connect } from 'react-redux'
-import Styles from './Styles/LoginScreenStyle'
+import Styles from './Styles/RegisterScreenStyle'
 import {Images, Metrics} from '../Themes'
 import LoginActions from '../Redux/LoginRedux'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import I18n from 'react-native-i18n'
 
-type LoginScreenProps = {
+type RegisterScreenProps = {
   dispatch: () => any,
   fetching: boolean,
-  attemptLogin: () => void
+  attemptRegister: () => void
 }
 
 class RegisterScreen extends React.Component {
 
-  props: LoginScreenProps
+  props: RegisterScreenProps
 
   state: {
     username: string,
@@ -43,7 +43,7 @@ class RegisterScreen extends React.Component {
   keyboardDidShowListener: Object
   keyboardDidHideListener: Object
 
-  constructor (props: LoginScreenProps) {
+  constructor (props: RegisterScreenProps) {
     super(props)
     this.state = {
       // username: 'reactnative@infinite.red11123',
@@ -57,8 +57,9 @@ class RegisterScreen extends React.Component {
   componentWillReceiveProps (newProps) {
     this.forceUpdate()
     // Did the login attempt complete?
-    if (this.isAttempting && !newProps.fetching) {
-      NavigationActions.contacts();
+    console.log('newProps', newProps)
+    if (this.isAttempting && !newProps.fetching && !newProps.registerError) {
+      NavigationActions.login();
 
       // NavigationActions.pop()
     }
@@ -108,7 +109,7 @@ class RegisterScreen extends React.Component {
 
     this.isAttempting = true
     // attempt a login - a saga is listening to pick it up from here.
-    this.props.attemptLogin(username, password)
+    this.props.attemptRegister(username, password)
   }
 
   handleChangeUsername = (text) => {
@@ -131,14 +132,14 @@ class RegisterScreen extends React.Component {
         <View key='button' style={[Styles.loginRow]}>
           <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
             <View style={Styles.loginButton}>
-              <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
+              <Text style={Styles.loginText}>{I18n.t('signUp')}</Text>
             </View>
           </TouchableOpacity>
         </View>,
         <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
-          <Text style={Styles.tips}>{I18n.t('signUpTips')}</Text>
+          <Text style={Styles.tips}>{I18n.t('signInTips')}</Text>
           <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.pop}>
-            <Text style={[Styles.loginText, Styles.signUpText]}>{I18n.t('signUp')}</Text>
+            <Text style={[Styles.loginText, Styles.signUpText]}>{I18n.t('signIn')}</Text>
           </TouchableOpacity>
         </View>
       ]
@@ -147,9 +148,9 @@ class RegisterScreen extends React.Component {
     if( Platform.OS == 'ios' ) {
       otherView = [
         <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
-          <Text style={Styles.tips}>{I18n.t('signUpTips')}</Text>
+          <Text style={Styles.tips}>{I18n.t('signInTips')}</Text>
           <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.pop}>
-            <Text style={[Styles.loginText, Styles.signUpText]}>{I18n.t('signUp')}</Text>
+            <Text style={[Styles.loginText, Styles.signUpText]}>{I18n.t('signIn')}</Text>
           </TouchableOpacity>
         </View>
       ]
@@ -201,24 +202,24 @@ class RegisterScreen extends React.Component {
               />
             </View>
 
-              {otherView}
-            </View>
-          </ScrollView>
+            {otherView}
+          </View>
+        </ScrollView>
 
-          {
-            (() => {
-              if( Platform.OS == 'ios') {
-                return <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
-                  <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-                    <View style={Styles.loginButton}>
-                      <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              }
-            })()
-          }
-        </View>
+        {
+          (() => {
+            if( Platform.OS == 'ios') {
+              return <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
+                <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+                  <View style={Styles.loginButton}>
+                    <Text style={Styles.loginText}>{I18n.t('signUp')}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            }
+          })()
+        }
+      </View>
 
 
     )
@@ -228,13 +229,14 @@ class RegisterScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    fetching: state.login.fetching
+    fetching: state.login.fetching,
+    registerError: state.login.registerError
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password))
+    attemptRegister: (username, password) => dispatch(LoginActions.registerRequestPromise(username, password))
   }
 }
 
