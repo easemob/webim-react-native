@@ -88,21 +88,32 @@ export default create({
     // height: 50
   },
   loginButtonWrapper: {
-    // flex: 1,
-    // alignSelf: 'stretch',
-
+    android: {
+      flex: 1,
+      height: 44,
+      marginTop: 32
+    }
   },
   loginButton: {
     backgroundColor: Colors.buttonSignin,
-    paddingTop: 17,
-    paddingBottom: 16,
+    ios: {
+      paddingTop: 17,
+      paddingBottom: 16,
+    },
     android: {
       // and only
-      elevation: 3,
+      // elevation: 3,
+      paddingTop: 10,
+      paddingBottom: 9.5,
     }
   },
   loginText: {
-    fontSize: 17,
+    ios: {
+      fontSize: 17,
+    },
+    android: {
+      fontSize: 16.5,
+    },
     textAlign: 'center',
     color: Colors.silver
   },

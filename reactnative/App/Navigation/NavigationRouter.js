@@ -7,6 +7,7 @@ import NavigationDrawer from './NavigationDrawer'
 import NavItems from './NavItems'
 import CustomNavBar from '../Components/CustomNavBar'
 import { Actions as NavigationActions } from 'react-native-router-flux'
+import { Platform } from 'react-native'
 
 
 // screens identified by the router
@@ -25,6 +26,7 @@ import DeviceInfoScreen from '../Containers/DeviceInfoScreen'
 import LoginScreen from '../Containers/LoginScreen'
 import RegisterScreen from '../Containers/RegisterScreen'
 import ContactsScreen from '../Containers/ContactsScreen'
+import ContactsAndroidScreen from '../Containers/ContactsAndroidScreen'
 
 /* **************************
 * Documentation: https://github.com/aksonov/react-native-router-flux
@@ -32,6 +34,19 @@ import ContactsScreen from '../Containers/ContactsScreen'
 
 class NavigationRouter extends Component {
   render () {
+
+    let scenes;
+
+    if (Platform.OS == 'ios') {
+      scenes = (
+        <Scene key='contacts' component={ContactsScreen} title='Contacts'/>
+      )
+    }else {
+      scenes = (
+        <Scene key='contacts' component={ContactsAndroidScreen} title='Contacts'/>
+      )
+    }
+
     return (
       <Router>
         <Scene key='drawer' component={NavigationDrawer} open={false}>
@@ -49,8 +64,9 @@ class NavigationRouter extends Component {
             {/* Custom navigation bar example */}
             <Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar} />
             <Scene initial key='login' component={LoginScreen} title='Login' hideNavBar />
-            <Scene  key='register' component={RegisterScreen} title='Register' hideNavBar />
-            <Scene key='contacts' component={ContactsScreen} title='Contacts'/>
+            <Scene key='register' component={RegisterScreen} title='Register' hideNavBar />
+            { scenes }
+
           </Scene>
       </Scene>
       </Router>

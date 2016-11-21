@@ -1,7 +1,7 @@
 'use strict';
 
-import 'easemob-websdk/dist/strophe-1.2.8.js'
-import websdk from 'easemob-websdk'
+import '../sdk/dist/strophe-1.2.8.js'
+import websdk from '../sdk'
 import xmldom from 'xmldom'
 import config from './WebIMConfig'
 

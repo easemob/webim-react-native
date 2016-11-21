@@ -57,6 +57,7 @@ class LoginScreen extends React.Component {
   componentWillReceiveProps (newProps) {
     this.forceUpdate()
     // Did the login attempt complete?
+    console.log('newProps',newProps)
     if (this.isAttempting && !newProps.fetching && !newProps.error) {
       NavigationActions.contacts();
 
@@ -211,16 +212,16 @@ class LoginScreen extends React.Component {
               return (
                 <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
                   <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-                      <View style={Styles.loginButton}>
-                        <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )
-              }
-            })()
-          }
-        </View>
+                    <View style={Styles.loginButton}>
+                      <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )
+            }
+          })()
+        }
+      </View>
 
 
     )

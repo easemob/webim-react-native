@@ -105,8 +105,9 @@ export const success = (state: Object, { msg }: Object) => {
 
 
 // we've had a problem logging in
-export const failure = (state: Object, { msg }: Object) => {
-  Alert.alert('failure')
+export const failure = (state: Object, { error }: Object) => {
+  let msg = error && error.data && error.data.data;
+  Alert.alert(msg || 'failure')
   return state.merge({ fetching: false, error:true })
 }
 

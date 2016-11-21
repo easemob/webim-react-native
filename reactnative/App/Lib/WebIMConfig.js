@@ -10,7 +10,7 @@
 
 // for react native
 let location = {
-  protocol: 'http'
+  protocol: 'https'
 }
 
 let config = {
