@@ -16,7 +16,7 @@ export default () => {
 
   // Provider does not support changing `store` on the fly
   // TODO  https://github.com/reactjs/react-redux/releases/tag/v2.0.0 by lwz
-  
+
   // if (module && module.hot) {
   //   // Enable Webpack hot module replacement for reducers
   //   module.hot.accept(() => {

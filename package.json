@@ -87,12 +87,13 @@
       "__DEV__",
       "XMLHttpRequest",
       "FormData",
-      "React$Element"
+      "React$Element",
+      "WebIM"
     ]
   },
   "config": {
     "ghooks": {
-      "pre-commit": "if [ -d 'ignite-base' ]; then cd ignite-base; fi; npm run lint"
+      "pre-commit-nouse": "if [ -d 'ignite-base' ]; then cd ignite-base; fi; npm run lint"
     }
   }
 }

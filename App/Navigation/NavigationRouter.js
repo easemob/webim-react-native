@@ -9,7 +9,6 @@ import CustomNavBar from '../Components/CustomNavBar'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import { Platform } from 'react-native'
 
-
 // screens identified by the router
 import PresentationScreen from '../Containers/PresentationScreen'
 import AllComponentsScreen from '../Containers/AllComponentsScreen'
@@ -34,16 +33,15 @@ import ContactsAndroidScreen from '../Containers/ContactsAndroidScreen'
 
 class NavigationRouter extends Component {
   render () {
-
-    let scenes;
+    let scenes
 
     if (Platform.OS == 'ios') {
       scenes = (
-        <Scene key='contacts' component={ContactsScreen} title='Contacts'/>
+        <Scene key='contacts' component={ContactsScreen} title='Contacts' />
       )
-    }else {
+    } else {
       scenes = (
-        <Scene key='contacts' component={ContactsAndroidScreen} title='Contacts'/>
+        <Scene key='contacts' component={ContactsAndroidScreen} title='Contacts' />
       )
     }
 
@@ -68,7 +66,7 @@ class NavigationRouter extends Component {
             { scenes }
 
           </Scene>
-      </Scene>
+        </Scene>
       </Router>
     )
   }

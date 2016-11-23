@@ -5,7 +5,6 @@ import Immutable from 'seamless-immutable'
 import { Alert } from 'react-native'
 import WebIM from '../Lib/WebIM'
 
-
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
@@ -21,11 +20,10 @@ const { Types, Creators } = createActions({
 Types.REGISTER_REQUEST_PROMISE = 'REGISTER_REQUEST_PROMISE'
 Creators.registerRequestPromise = (username, password) => {
   return (dispatch, getState) => {
-
-      var options = {
-          username: username.trim().toLowerCase(),
-          password: password,
-          nickname: username.trim().toLowerCase(),
+    var options = {
+      username: username.trim().toLowerCase(),
+      password: password,
+      nickname: username.trim().toLowerCase()
           // appKey: WebIM.config.appkey,
           // apiUrl: WebIM.config.apiURL,
           // success: function () {
@@ -34,29 +32,29 @@ Creators.registerRequestPromise = (username, password) => {
           // error: function (e) {
           //   console.log('error')
           // }
-      };
-      console.log(options)
-      dispatch(Creators.registerRequest(username, password))
+    }
+    console.log(options)
+    dispatch(Creators.registerRequest(username, password))
 
       // must be https for mac policy
-      return fetch('https://a1.easemob.com/easemob-demo/chatdemoui/users' , {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(options)
-      })
+    return fetch('https://a1.easemob.com/easemob-demo/chatdemoui/users', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(options)
+    })
       .then((response) => response.json())
       .then((json) => {
-        console.log('success',json)
-        if(json.error) {
-          Alert.alert(json.error_description);
+        console.log('success', json)
+        if (json.error) {
+          Alert.alert(json.error_description)
           dispatch(Creators.registerFailure(json))
           return Promise.reject()
         }
 
-        Alert.alert('success');
+        Alert.alert('success')
         dispatch(Creators.registerSuccess(json))
       }).catch(() => {
         console.log('error')
@@ -81,46 +79,43 @@ export const INITIAL_STATE = Immutable({
 
 // we're attempting to login
 export const request = (state: Object, { username, password}) => {
-
   console.log(state, username, password, WebIM.conn.isOpened())
-  if(WebIM.conn.isOpened()) {
+  if (WebIM.conn.isOpened()) {
     WebIM.conn.close('logout')
   }
   WebIM.conn.open({
-     apiUrl: WebIM.config.apiURL,
-     user: username.trim().toLowerCase(),
-     pwd: password,
+    apiUrl: WebIM.config.apiURL,
+    user: username.trim().toLowerCase(),
+    pwd: password,
     //  accessToken: password,
-     appKey: WebIM.config.appkey
+    appKey: WebIM.config.appkey
   })
 
-  return state.merge({ username, password, fetching:true, error:false })
+  return state.merge({ username, password, fetching: true, error: false })
 }
 
 // we've successfully logged in
 export const success = (state: Object, { msg }: Object) => {
   Alert.alert('success')
-  return state.merge({ fetching: false, error:false, msg })
+  return state.merge({ fetching: false, error: false, msg })
 }
-
 
 // we've had a problem logging in
 export const failure = (state: Object, { error }: Object) => {
-  let msg = error && error.data && error.data.data;
+  let msg = error && error.data && error.data.data
   Alert.alert(msg || 'failure')
-  return state.merge({ fetching: false, error:true })
+  return state.merge({ fetching: false, error: true })
 }
 
 // we're attempting to login
 export const registerRequest = (state: Object = INITIAL_STATE, { username, password}) => {
-  return state.merge({ username, password, fetching:true })
+  return state.merge({ username, password, fetching: true })
 }
 
 // we've successfully logged in
 export const registerSuccess = (state: Object = INITIAL_STATE, { json }: Object) => {
   return state.merge({ fetching: false, json, registerError: null })
 }
-
 
 // we've had a problem logging in
 export const registerFailure = (state: Object = INITIAL_STATE, { registerError }: Object) => {

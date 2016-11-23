@@ -8,7 +8,7 @@ import WebIM from '../Lib/WebIM'
 
 const { Types, Creators } = createActions({
   onOpened: ['msg'],
-  onError: ['msg'],
+  onError: ['msg']
 })
 
 export const WebIMTypes = Types
@@ -17,12 +17,11 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-    test: 1,
-    error: {},  
+  test: 1,
+  error: {}
 })
 
 /* ------------- Reducers ------------- */
-
 
 export const onOpened = (state: Object, { msg }) => {
   console.log('onOpened', msg)
@@ -31,23 +30,20 @@ export const onOpened = (state: Object, { msg }) => {
 
 export const onError = (state, { msg }) => {
   console.log('onError', state, WebIM.conn.Status)
-  return state.merge( {error: {isError: true, code: 101, msg: 'abc'}} )
+  return state.merge({error: {isError: true, code: 101, msg: 'abc'}})
 }
-
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.ON_OPENED]: onOpened,
-  [Types.ON_ERROR]: onError,
+  [Types.ON_ERROR]: onError
 })
 
 /* ------------- Selectors ------------- */
 
 // Is the current user logged in?
-//export const isLoggedIn = (loginState: Object) => loginState.username !== null
-
-
+// export const isLoggedIn = (loginState: Object) => loginState.username !== null
 
 /** Constants: Connection Status Constants
  *  Connection status constants for use by the connection handler

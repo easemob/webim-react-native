@@ -59,7 +59,7 @@ class RegisterScreen extends React.Component {
     // Did the login attempt complete?
     console.log('newProps', newProps)
     if (this.isAttempting && !newProps.fetching && !newProps.registerError) {
-      NavigationActions.login();
+      NavigationActions.login()
 
       // NavigationActions.pop()
     }
@@ -97,14 +97,13 @@ class RegisterScreen extends React.Component {
   }
 
   handlePressLogin = () => {
-
     const { username, password } = this.state
 
-    if( !username || !username.trim() ) {
-        return Alert.alert(I18n.t('invalidID'))
+    if (!username || !username.trim()) {
+      return Alert.alert(I18n.t('invalidID'))
     }
-    if( !password || !password.trim() ) {
-        return Alert.alert(I18n.t('invalidPassword'))
+    if (!password || !password.trim()) {
+      return Alert.alert(I18n.t('invalidPassword'))
     }
 
     this.isAttempting = true
@@ -125,9 +124,9 @@ class RegisterScreen extends React.Component {
     const { fetching } = this.props
     const editable = !fetching
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
-    let otherView = '<Text></Text>';
+    let otherView = '<Text></Text>'
 
-    if( Platform.OS == 'android' ) {
+    if (Platform.OS == 'android') {
       otherView = [
         <View key='button' style={[Styles.loginRow]}>
           <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
@@ -145,7 +144,7 @@ class RegisterScreen extends React.Component {
       ]
     }
 
-    if( Platform.OS == 'ios' ) {
+    if (Platform.OS == 'ios') {
       otherView = [
         <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
           <Text style={Styles.tips}>{I18n.t('signInTips')}</Text>
@@ -198,7 +197,7 @@ class RegisterScreen extends React.Component {
                 onSubmitEditing={this.handlePressLogin}
                 placeholder={I18n.t('password')}
                 placeholderTextColor={Styles.plachholder}
-                selectionColor ={Styles.selectionColor}
+                selectionColor={Styles.selectionColor}
               />
             </View>
 
@@ -208,7 +207,7 @@ class RegisterScreen extends React.Component {
 
         {
           (() => {
-            if( Platform.OS == 'ios') {
+            if (Platform.OS == 'ios') {
               return <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
                 <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
                   <View style={Styles.loginButton}>
@@ -220,7 +219,6 @@ class RegisterScreen extends React.Component {
           })()
         }
       </View>
-
 
     )
   }
