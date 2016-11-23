@@ -1,56 +1,98 @@
 {
-  "name": "webim",
-  "version": "1.1.3",
-  "description": "",
-  "main": "index.js",
-  "devDependencies": {
-    "babel-core": "*",
-    "babel-loader": "*",
-    "babel-plugin-react-transform": "^2.0.2",
-    "babel-plugin-transform-react-jsx-source": "*",
-    "babel-preset-es2015": "*",
-    "babel-preset-react": "*",
-    "babel-preset-react-hmre": "^1.1.1",
-    "babel-preset-stage-0": "^6.1.18",
-    "babel-preset-stage-1": "^6.1.18",
-    "babel-preset-stage-2": "^6.1.18",
-    "babel-preset-stage-3": "^6.1.18",
-    "cross-env": "^3.1.3",
-    "css-loader": "*",
-    "file-loader": "*",
-    "gulp": "latest",
-    "gulp-babel": "^6.1.2",
-    "gulp-envify": "^1.0.0",
-    "gulp-mocha": "*",
-    "gulp-uglify": "^2.0.0",
-    "immutable": "*",
-    "line-numbers": "*",
-    "node-sass": "*",
-    "open-browser-webpack-plugin": "0.0.2",
-    "react": "^15.3.2",
-    "react-addons-css-transition-group": "^15.3.2",
-    "react-dom": "^15.3.1",
-    "react-transform-hmr": "^1.0.4",
-    "sass-loader": "*",
-    "style-loader": "*",
-    "webpack": "*",
-    "webpack-dev-server": "^1.16.2"
-  },
+  "name": "app",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "test": "gulp test",
-    "start": "node server.js",
-    "dev": "cross-env NODE_ENV=develop node build/dev-server.js",
-    "prod": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "lint": "standard --verbose | snazzy",
+    "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
+    "fixcode": "standard --fix",
+    "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
+    "newclear": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build/ModuleCache/* && rm -rf node_modules/ && npm cache clean && npm i",
+    "test": "NODE_ENV=production ava",
+    "test:watch": "ava --watch",
+    "coverage": "nyc ava && nyc report --reporter=html && open coverage/index.html || xdg-open coverage/index.html",
+    "tron": "node_modules/.bin/reactotron",
+    "android:build": "cd android && ./gradlew assembleRelease",
+    "android:install": "cd android && ./gradlew assembleRelease && ./gradlew installRelease",
+    "android:hockeyapp": "cd android && ./gradlew assembleRelease && puck -submit=auto app/build/outputs/apk/app-release.apk",
+    "android:devices": "$ANDROID_HOME/platform-tools/adb devices",
+    "android:logcat": "$ANDROID_HOME/platform-tools/adb logcat *:S ReactNative:V ReactNativeJS:V",
+    "android:shake": "$ANDROID_HOME/platform-tools/adb devices | grep '\\t' | awk '{print $1}' | sed 's/\\s//g' | xargs -I {} $ANDROID_HOME/platform-tools/adb -s {} shell input keyevent 82",
+    "flow": "flow --show-all-errors; test $? -eq 0 -o $? -eq 2"
   },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "antd": "^2.1.0",
-    "easemob-websdk": "^1.1.3",
-    "underscore": "^1.8.3"
+    "apisauce": "^0.5.0",
+    "easemob-websdk": "^1.1.4",
+    "format-json": "^1.0.3",
+    "querystringify": "0.0.4",
+    "ramda": "^0.22.1",
+    "react": "~15.3.0",
+    "react-native": "^0.36.0",
+    "react-native-animatable": "^0.6.0",
+    "react-native-config": "^0.1.0",
+    "react-native-device-info": "^0.9.5",
+    "react-native-drawer": "^2.3.0",
+    "react-native-i18n": "^0.1.1",
+    "react-native-maps": "^0.11.0",
+    "react-native-router-flux": "^3.35.0",
+    "react-native-vector-icons": "^2.1.0",
+    "react-redux": "^4.4.2",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.4.0",
+    "redux-persist": "^3.5.0",
+    "redux-saga": "^0.11.1",
+    "redux-thunk": "^2.1.0",
+    "reduxsauce": "0.2.0",
+    "seamless-immutable": "^6.1.0"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-eslint": "^7.0.0",
+    "babel-preset-es2015": "^6.14.0",
+    "enzyme": "^2.3.0",
+    "flow-bin": "^0.33.0",
+    "ghooks": "^1.3.2",
+    "mockery": "^1.7.0",
+    "nyc": "^8.1.0",
+    "react-addons-test-utils": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-native-mock": "^0.2.7",
+    "reactotron-apisauce": "^1.3.0",
+    "reactotron-react-native": "^1.3.0",
+    "reactotron-redux": "^1.3.1",
+    "snazzy": "^5.0.0",
+    "standard-flow": "^1.0.0"
+  },
+  "ava": {
+    "files": [
+      "Tests/**/*.js",
+      "!Tests/Setup.js"
+    ],
+    "require": [
+      "babel-register",
+      "babel-polyfill",
+      "react-native-mock/mock",
+      "./Tests/Setup"
+    ],
+    "babel": "inherit"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "globals": [
+      "describe",
+      "it",
+      "fetch",
+      "navigator",
+      "__DEV__",
+      "XMLHttpRequest",
+      "FormData",
+      "React$Element"
+    ]
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "if [ -d 'ignite-base' ]; then cd ignite-base; fi; npm run lint"
+    }
   }
 }
