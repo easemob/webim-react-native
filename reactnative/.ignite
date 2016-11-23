@@ -1,0 +1,8 @@
+module.exports = {
+  igniteVersion: '1.11.0',
+  reactNativeVersion: '0.36.0',
+  options: {
+    testing: 'ava'
+  },
+  plugins: {}
+}
