@@ -234,7 +234,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptRegister: (username, password) => dispatch(LoginActions.registerRequestPromise(username, password))
+    attemptRegister: (username, password) => dispatch(LoginActions.register(username, password))
   }
 }
 

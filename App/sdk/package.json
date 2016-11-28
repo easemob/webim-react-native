@@ -1,6 +1,6 @@
 {
   "name": "easemob-websdk",
-  "version": "1.1.4",
+  "version": "1.1.7",
   "description": "Easemob im websdk",
   "keywords": [
     "realtime",
@@ -16,8 +16,7 @@
   },
   "author": "WytheMe",
   "license": "MIT",
-  "dependencies": {
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/easemob/web-im"

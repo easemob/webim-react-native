@@ -30,5 +30,6 @@
   "invalidPassword": "Invalid password",
   "contactTabContacts": "Contacts",
   "contactTabChats": "Chats",
-  "contactTabSettings": "Settings"
+  "contactTabSettings": "Settings",
+  "search": "Search"
 }

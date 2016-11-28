@@ -21,7 +21,7 @@ const colorsIos = {
   ember: 'rgba(164, 0, 48, 0.5)',
   fire: '#e73536',
   drawer: 'rgba(30, 30, 29, 0.95)',
-  login: 'rgba(15, 28, 54, 1)',
+  login: 'rgba(61, 92, 120, 1)',
   // 输入框plachholder |
   coolGrey: 'rgba(173, 185, 193, 1)',
   // 输入框激活 |
@@ -35,7 +35,10 @@ const colorsIos = {
   andBgEnd: '#243e55',
   andPlachholder: '#adb9c1',
   //
-  coolGrey50: 'rgba(173, 185, 193, 0.5)'
+  // 'coolGrey50': 'rgba(173, 185, 193, 0.5)',
+  bgGrey: 'rgba(250, 251, 252, 1)',
+  paleGrey: 'rgba(228, 233, 236, 1)',
+  buttonSignin: '#00ba6e'
 }
 
 const colorsAndroid = {
@@ -76,4 +79,4 @@ const colorsAndroid = {
   buttonSignin: '#00ba6e'
 }
 
-export default (Platform.os == 'ios' ? colorsIos : colorsAndroid)
+export default (Platform.OS == 'ios' ? colorsIos : colorsAndroid)

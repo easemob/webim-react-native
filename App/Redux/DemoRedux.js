@@ -19,7 +19,7 @@ const { Types, Creators } = createActions({
   logout: null,
 
   // ------------- async -----------------
-  register: (username, password) => {
+  registerRequestPromise: (username, password) => {
     return (dispatch, getState) => {
       var options = {
         username: username.trim().toLowerCase(),
@@ -45,22 +45,6 @@ const { Types, Creators } = createActions({
           console.log('error')
         })
     }
-  },
-  login: (username, password) => {
-    return (dispatch, getState) => {
-      dispatch(Creators.loginRequest(username, password))
-
-      if (WebIM.conn.isOpened()) {
-        WebIM.conn.close('logout')
-      }
-      WebIM.conn.open({
-        apiUrl: WebIM.config.apiURL,
-        user: username.trim().toLowerCase(),
-        pwd: password,
-        //  accessToken: password,
-        appKey: WebIM.config.appkey
-      })
-    }
   }
 })
 
@@ -80,28 +64,45 @@ export const INITIAL_STATE = Immutable({
 
 // we're attempting to login
 export const request = (state: Object, { username, password}) => {
+  console.log(state, username, password, WebIM.conn.isOpened())
+  if (WebIM.conn.isOpened()) {
+    WebIM.conn.close('logout')
+  }
+  WebIM.conn.open({
+    apiUrl: WebIM.config.apiURL,
+    user: username.trim().toLowerCase(),
+    pwd: password,
+    //  accessToken: password,
+    appKey: WebIM.config.appkey
+  })
+
   return state.merge({ username, password, fetching: true, error: false })
 }
 
 // we've successfully logged in
 export const success = (state: Object, { msg }: Object) => {
-  console.log(arguments)
+  Alert.alert('success')
   return state.merge({ fetching: false, error: false, msg })
 }
 
 // we've had a problem logging in
 export const failure = (state: Object, { error }: Object) => {
-  return state.merge({ fetching: false, error: error })
+  let msg = error && error.data && error.data.data
+  Alert.alert(msg || 'failure')
+  return state.merge({ fetching: false, error: true })
 }
 
+// we're attempting to login
 export const registerRequest = (state: Object = INITIAL_STATE, { username, password}) => {
   return state.merge({ username, password, fetching: true })
 }
 
+// we've successfully logged in
 export const registerSuccess = (state: Object = INITIAL_STATE, { json }: Object) => {
   return state.merge({ fetching: false, json, registerError: null })
 }
 
+// we've had a problem logging in
 export const registerFailure = (state: Object = INITIAL_STATE, { registerError }: Object) => {
   return state.merge({ fetching: false, registerError })
 }

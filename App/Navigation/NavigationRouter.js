@@ -37,11 +37,11 @@ class NavigationRouter extends Component {
 
     if (Platform.OS == 'ios') {
       scenes = (
-        <Scene key='contacts' component={ContactsScreen} title='Contacts' />
+        <Scene initial key='contacts' component={ContactsScreen} title='Contacts' hideNavBar/>
       )
     } else {
       scenes = (
-        <Scene key='contacts' component={ContactsAndroidScreen} title='Contacts' />
+        <Scene key='contacts' component={ContactsAndroidScreen} title='Contacts' hideNavBar/>
       )
     }
 
@@ -61,8 +61,8 @@ class NavigationRouter extends Component {
 
             {/* Custom navigation bar example */}
             <Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar} />
-            <Scene initial key='login' component={LoginScreen} title='Login' hideNavBar />
-            <Scene key='register' component={RegisterScreen} title='Register' hideNavBar />
+            <Scene key='login' component={LoginScreen} title='Login' hideNavBar />
+            <Scene  key='register' component={RegisterScreen} title='Register' hideNavBar />
             { scenes }
 
           </Scene>

@@ -6,11 +6,20 @@ import configureStore from './CreateStore'
 
 export default () => {
   /* ------------- Assemble The Reducers ------------- */
-  const rootReducer = combineReducers({
-    // temperature: require('./TemperatureRedux').reducer,
-    login: require('./LoginRedux').reducer,
+  let rootReducer = combineReducers({
+    entities: combineReducers({
+      roster: require('./RosterRedux').reducer,
+      groups: require('./GroupsRedux').reducer,
+    }),
+    ui: combineReducers({
+      login: require('./LoginRedux').reducer,
+      contacts: require('./ContactsRedux').reducer,
+    }),
     im: require('./WebIMRedux').reducer
   })
+
+  // rootReducer = combineReducers(rootReducer, require('./ContactRedux').reducer)
+
 
   const store = configureStore(rootReducer)
 

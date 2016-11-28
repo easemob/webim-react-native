@@ -4,6 +4,10 @@ import '../sdk/dist/strophe-1.2.8.js'
 import websdk from '../sdk'
 import xmldom from 'xmldom'
 import config from './WebIMConfig'
+// for rest api -> http
+import Api from '../Services/Api'
+
+
 
 // init DOMParser / document for strophe and sdk
 // window.WebIM.config.isDebug = true
@@ -31,9 +35,9 @@ if (WebIM.config.isDebug) {
 
   window.Strophe.Connection.prototype.rawOutput = function (data) {
     try {
-      console.group('%csend # ' + ts(), 'color: blue; font-size: large')
-      console.log('%c' + data, 'color: blue')
-      console.groupEnd()
+      // console.group('%csend # ' + ts(), 'color: blue; font-size: large')
+      console.log('%csend: ' + data, 'color: blue')
+      // console.groupEnd()
     } catch (e) {
     }
   }
@@ -72,9 +76,10 @@ WebIM.conn = new WebIM.connection({
   autoReconnectInterval: WebIM.config.autoReconnectInterval
 })
 
-// async response
-// WebIM.conn.listen({
-//   onOpened: () => dispatch({type: Types.ON_OPEND})
-// })
+//https://a1.easemob.com/easemob-demo/chatdemoui/users
+let appKeyPair = WebIM.config.appkey.split('#')
+export let api = Api.create(`${WebIM.config.apiURL}/${appKeyPair[0]}/${appKeyPair[1]}`)
+
+WebIM.api = api
 
 export default WebIM
