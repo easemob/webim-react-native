@@ -31,5 +31,8 @@
   "contactTabContacts": "Contacts",
   "contactTabChats": "Chats",
   "contactTabSettings": "Settings",
-  "search": "Search"
+  "search": "Search",
+  "addContact": "Add Contact",
+  "add": "Add",
+  "enterHyphenateID": "Enter Hyphenate ID"
 }

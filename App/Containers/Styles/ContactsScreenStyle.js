@@ -19,7 +19,7 @@ export default create({
     paddingVertical: 5,
     flexDirection: 'row',
     backgroundColor: Colors.bgGrey,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.paleGrey
   },
   search: {

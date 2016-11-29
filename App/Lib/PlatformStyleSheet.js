@@ -38,6 +38,7 @@ export function create (styles) {
       style = {...style, ...android}
     }
     platformStyles[name] = style
+    // platformStyles[name]['borderWidth'] = 1
   })
   return StyleSheet.create(platformStyles)
 }

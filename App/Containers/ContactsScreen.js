@@ -1,20 +1,20 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { View, TextInput, Text, TabBarIOS, StyleSheet, ScrollView, ListView, StatusBar, Image, RecyclerViewBackedScrollView, TouchableHighlight, TouchableWithoutFeedback} from 'react-native'
+import { View, TouchableOpacity, TextInput, Text, TabBarIOS, StyleSheet, ScrollView, ListView, StatusBar, Image, RecyclerViewBackedScrollView, TouchableHighlight, TouchableWithoutFeedback} from 'react-native'
 
 // custom
 import I18n from 'react-native-i18n'
-import { Images, Colors } from '../Themes'
 import Styles from './Styles/ContactsScreenStyle'
+import { Images, Colors } from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ContactsActions from '../Redux/ContactsRedux'
+
+//
+import AddContactModal from '../Components/AddContactModal'
 
 class ContactsScreen extends React.Component {
 
   // ------------ init -------------
-  static propTypes = {
-
-  }
 
   constructor (props) {
     super(props)
@@ -22,6 +22,7 @@ class ContactsScreen extends React.Component {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
+      modalVisible: false,
       focused: false,
       search: '',
       selectedTab: 'contacts',
@@ -37,20 +38,17 @@ class ContactsScreen extends React.Component {
 
   // ------------ lifecycle ------------
   componentDidMount() {
-    console.log('componentDidMount')
     this.props.getRoster()
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', nextProps)
     this.setState({
-      dataSource: this.state.ds.cloneWithRows(nextProps.roster.names)
+      dataSource: this.state.ds.cloneWithRows(nextProps.roster.names || [])
     })
   }
 
   // ------------ handlers -------------
   handleSelectSearch () {
-    console.log('handleSelectSearch')
     this.refs.search && this.refs.search.focus()
     this.setState({focused: true})
   }
@@ -85,19 +83,28 @@ class ContactsScreen extends React.Component {
     this.setState({
       focused: false,
       search: null,
-      dataSource: this.state.ds.cloneWithRows(this.props.roster.names)
+      dataSource: this.state.ds.cloneWithRows(this.props.roster.names || [])
     })
   }
 
   // ------------ renders -------------
-  _renderContent (color, pageText, num) {
-    const cancel = this.state.focused ?
-       (<TouchableHighlight style={Styles.searchCancel}>
-         <View>
-           <Text onPress={this.handleCancelSearch.bind(this)}>Cancel</Text>
-         </View>
-      </TouchableHighlight>) : null;
+  _renderCancel() {
+    return this.state.focused ? (
+         <TouchableOpacity style={Styles.searchCancel}  onPress={this.handleCancelSearch.bind(this)}>
+           <View>
+             <Text>Cancel</Text>
+           </View>
+         </TouchableOpacity>
+       ) : null;
+  }
 
+  _renderModel() {
+    return <AddContactModal modalVisible={this.state.modalVisible} toggle={() => {
+      this.setState({modalVisible: !this.state.modalVisible})
+    }}/>
+  }
+
+  _renderContent (color, pageText, num) {
 
     return (
       <View style={[Styles.container]}>
@@ -134,11 +141,11 @@ class ContactsScreen extends React.Component {
           </TouchableWithoutFeedback>
           {/* 取消按钮，当input聚焦的时候出现 */}
           {/* TODO: longPress */}
-          {cancel}
+          {this._renderCancel()}
           {/* 加号 */}
-          <View style={Styles.searchPlus}>
+          <TouchableOpacity style={Styles.searchPlus} onPress={() => { this.setState({modalVisible: true}) }}>
             <Icon size={20} name="plus" color='#8798a4'/>
-          </View>
+          </TouchableOpacity>
         </View>
         {/* 内容区：listview */}
         <ListView
@@ -151,20 +158,22 @@ class ContactsScreen extends React.Component {
           renderSeparator={this._renderSeparator}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
         />
+        {/* 添加好友 modal */}
+        {this._renderModel()}
       </View>
    )
   }
 
   _renderRow (rowData, sectionId, rowID) {
     return (
-      <TouchableHighlight>
+      <TouchableOpacity>
         <View style={Styles.row}>
           <Image source={Images.chatsActive} resizeMode='cover' style={Styles.rowLogo}/>
           <View style={Styles.rowName}>
             <Text>{rowData}</Text>
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     )
   }
 
@@ -180,8 +189,6 @@ class ContactsScreen extends React.Component {
 
   // ------------ rende -------------
   render () {
-    console.log(this.state)
-
     return (
       <TabBarIOS
         unselectedTintColor='yellow'
@@ -234,6 +241,13 @@ class ContactsScreen extends React.Component {
       </TabBarIOS>
     )
   }
+}
+
+
+ContactsScreen.propTypes = {
+  roster: PropTypes.shape({
+    names: PropTypes.array
+  })
 }
 
 // ------------ redux -------------
