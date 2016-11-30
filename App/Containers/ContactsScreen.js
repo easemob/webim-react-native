@@ -406,7 +406,6 @@ class ContactsScreen extends React.Component {
           selected={this.state.selectedTab == 'contacts'}
           title=''
           onPress={() => {
-            this.props.getContacts()
             this.setState({
               selectedTab: 'contacts'
             })
@@ -438,6 +437,7 @@ class ContactsScreen extends React.Component {
               selectedTab: 'settings',
               presses: this.state.presses + 1
             })
+            this.props.logout()
           }}>
           {this._renderContent('#21551C', 'Green Tab', this.state.presses)}
         </TabBarIOS.Item>
@@ -468,6 +468,7 @@ const mapDispatchToProps = (dispatch) => {
     requestSubscribe: (id) => dispatch(WebIMActions.requestSubscribe(id)),
     acceptSubscribe: (name) => dispatch(WebIMActions.acceptSubscribe(name)),
     declineSubscribe: (name) => dispatch(WebIMActions.declineSubscribe(name)),
+    logout: () => dispatch(WebIMActions.logout()),
   }
 }
 

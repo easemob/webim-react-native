@@ -55,9 +55,9 @@ class RegisterScreen extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
-    this.forceUpdate()
+    // this.forceUpdate()
     // Did the login attempt complete?
-    console.log('newProps', newProps)
+    // console.log('newProps', newProps)
     if (this.isAttempting && !newProps.fetching && !newProps.registerError) {
       NavigationActions.login()
 
@@ -227,8 +227,8 @@ class RegisterScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    fetching: state.login.fetching,
-    registerError: state.login.registerError
+    fetching: state.ui.login.fetching,
+    registerError: state.ui.login.registerError
   }
 }
 

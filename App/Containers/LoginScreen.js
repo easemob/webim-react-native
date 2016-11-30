@@ -55,9 +55,9 @@ class LoginScreen extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
-    this.forceUpdate()
+    // this.forceUpdate()
     // Did the login attempt complete?
-    console.log('newProps', newProps)
+    // console.log('newProps', newProps)
     if (this.isAttempting && !newProps.fetching && !newProps.error) {
       NavigationActions.contacts()
 
@@ -229,14 +229,14 @@ class LoginScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    fetching: state.login.fetching,
-    error: state.login.error
+    fetching: state.ui.login.fetching,
+    error: state.ui.login.error
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password))
+    attemptLogin: (username, password) => dispatch(LoginActions.login(username, password))
   }
 }
 

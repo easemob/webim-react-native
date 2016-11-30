@@ -5,8 +5,6 @@ import Immutable from 'seamless-immutable'
 import { Alert } from 'react-native'
 import WebIM, { api } from '../Lib/WebIM'
 
-console.log(api)
-
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
@@ -26,7 +24,7 @@ const { Types, Creators } = createActions({
         password: password,
         nickname: username.trim().toLowerCase()
       }
-      console.log(options)
+      // console.log(options)
       dispatch(Creators.registerRequest(username, password))
 
         // must be https for mac policy
@@ -53,6 +51,7 @@ const { Types, Creators } = createActions({
       if (WebIM.conn.isOpened()) {
         WebIM.conn.close('logout')
       }
+      console.log('open', username, password)
       WebIM.conn.open({
         apiUrl: WebIM.config.apiURL,
         user: username.trim().toLowerCase(),
@@ -85,7 +84,6 @@ export const request = (state: Object, { username, password}) => {
 
 // we've successfully logged in
 export const success = (state: Object, { msg }: Object) => {
-  console.log(arguments)
   return state.merge({ fetching: false, error: false, msg })
 }
 

@@ -4,6 +4,7 @@ import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import WebIM from '../Lib/WebIM'
 import I18n from 'react-native-i18n'
+import { Actions as NavigationActions } from 'react-native-router-flux'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -19,7 +20,7 @@ const { Types, Creators } = createActions({
       })
     }
   },
-
+  // 接受好友请求
   acceptSubscribe: (name) => {
     return (dispatch, state) => {
       dispatch(Creators.removeSubscribe(name))
@@ -35,6 +36,7 @@ const { Types, Creators } = createActions({
       })
     }
   },
+  // 拒绝好友请求
   declineSubscribe: (name) => {
     return (dispatch, state) => {
       dispatch(Creators.removeSubscribe(name))
@@ -43,6 +45,16 @@ const { Types, Creators } = createActions({
          to: name,
          message: new Date().toLocaleString()
      })
+    }
+  },
+  // 登出
+  logout: () => {
+    return (dispatch, state) => {
+      if (WebIM.conn.isOpened()) {
+        WebIM.conn.close('logout')
+      }
+
+      NavigationActions.login();
     }
   },
 })
