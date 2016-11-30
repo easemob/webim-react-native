@@ -7,11 +7,12 @@ export default StyleSheet.create({
   button: {
     marginVertical: 5,
     borderRadius: 3,
-    backgroundColor: Colors.button
+    backgroundColor: Colors.button,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    height: 40,
   },
   buttonText: {
-    marginVertical: 10,
-    marginHorizontal: 20,
     textAlign: 'center',
     color: Colors.snow,
     fontSize: Fonts.size.medium,

@@ -67,15 +67,16 @@ export default create({
   // ListView
   listView: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   row: {
+    marginHorizontal: 15,
     height: 50,
     justifyContent: 'center',
     flexDirection: 'row'
   },
   separator: {
-    height: 1,
+    height: StyleSheet.hairlineWidth,
+    marginHorizontal: 15,
     backgroundColor: '#CCCCCC',
   },
   rowLogo: {
@@ -88,5 +89,73 @@ export default create({
     flex:1,
     justifyContent: 'center',
     marginLeft: 5
-  }
+  },
+  groupHeader: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 50,
+    justifyContent: 'center',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#CCCCCC'
+  },
+  groupHeaderTextWrapper: {
+    paddingLeft: 15,
+    justifyContent: 'center',
+  },
+  groupHeaderText: {
+    fontSize: 15,
+  },
+  groupHeaderIcon: {
+    flex: 1,
+    paddingRight: 16,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'flex-end'
+  },
+  noticeHeaderWrapper: {
+    height: 40,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: Colors.denim
+  },
+  noticeHeaderText: {
+    color: Colors.snow,
+    textAlign: 'left',
+  },
+  noticeHeaderLeft: {
+    width: 45,
+    paddingHorizontal: 15,
+    justifyContent: 'center',
+  },
+  noticeHeaderRight: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  noticeHeaderMiddle: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  noticeHeaderTextRight: {
+    textAlign: 'right',
+    paddingRight: 15
+  },
+  buttonGroup: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  accept: {
+    height: 40,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    backgroundColor: Colors.buttonGreen,
+    marginRight: 5,
+  },
+  decline: {
+    height: 40,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    backgroundColor: Colors.buttonGrey
+  },
 })

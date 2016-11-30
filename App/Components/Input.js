@@ -41,20 +41,31 @@ export default class Input extends React.Component {
   }
 
   render () {
-    let { placeholder, onChangeText, value} = this.props
+    let { placeholder, onChangeText, value, theme = 'default', iconSize, iconColor, iconName} = this.props
 
+    let searchStyle = [
+      Styles.search,
+      theme == 'default' ? Styles.searchDefault : {},
+      this.state.focused ? Styles.searchFocus : {}
+    ]
+
+    let searchIconStyle = [
+      Styles.searchRow,
+      Styles.searchIcon,
+      this.state.focused || theme == 'default' ? Styles.searchIconFocus : {},
+    ]
 
     return (
       <TouchableWithoutFeedback onPress={this.handleSelectSearch.bind(this)}>
         {/* 保证搜索按钮的左侧区域点击也会触发input的聚焦事件 */}
-        <View style={[Styles.search, this.state.focused ? Styles.searchFocus : {} ]}>
-          <View style={[Styles.searchRow, Styles.searchIcon, this.state.focused ? Styles.searchIconFocus : {} ]}>
-            <Icon name="search" size={13} color='#8798a4'/>
+        <View style={searchStyle}>
+          <View style={searchIconStyle}>
+            <Icon name={iconName} size={iconSize} color={iconColor}/>
           </View>
           {/* TODO: returnKeyType */}
           <View style={Styles.searchRow}>
             <TextInput
-              ref='search'
+              ref="search"
               style={Styles.searchInput}
               value={value}
               editable={true}

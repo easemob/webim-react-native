@@ -1,15 +1,24 @@
 // @flow
 
 import React from 'react'
-import { TouchableOpacity, Text } from 'react-native'
+import { View, TouchableOpacity, Text, TouchableNativeFeedback, Platform } from 'react-native'
 import styles from './Styles/ButtonStyle'
 
 export default class Button extends React.Component {
   render () {
+    const { color } = this.props
+
+    const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
+
+    let textStyles = [];
+    color && textStyles.push({color: color})
+
     return (
-      <TouchableOpacity style={[styles.button, this.props.styles]} onPress={this.props.onPress}>
-        <Text style={styles.buttonText}>{this.props.text}</Text>
-      </TouchableOpacity>
+      <Touchable style={[styles.button, this.props.styles]} onPress={this.props.onPress}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text style={textStyles}>{this.props.text}</Text>
+        </View>
+      </Touchable>
     )
   }
 }

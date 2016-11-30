@@ -1,6 +1,7 @@
 // @flow
 import { Platform } from 'react-native'
 
+// 不能使用rgb，必须rgba
 const colors = {
   background: '#1F0808',
   clear: 'rgba(0,0,0,0)',
@@ -41,7 +42,16 @@ const colors = {
   // button
   button: '#adb9c1',
   //
-  frogGreen: 'rgba(82, 210, 0, 1)'
+  frogGreen: 'rgba(82, 210, 0, 1)',
+  //
+  iconColor: '#8798a4',
+  //
+  blueGrey: 'rgba(135, 152, 164, 1)',
+  //
+  denim: 'rgba(64, 94, 122, 1)',
+  // btn green
+  buttonGreen: '#08ba6e',
+  buttonGrey: '#8798a4',
 }
 const colorsIos = {
 }

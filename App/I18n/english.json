@@ -34,5 +34,11 @@
   "search": "Search",
   "addContact": "Add Contact",
   "add": "Add",
-  "enterHyphenateID": "Enter Hyphenate ID"
+  "enterHyphenateID": "Enter Hyphenate ID",
+  "contactRequests": "Contact Requests",
+  "accept": "Accept",
+  "decline": "Decline",
+  "request": "want to add you as a friend",
+  "unsubscribed": "unsubscribed from you.",
+  "subscribed": "accepted your friend request."
 }

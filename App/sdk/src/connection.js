@@ -62,15 +62,15 @@ window.Strophe.Websocket.prototype._closeSocket = function () {
  */
 window.Strophe.Websocket.prototype._onMessage = function (message) {
     // WebIM && WebIM.config.isDebug && console.log(WebIM.utils.ts() + 'recv:', message.data);
-  try {
-    if (WebIM && WebIM.config.isDebug) {
-      console.group('%crecv # ', 'color: green; font-size: large')
-      console.log('%c' + message.data, 'color: green')
-      console.groupEnd()
-    }
-  } catch (e) {
-    console.log('%crecv' + message.data, 'color: green')
-  }
+  // try {
+  //   if (WebIM && WebIM.config.isDebug) {
+  //     console.group('%crecv # ', 'color: green; font-size: large')
+  //     console.log('%c' + message.data, 'color: green')
+  //     console.groupEnd()
+  //   }
+  // } catch (e) {
+    // console.log('%crecv' + message.data, 'color: green')
+  // }
 
   var elem, data
     // check for closing stream
@@ -639,7 +639,6 @@ var _getPageCount = function () {
       }
     }
   }
-  console.log(sum)
   return sum
 }
 

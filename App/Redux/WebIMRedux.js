@@ -3,12 +3,48 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import WebIM from '../Lib/WebIM'
+import I18n from 'react-native-i18n'
 
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  onOpened: ['msg'],
-  onError: ['msg']
+  subscribe: ['msg'],
+  removeSubscribe: ['name'],
+  // add Contact 添加好友
+  requestSubscribe: (id) => {
+    return (dispatch, getState) => {
+      WebIM.conn.subscribe({
+        to: id,
+        message: I18n.t('request')
+      })
+    }
+  },
+
+  acceptSubscribe: (name) => {
+    return (dispatch, state) => {
+      dispatch(Creators.removeSubscribe(name))
+
+      WebIM.conn.subscribed({
+         to: name,
+         message: '[resp:true]'
+      })
+
+      WebIM.conn.subscribe({
+         to: name,
+         message: '[resp:true]'
+      })
+    }
+  },
+  declineSubscribe: (name) => {
+    return (dispatch, state) => {
+      dispatch(Creators.removeSubscribe(name))
+
+      WebIM.conn.unsubscribed({
+         to: name,
+         message: new Date().toLocaleString()
+     })
+    }
+  },
 })
 
 export const WebIMTypes = Types
@@ -17,27 +53,34 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  test: 1,
-  error: {}
+  msgs: {},
+  subscribes: {}
 })
 
 /* ------------- Reducers ------------- */
 
-export const onOpened = (state: Object, { msg }) => {
-  console.log('onOpened', msg)
-  return state.merge({test: 2})
+export const subscribe = (state, { msg }) => {
+  return state.merge({
+    subscribes: Immutable(state.subscribes).set(msg.from , msg)
+  },  {deep: true})
 }
 
-export const onError = (state, { msg }) => {
-  console.log('onError', state, WebIM.conn.Status)
-  return state.merge({error: {isError: true, code: 101, msg: 'abc'}})
+export const removeSubscribe = (state, { name }) => {
+  let subs = state.subscribes.asMutable()
+  console.log('subs', subs)
+  delete subs[name]
+  console.log('subs', subs)
+  return state.merge({
+    subscribes: Immutable(subs)
+  })
 }
+
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.ON_OPENED]: onOpened,
-  [Types.ON_ERROR]: onError
+  [Types.SUBSCRIBE]: subscribe,
+  [Types.REMOVE_SUBSCRIBE]: removeSubscribe,
 })
 
 /* ------------- Selectors ------------- */

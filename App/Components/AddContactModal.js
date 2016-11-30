@@ -7,7 +7,7 @@ import I18n from 'react-native-i18n'
 import { Images, Colors } from '../Themes'
 import Styles from './Styles/AddContactModalStyle'
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import ContactsActions from '../Redux/ContactsRedux'
+import ContactsActions from '../Redux/ContactsRedux'
 
 import ModalHeader from './ModalHeader'
 import Button from './Button'
@@ -20,21 +20,16 @@ export default class AddContactModal extends Component {
   }
 
   // ------------ init -------------
-  constructor(props) {
-    super(props)
-  }
+
 
   // ------------ lifecycle ------------
 
 
   // ------------ handlers -------------
-  handleAdd () {
-
-  }
 
   // ------------ renders -------------
   render() {
-    let { modalVisible, toggle } = this.props
+    let { modalVisible, toggle, addContact } = this.props
 
    return modalVisible ? (
      <View>
@@ -52,19 +47,26 @@ export default class AddContactModal extends Component {
            />
            <View style={Styles.body}>
              <Input
-               defaultValue={this.state.id}
+               ref="addInput"
+               iconName="search"
+               iconSize={13}
+               iconColor={Colors.iconColor}
+               value={this.state.id}
                onChangeText={(v) => {
-                 this.setState({
-                   id: v
-                 })
-                 console.log(v)
+                 this.setState({ id: v })
                }}
                placeholder={I18n.t('enterHyphenateID')}
              />
              <Button
+               color={Colors.snow}
                text={I18n.t('add')}
                styles={Styles.button}
-               onPress={this.handleAdd}
+               onPress={() => {
+                 addContact(this.state.id)
+                 this.setState({
+                   id: ''
+                 })
+               }}
              />
            </View>
          </View>

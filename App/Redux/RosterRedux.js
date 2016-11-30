@@ -20,10 +20,15 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   byName: null,
-  names: null
+  names: [],
+  friends: [],
+  blacklist: []
 })
 
 /* ------------- Reducers ------------- */
+function isFriend(v) {
+  return v.subscription != 'none'
+}
 
 export const request = (state: Object, { username, password}) => {
   return state.merge({ fetching: true, error: false })
@@ -38,11 +43,20 @@ export const failure = (state: Object, { error }: Object) => {
 }
 
 export const updateRoster = (state, { roster }) => {
-  let byName = {}
-  roster.forEach((v) => { byName[v.name] = v} )
+  let byName = {},
+      names = [],
+      friends = [],
+      blacklist = [];
+  roster.forEach((v) => {
+    byName[v.name] = v
+    names = Object.keys(byName).sort()
+    isFriend(v) && friends.push(v.name)
+    // !isFriend(v) && notices.push(v.name)
+  })
   return state.merge({
       byName,
-      names: Object.keys(byName).sort()
+      names,
+      friends,
    })
 }
 

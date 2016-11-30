@@ -12,7 +12,9 @@ const images = {
   contacts: require('../Images/contactsActive.png'),
   contactsActive: require('../Images/contactsActive.png'),
   settings: require('../Images/settings.png'),
-  settingsActive: require('../Images/settings.png')
+  settingsActive: require('../Images/settings.png'),
+  invitationsIcon: require('../Images/invitationsIcon.png'),
+  requestsIcon: require('../Images/requestsIcon.png'),
 }
 
 export default images

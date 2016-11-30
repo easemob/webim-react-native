@@ -14,16 +14,17 @@ const { Types, Creators } = createActions({
   failure: ['error'],
 
   // ------------- async -----------------
-  getRoster: () => {
+
+  // 获取好友列表
+  getContacts: () => {
     return (dispatch, getState) => {
-      console.log('getRoster',getState())
       WebIM.conn.getRoster({
         success:(roster) => {
-          console.log('roster', roster)
+          // console.log('getRoster success', roster)
           dispatch(RosterActions.updateRoster(roster))
         },
         error:(error) => {
-          console.log('error', error)
+          console.log('getRoster error', error)
         }
       })
     }
