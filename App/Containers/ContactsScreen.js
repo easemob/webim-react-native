@@ -1,17 +1,31 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { RefreshControl, View, TouchableOpacity, TextInput, Text, TabBarIOS, StyleSheet, ScrollView, ListView, StatusBar, Image, RecyclerViewBackedScrollView, TouchableHighlight, TouchableWithoutFeedback} from 'react-native'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {
+  RefreshControl,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Text,
+  TabBarIOS,
+  StyleSheet,
+  ScrollView,
+  ListView,
+  StatusBar,
+  Image,
+  RecyclerViewBackedScrollView,
+  TouchableHighlight,
+  TouchableWithoutFeedback
+} from 'react-native'
 
 // custom
 import I18n from 'react-native-i18n'
 import Styles from './Styles/ContactsScreenStyle'
-import { Images, Colors } from '../Themes'
+import {Images, Colors} from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ContactsActions from '../Redux/ContactsRedux'
 import WebIMActions from '../Redux/WebIMRedux'
-
-//
 import AddContactModal from '../Components/AddContactModal'
+import {Actions as NavigationActions} from 'react-native-router-flux'
 import Input from '../Components/Input'
 import Button from '../Components/Button'
 
@@ -19,7 +33,7 @@ class ContactsScreen extends React.Component {
 
   // ------------ init -------------
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const ds = new ListView.DataSource({
@@ -33,7 +47,7 @@ class ContactsScreen extends React.Component {
       focused: false,
       search: '',
       selectedTab: 'contacts',
-      notifCount: 0,
+      notifyCount: 0,
       presses: 0,
       ds,
       dataSource: ds.cloneWithRowsAndSections({
@@ -46,12 +60,10 @@ class ContactsScreen extends React.Component {
       })
     }
   }
-  // ------------ logic  ---------------
-  getFriends () {
-    return this.props.roster.friends || []
-  }
 
-  updateList (props, search = '') {
+  // ------------ logic  ---------------
+
+  updateList(props, search = '') {
     props = props || this.props;
     let roster = props.roster || []
     let subscribes = props.subscribes || []
@@ -82,11 +94,11 @@ class ContactsScreen extends React.Component {
 
 
   // ------------ lifecycle ------------
-  componentDidMount () {
+  componentDidMount() {
     this.updateList()
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     // TODO: 是否需要更新的校验
     // TODO: props更新，有没有更好的方式通知
     this.updateList(nextProps)
@@ -102,26 +114,26 @@ class ContactsScreen extends React.Component {
     }, 1000)
   }
 
-  handleSelectSearch () {
+  handleSelectSearch() {
     this.refs.search && this.refs.search.focus()
     this.setState({focused: true})
   }
 
-  handleChangeSearch (text) {
+  handleChangeSearch(text) {
     this.updateList(false, text)
     this.setState({search: text})
   }
 
-  handleFocusSearch () {
+  handleFocusSearch() {
     this.setState({focused: true})
   }
 
-  handleBlurSearch () {
+  handleBlurSearch() {
     this.refs.search.blur()
     this.setState({focused: false})
   }
 
-  handleCancelSearch () {
+  handleCancelSearch() {
     this.refs.search.blur()
     this.setState({
       focused: false,
@@ -130,36 +142,37 @@ class ContactsScreen extends React.Component {
     this.updateList()
   }
 
-  handleAddContact (id) {
+  handleAddContact(id) {
     // TODO: 已经是好友了
     // TODO: 已经发送过邀请了
 
     //TODO: 提示
-    if(!id.trim()) {
+    if (!id.trim()) {
       return;
     }
 
     //TODO: 提示
-    if(this.props.user == id.trim()) {
+    if (this.props.user == id.trim()) {
       return;
     }
     this.props.requestSubscribe(id)
   }
 
-  handleDecline (name) {
+  handleDecline(name) {
     this.props.declineSubscribe(name)
   }
 
-  handleAccept (name) {
+  handleAccept(name) {
     this.props.acceptSubscribe(name)
   }
+
   // ------------ renders -------------
   _renderInput() {
     return (
       <TouchableWithoutFeedback onPress={this.handleSelectSearch.bind(this)}>
         {/* 保证搜索按钮的左侧区域点击也会触发input的聚焦事件 */}
         <View style={Styles.search}>
-          <View style={[Styles.searchRow, Styles.searchIcon, this.state.focused ? Styles.searchFocus : {} ]}>
+          <View style={[Styles.searchRow, Styles.searchIcon, this.state.focused ? Styles.searchFocus : {}]}>
             <Icon name="search" size={13} color='#8798a4'/>
           </View>
           <View style={Styles.searchRow}>
@@ -189,12 +202,12 @@ class ContactsScreen extends React.Component {
 
   _renderCancel() {
     return this.state.focused ? (
-         <TouchableOpacity style={Styles.searchCancel}  onPress={this.handleCancelSearch.bind(this)}>
-           <View>
-             <Text>Cancel</Text>
-           </View>
-         </TouchableOpacity>
-       ) : null;
+      <TouchableOpacity style={Styles.searchCancel} onPress={this.handleCancelSearch.bind(this)}>
+        <View>
+          <Text>Cancel</Text>
+        </View>
+      </TouchableOpacity>
+    ) : null;
   }
 
   _renderModel() {
@@ -209,7 +222,7 @@ class ContactsScreen extends React.Component {
     )
   }
 
-  _renderContent (color, pageText, num) {
+  _renderContent(color, pageText, num) {
 
     return (
       <View style={[Styles.container]}>
@@ -221,7 +234,9 @@ class ContactsScreen extends React.Component {
           {/* 取消按钮，当input聚焦的时候出现 */}
           {this._renderCancel()}
           {/* 加号 */}
-          <TouchableOpacity style={Styles.searchPlus} onPress={() => { this.setState({modalVisible: true}) }}>
+          <TouchableOpacity style={Styles.searchPlus} onPress={() => {
+            this.setState({modalVisible: true})
+          }}>
             <Icon size={20} name="plus" color='#8798a4'/>
           </TouchableOpacity>
         </View>
@@ -251,10 +266,10 @@ class ContactsScreen extends React.Component {
         {/* 添加好友 modal */}
         {this._renderModel()}
       </View>
-   )
+    )
   }
 
-  _renderRow (rowData, sectionId, rowID, highlightRow) {
+  _renderRow(rowData, sectionId, rowID, highlightRow) {
     // console.log(rowData, typeof rowData == 'boolean')
     switch (sectionId) {
       case 'groupHeader':
@@ -265,9 +280,9 @@ class ContactsScreen extends React.Component {
         break;
       case 'notices':
         // 无通知消息
-        if(rowData == null ) return null
+        if (rowData == null) return null
         // 空白分割行，参数是未读消息数目
-        if(typeof rowData == 'boolean') return rowData ? this._renderSectionNoticesSpace() : null
+        if (typeof rowData == 'boolean') return rowData ? this._renderSectionNoticesSpace() : null
         // 有通知消息
         return this._renderSectionNotices(rowData)
         break;
@@ -277,9 +292,11 @@ class ContactsScreen extends React.Component {
     }
   }
 
-  _renderSectionFriends (rowData) {
+  _renderSectionFriends(rowData) {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+        NavigationActions.contactInfo({"uid": rowData})
+      }}>
         <View style={Styles.row}>
           <Image source={Images.chatsActive} resizeMode='cover' style={Styles.rowLogo}/>
           <View style={Styles.rowName}>
@@ -290,20 +307,21 @@ class ContactsScreen extends React.Component {
     )
   }
 
-  _renderSectionNotices (rowData) {
+  _renderSectionNotices(rowData) {
     let keys = Object.keys(rowData)
-    if(keys.length == 0) return null
+    if (keys.length == 0) return null
     return (
       <View>
         <View style={Styles.noticeHeaderWrapper}>
           <View style={Styles.noticeHeaderLeft}>
-            <Image source={Images.requestsIcon} />
+            <Image source={Images.requestsIcon}/>
           </View>
           <View style={Styles.noticeHeaderMiddle}>
             <Text style={Styles.noticeHeaderText}>{I18n.t('contactRequests')}</Text>
           </View>
           <View style={Styles.noticeHeaderRight}>
-            <Text style={[Styles.noticeHeaderText, Styles.noticeHeaderTextRight]}>{keys.length > 0 ? `(${keys.length})` : ''}</Text>
+            <Text
+              style={[Styles.noticeHeaderText, Styles.noticeHeaderTextRight]}>{keys.length > 0 ? `(${keys.length})` : ''}</Text>
           </View>
         </View>
         {this._renderSectionnoticesRequests(rowData)}
@@ -311,15 +329,15 @@ class ContactsScreen extends React.Component {
     )
   }
 
-  _renderSectionNoticesSpace () {
+  _renderSectionNoticesSpace() {
     // console.log('gogoogo')
     return (
-      <View style={{height:30, backgroundColor:'#e4e9ec'}}>
+      <View style={{height: 30, backgroundColor: '#e4e9ec'}}>
       </View>
     )
   }
 
-  _renderSectionnoticesRequests (rowData) {
+  _renderSectionnoticesRequests(rowData) {
     let requests = []
     let keys = Object.keys(rowData);
 
@@ -335,7 +353,7 @@ class ContactsScreen extends React.Component {
             <View style={Styles.buttonGroup}>
               <Button
                 styles={Styles.accept}
-                onPress={()=>{
+                onPress={() => {
                   this.handleAccept(v.from)
                 }}
                 text={I18n.t('accept')}
@@ -344,7 +362,7 @@ class ContactsScreen extends React.Component {
               />
               <Button
                 styles={Styles.decline}
-                onPress={()=>{
+                onPress={() => {
                   this.handleDecline(v.from)
                 }}
                 text={I18n.t('decline')}
@@ -359,7 +377,7 @@ class ContactsScreen extends React.Component {
     return requests
   }
 
-  _renderSectionGroupHeader () {
+  _renderSectionGroupHeader() {
     return (
       <TouchableOpacity>
         {/* <TouchableHighlight animationVelocity={0} underlayColor="#ccc" activeOpacity={1}> */}
@@ -377,10 +395,10 @@ class ContactsScreen extends React.Component {
     )
   }
 
-  _renderSeparator (sectionID, rowID, adjacentRowHighlighted) {
+  _renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
     // only friends list needed separator line
     // 只有好友列表才需要分割线
-    if(sectionID != 'friends') return null;
+    if (sectionID != 'friends') return null;
     return (
       // backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
       <View
@@ -391,7 +409,7 @@ class ContactsScreen extends React.Component {
   }
 
   // ------------ rende -------------
-  render () {
+  render() {
     return (
       <TabBarIOS
         unselectedTintColor='yellow'
@@ -421,10 +439,10 @@ class ContactsScreen extends React.Component {
           onPress={() => {
             this.setState({
               selectedTab: 'chats',
-              notifCount: this.state.notifCount + 1
+              notifyCount: this.state.notifyCount + 1
             })
           }}>
-          {this._renderContent('#783E33', 'Red Tab', this.state.notifCount)}
+          {this._renderContent('#783E33', 'Red Tab', this.state.notifyCount)}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           icon={Images.settings}

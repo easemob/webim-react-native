@@ -1,5 +1,5 @@
 // @flow
-import { Platform } from 'react-native'
+import {Platform} from 'react-native'
 
 // 不能使用rgb，必须rgba
 const colors = {
@@ -25,6 +25,7 @@ const colors = {
   login: 'rgba(61, 92, 120, 1)',
   // 输入框plachholder |
   coolGrey: '#adb9c1',
+  coolGrey50: 'rgba(173, 185, 193, 0.5)',
   placeholderTextColor: '#adb9c1',
   selectionColor: '#404f5a',
   // 输入框激活 |
@@ -52,11 +53,12 @@ const colors = {
   // btn green
   buttonGreen: '#08ba6e',
   buttonGrey: '#8798a4',
+  steelGrey: 'rgba(112, 126, 137, 1)',
+  paleGrey: 'rgba(228, 233, 236, 1)',
+  white1: 'rgba(250, 251, 252, 1)'
 }
-const colorsIos = {
-}
+const colorsIos = {}
 
-const colorsAndroid = {
-}
+const colorsAndroid = {}
 
 export default Object.assign(colors, (Platform.OS == 'ios' ? colorsIos : colorsAndroid))

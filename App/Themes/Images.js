@@ -15,6 +15,10 @@ const images = {
   settingsActive: require('../Images/settings.png'),
   invitationsIcon: require('../Images/invitationsIcon.png'),
   requestsIcon: require('../Images/requestsIcon.png'),
+  default: require('../Images/contactsActive.png'),
+  buttonChat: require('../Images/buttonChat.png'),
+  buttonCall: require('../Images/buttonCall.png'),
+  buttonVideo: require('../Images/buttonVideo.png'),
 }
 
 export default images

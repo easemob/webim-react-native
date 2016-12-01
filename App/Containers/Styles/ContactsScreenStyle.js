@@ -1,8 +1,8 @@
 // @flow
 
-import { StyleSheet, PixelRatio } from 'react-native'
-import { Colors, Metrics } from '../../Themes'
-import { create } from '../../Lib/PlatformStyleSheet'
+import {StyleSheet, PixelRatio} from 'react-native'
+import {Colors, Metrics} from '../../Themes'
+import {create} from '../../Lib/PlatformStyleSheet'
 
 export default create({
   container: {
@@ -86,7 +86,7 @@ export default create({
     borderRadius: 15
   },
   rowName: {
-    flex:1,
+    flex: 1,
     justifyContent: 'center',
     marginLeft: 5
   },
@@ -156,6 +156,6 @@ export default create({
     height: 40,
     paddingHorizontal: 5,
     paddingVertical: 5,
-    backgroundColor: Colors.buttonGrey
+    backgroundColor: Colors.buttonGrey,
   },
 })

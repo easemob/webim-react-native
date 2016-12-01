@@ -27,7 +27,7 @@
 
 import {StyleSheet, Platform} from 'react-native'
 
-export function create (styles) {
+export function create(styles) {
   const platformStyles = {}
   Object.keys(styles).forEach((name) => {
     let {ios, android, ...style} = {...styles[name]}
