@@ -7,6 +7,8 @@ import I18n from 'react-native-i18n'
 import {Actions as NavigationActions} from 'react-native-router-flux'
 import ContactsActions from '../Redux/ContactsRedux'
 import CommonActions from '../Redux/CommonRedux'
+import ContactInfoActions from '../Redux/ContactInfoRedux'
+
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -23,6 +25,7 @@ const {Types, Creators} = createActions({
         success: function () {
           //loading end
           dispatch(CommonActions.fetched())
+          dispatch(ContactInfoActions.contactDeleted())
           dispatch(ContactsActions.getContacts())
 
           WebIM.conn.unsubscribed({

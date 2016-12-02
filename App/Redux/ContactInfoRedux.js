@@ -5,7 +5,8 @@ import WebIM, {api} from '../Lib/WebIM'
 /* ------------- Types and Action Creators ------------- */
 
 const {Types, Creators} = createActions({
-  show: ['show']
+  contactDeleted: [],
+  contactShowed: []
 })
 
 export const ContactInfoTypes = Types
@@ -14,19 +15,23 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  show: false,
+  show: true,
 })
 
 /* ------------- Reducers ------------- */
 
-// we're attempting to login
-export const request = (state, {username, password}) => {
-  return state.merge({username, password, fetching: true, error: false})
+export const contactDeleted = (state, {}) => {
+  return state.merge({show: false})
+}
+
+export const contactShowed = (state, {}) => {
+  return state.merge({show: true})
 }
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  // [Types.REMOVE_SUBSCRIBE]: removeSubscribe,
+  [Types.CONTACT_DELETED]: contactDeleted,
+  [Types.CONTACT_SHOWED]: contactShowed,
 })
 
 /* ------------- Selectors ------------- */

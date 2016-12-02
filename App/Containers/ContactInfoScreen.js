@@ -16,9 +16,11 @@ import {
 import I18n from 'react-native-i18n'
 import Styles from './Styles/ContactInfoScreenStyle'
 import {Images, Metrics, Colors} from '../Themes'
-import ContactsActions from '../Redux/ContactsRedux'
 import WebIMActions from '../Redux/WebIMRedux'
 import InfoNavBar from '../Components/InfoNavBar'
+import {Actions as NavigationActions} from 'react-native-router-flux'
+import ContactInfoActions from '../Redux/ContactInfoRedux'
+
 
 //TODO: 返回键定义到页面上，因为导航条的返回滚动时不跟着走
 
@@ -26,16 +28,26 @@ const SHEET_BUTTON = ['Delete', 'Cancel']
 
 class ContactInfoScreen extends Component {
   state = {
-    isBlocked: true,
+    isBlocked: false,
   }
-
 
   // ------------ init -------------
   constructor(props) {
     super(props)
+    //TODO: 此处作为删除后show：false状态的重置操作，为了下次删除的时候能够正常运作，是不是最好的方式呢？
+    this.props.contactShowed();
   }
 
   // ------------ logic  ---------------
+
+  // ------------ lifecycle  ---------------
+
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps)
+    if (!nextProps.show) {
+      NavigationActions.pop()
+    }
+  }
 
   // ------------ renders -------------
 
@@ -150,6 +162,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     removeContact: (id) => dispatch(WebIMActions.removeContact(id)),
+    contactShowed: () => dispatch(ContactInfoActions.contactShowed()),
   }
 }
 
