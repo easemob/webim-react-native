@@ -4,9 +4,11 @@ import React, {Component} from 'react'
 import {Scene, Router} from 'react-native-router-flux'
 import Styles from './Styles/NavigationContainerStyle'
 import NavigationDrawer from './NavigationDrawer'
-import NavItems from './NavItems'
-import CustomNavBar from '../Components/CustomNavBar'
-import {Actions as NavigationActions} from 'react-native-router-flux'
+import {connect} from 'react-redux'
+
+// import NavItems from './NavItems'
+// import CustomNavBar from '../Components/CustomNavBar'
+// import {Actions as NavigationActions} from 'react-native-router-flux'
 import {Platform} from 'react-native'
 
 // screens identified by the router
@@ -29,6 +31,7 @@ import ContactsAndroidScreen from '../Containers/ContactsAndroidScreen'
 import ContactInfoScreen from '../Containers/ContactInfoScreen'
 import InfoNavBar from '../Components/InfoNavBar'
 
+import LoadingContent from '../Containers/LoadingContent'
 
 /* **************************
  * Documentation: https://github.com/aksonov/react-native-router-flux
@@ -40,7 +43,7 @@ class NavigationRouter extends Component {
 
     if (Platform.OS == 'ios') {
       scenes = (
-        <Scene key='contacts' component={ContactsScreen} title='Contacts' hideNavBar/>
+        <Scene initial key='contacts' component={ContactsScreen} title='Contacts' hideNavBar/>
       )
     } else {
       scenes = (
@@ -50,40 +53,36 @@ class NavigationRouter extends Component {
 
     return (
       <Router>
-        {/* <Scene key='drawer' component={NavigationDrawer} open={false}> */}
-        <Scene key='drawerChildrenWrapper' navigationBarStyle={Styles.navBar} titleStyle={Styles.title}
-               leftButtonIconStyle={Styles.leftButton} rightButtonTextStyle={Styles.rightButton}>
-          {/*<Scene key='presentationScreen' component={PresentationScreen} title='Ignite'*/}
-          {/*renderLeftButton={NavItems.hamburgerButton}/>*/}
-          {/*<Scene key='componentExamples' component={AllComponentsScreen} title='Components'/>*/}
-          {/*<Scene key='usageExamples' component={UsageExamplesScreen} title='Usage' rightTitle='Example'*/}
-          {/*onRight={() => window.alert('Example Pressed')}/>*/}
-          {/*<Scene key='listviewExample' component={ListviewExample} title='Listview Example'/>*/}
-          {/*<Scene key='listviewGridExample' component={ListviewGridExample} title='Listview Grid'/>*/}
-          {/*<Scene key='listviewSectionsExample' component={ListviewSectionsExample} title='Listview Sections'/>*/}
-          {/*<Scene key='mapviewExample' component={MapviewExample} title='Mapview Example'/>*/}
-          {/*<Scene key='apiTesting' component={APITestingScreen} title='API Testing'/>*/}
-          {/*<Scene key='theme' component={ThemeScreen} title='Theme'/>*/}
+        <Scene key='drawer' component={NavigationDrawer} open={false}>
+          <Scene key='drawerChildrenWrapper' navigationBarStyle={Styles.navBar} titleStyle={Styles.title}
+                 leftButtonIconStyle={Styles.leftButton} rightButtonTextStyle={Styles.rightButton}>
+            {/*<Scene key='presentationScreen' component={PresentationScreen} title='Ignite'*/}
+            {/*renderLeftButton={NavItems.hamburgerButton}/>*/}
+            {/*<Scene key='componentExamples' component={AllComponentsScreen} title='Components'/>*/}
+            {/*<Scene key='usageExamples' component={UsageExamplesScreen} title='Usage' rightTitle='Example'*/}
+            {/*onRight={() => window.alert('Example Pressed')}/>*/}
+            {/*<Scene key='listviewExample' component={ListviewExample} title='Listview Example'/>*/}
+            {/*<Scene key='listviewGridExample' component={ListviewGridExample} title='Listview Grid'/>*/}
+            {/*<Scene key='listviewSectionsExample' component={ListviewSectionsExample} title='Listview Sections'/>*/}
+            {/*<Scene key='mapviewExample' component={MapviewExample} title='Mapview Example'/>*/}
+            {/*<Scene key='apiTesting' component={APITestingScreen} title='API Testing'/>*/}
+            {/*<Scene key='theme' component={ThemeScreen} title='Theme'/>*/}
 
-          {/* Custom navigation bar example */}
-          {/*<Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar}/>*/}
-          <Scene key='login' component={LoginScreen} title='Login' hideNavBar/>
-          <Scene key='register' component={RegisterScreen} title='Register' hideNavBar/>
-          <Scene initial key='contactInfo' component={ContactInfoScreen} schema="modal" title='Contact Info'
-                 hideNavBar={true}
-                 onRight={() => {
-                   NavigationActions.pop()
-                 }}
-                 rightTitle="Right"
-          />
-          {/*navBar={InfoNavBar}*/}
-          { scenes }
+            {/* Custom navigation bar example */}
+            {/*<Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar}/>*/}
+            <Scene key='login' component={LoginScreen} title='Login' hideNavBar/>
+            <Scene key='register' component={RegisterScreen} title='Register' hideNavBar/>
+            <Scene key='contactInfo' component={ContactInfoScreen} schema="modal" title='Contact Info'
+                   hideNavBar={true}/>
+            {/*navBar={InfoNavBar}*/}
+            { scenes }
 
+          </Scene>
         </Scene>
-        {/* </Scene> */}
       </Router>
     )
   }
 }
 
 export default NavigationRouter
+

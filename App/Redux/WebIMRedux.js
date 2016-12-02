@@ -1,17 +1,40 @@
 // @flow
 
-import { createReducer, createActions } from 'reduxsauce'
+import {createReducer, createActions} from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import WebIM from '../Lib/WebIM'
 import I18n from 'react-native-i18n'
-import { Actions as NavigationActions } from 'react-native-router-flux'
+import {Actions as NavigationActions} from 'react-native-router-flux'
+import ContactsActions from '../Redux/ContactsRedux'
+import CommonActions from '../Redux/CommonRedux'
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
+const {Types, Creators} = createActions({
   subscribe: ['msg'],
   removeSubscribe: ['name'],
-  // add Contact 添加好友
+  // 删除好友
+  removeContact: (id) => {
+    return (dispatch, getState) => {
+      //loading
+      dispatch(CommonActions.fetching())
+      WebIM.conn.removeRoster({
+        to: id,
+        success: function () {
+          //loading end
+          dispatch(CommonActions.fetched())
+          dispatch(ContactsActions.getContacts())
+
+          WebIM.conn.unsubscribed({
+            to: id
+          });
+        },
+        error: function () {
+        }
+      })
+    }
+  },
+  // 添加好友
   requestSubscribe: (id) => {
     return (dispatch, getState) => {
       WebIM.conn.subscribe({
@@ -26,13 +49,13 @@ const { Types, Creators } = createActions({
       dispatch(Creators.removeSubscribe(name))
 
       WebIM.conn.subscribed({
-         to: name,
-         message: '[resp:true]'
+        to: name,
+        message: '[resp:true]'
       })
 
       WebIM.conn.subscribe({
-         to: name,
-         message: '[resp:true]'
+        to: name,
+        message: '[resp:true]'
       })
     }
   },
@@ -42,9 +65,9 @@ const { Types, Creators } = createActions({
       dispatch(Creators.removeSubscribe(name))
 
       WebIM.conn.unsubscribed({
-         to: name,
-         message: new Date().toLocaleString()
-     })
+        to: name,
+        message: new Date().toLocaleString()
+      })
     }
   },
   // 登出
@@ -71,13 +94,13 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Reducers ------------- */
 
-export const subscribe = (state, { msg }) => {
+export const subscribe = (state, {msg}) => {
   return state.merge({
-    subscribes: Immutable(state.subscribes).set(msg.from , msg)
-  },  {deep: true})
+    subscribes: Immutable(state.subscribes).set(msg.from, msg)
+  }, {deep: true})
 }
 
-export const removeSubscribe = (state, { name }) => {
+export const removeSubscribe = (state, {name}) => {
   let subs = state.subscribes.asMutable()
   console.log('subs', subs)
   delete subs[name]

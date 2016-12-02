@@ -1,6 +1,6 @@
 // @flow
 
-import {StyleSheet, PixelRatio} from 'react-native'
+import {StyleSheet} from 'react-native'
 import {Colors, Metrics} from '../../Themes'
 import {create} from '../../Lib/PlatformStyleSheet'
 
@@ -29,11 +29,11 @@ export default create({
     ios: {
       shadowOffset: {
         width: 0,
-        height: 0.5,
+        height: 0.1,
       },
       shadowColor: Colors.coolGrey50,
-      shadowOpacity: 1.0,
-      shadowRadius: 0.5,
+      shadowOpacity: 0.5,
+      shadowRadius: 0.1,
     },
     android: {
       evaluate: 0.5
@@ -64,7 +64,7 @@ export default create({
     height: 56
   },
   rowDetails: {
-    marginTop: 2,
+    marginTop: 0.5,
     paddingLeft: 15,
     backgroundColor: Colors.snow
   },

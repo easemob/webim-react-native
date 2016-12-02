@@ -1,7 +1,7 @@
 // @flow
 
-import { StyleSheet } from 'react-native'
-import { Fonts, Colors } from '../../Themes/'
+import {StyleSheet} from 'react-native'
+import {Fonts, Colors} from '../../Themes/'
 
 export default StyleSheet.create({
   search: {
@@ -45,5 +45,5 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  placeholderTextColor: Colors.blueyGrey,
+  // placeholderTextColor: Colors.blueGrey,
 })

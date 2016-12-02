@@ -9,23 +9,27 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  TouchableHighlight
+  ActionSheetIOS
 } from 'react-native'
 
 // custom
 import I18n from 'react-native-i18n'
 import Styles from './Styles/ContactInfoScreenStyle'
-import {Images, Metrics} from '../Themes'
+import {Images, Metrics, Colors} from '../Themes'
 import ContactsActions from '../Redux/ContactsRedux'
 import WebIMActions from '../Redux/WebIMRedux'
 import InfoNavBar from '../Components/InfoNavBar'
 
 //TODO: 返回键定义到页面上，因为导航条的返回滚动时不跟着走
 
+const SHEET_BUTTON = ['Delete', 'Cancel']
+
 class ContactInfoScreen extends Component {
   state = {
     isBlocked: true,
   }
+
+
   // ------------ init -------------
   constructor(props) {
     super(props)
@@ -35,22 +39,40 @@ class ContactInfoScreen extends Component {
 
   // ------------ renders -------------
 
+  handleDelete() {
+    //TODO: 不同button如何定义不同的颜色
+    ActionSheetIOS.showActionSheetWithOptions({
+        options: SHEET_BUTTON,
+        cancelButtonIndex: 1,
+        tintColor: [Colors.orangeRed]
+      },
+      (buttonIndex) => {
+        // this.setState({clicked: SHEET_BUTTON[buttonIndex]});
+        if (SHEET_BUTTON[buttonIndex] == 'Delete') {
+          this.props.removeContact(this.props.uid)
+        }
+      });
+  }
+
   // ------------ render -------------
   render() {
+    const {uid} = this.props
+
+    {/*contentOffset={{x: 0, y: -10}}*/
+    }
     return (
       <View style={[Styles.container]}>
         <ScrollView
           style={[Styles.scrollView, {width: Metrics.screenWidth, height: Metrics.screenHeight}]}
           ref='ScrollView'
           directionalLockEnabled={true}
-          contentOffset={{x: 0, y: -10}}
           contentContainerStyle={Styles.contentContainerStyle}
           automaticallyAdjustContentInsets={false}
         >
           <View style={Styles.top}>
             <InfoNavBar />
             <Image source={Images.default} resizeMode='cover' style={Styles.photo}/>
-            <Text style={Styles.name}>{this.props.uid}</Text>
+            <Text style={Styles.name}>{uid}</Text>
             <View style={Styles.rowIcons}>
               <TouchableOpacity style={[Styles.rowIcon, Styles.chat]}>
                 <Image source={Images.buttonChat} resizeMode='center'/>
@@ -70,7 +92,7 @@ class ContactInfoScreen extends Component {
                 <Text style={Styles.textLabel}>{I18n.t('infoName')}</Text>
               </View>
               <View style={[Styles.flex]}>
-                <Text style={Styles.text}>{123}</Text>
+                <Text style={Styles.text}>{uid}</Text>
               </View>
             </View>
             <View style={[Styles.rowDetail]}>
@@ -78,7 +100,7 @@ class ContactInfoScreen extends Component {
                 <Text style={Styles.textLabel}>{I18n.t('infoID')}</Text>
               </View>
               <View style={[Styles.flex]}>
-                <Text style={Styles.text}>{456}</Text>
+                <Text style={Styles.text}>{uid}</Text>
               </View>
             </View>
           </View>
@@ -97,7 +119,7 @@ class ContactInfoScreen extends Component {
               </View>
             </View>
             <View style={[Styles.rowDetail]}>
-              <TouchableOpacity style={[Styles.flex]}>
+              <TouchableOpacity onPress={this.handleDelete.bind(this)} style={[Styles.flex]}>
                 <Text style={[Styles.text, Styles.deleteText]}>{I18n.t('deleteContact')}</Text>
               </TouchableOpacity>
             </View>
@@ -121,20 +143,13 @@ ContactInfoScreen.propTypes = {
 // ------------ redux -------------
 const mapStateToProps = (state) => {
   return {
-    uid: 'test',
-    // roster: state.entities.roster,
-    // subscribes: state.im.subscribes,
-    // user: state.ui.login.username,
+    show: state.ui.contactInfo.show,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getContacts: () => dispatch(ContactsActions.getContacts()),
-    requestSubscribe: (id) => dispatch(WebIMActions.requestSubscribe(id)),
-    acceptSubscribe: (name) => dispatch(WebIMActions.acceptSubscribe(name)),
-    declineSubscribe: (name) => dispatch(WebIMActions.declineSubscribe(name)),
-    logout: () => dispatch(WebIMActions.logout()),
+    removeContact: (id) => dispatch(WebIMActions.removeContact(id)),
   }
 }
 

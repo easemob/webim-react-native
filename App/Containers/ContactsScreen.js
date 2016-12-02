@@ -23,6 +23,7 @@ import Styles from './Styles/ContactsScreenStyle'
 import {Images, Colors} from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ContactsActions from '../Redux/ContactsRedux'
+import CommonActions from '../Redux/CommonRedux'
 import WebIMActions from '../Redux/WebIMRedux'
 import AddContactModal from '../Components/AddContactModal'
 import {Actions as NavigationActions} from 'react-native-router-flux'
@@ -298,7 +299,7 @@ class ContactsScreen extends React.Component {
         NavigationActions.contactInfo({"uid": rowData})
       }}>
         <View style={Styles.row}>
-          <Image source={Images.chatsActive} resizeMode='cover' style={Styles.rowLogo}/>
+          <Image source={Images.default} resizeMode='cover' style={Styles.rowLogo}/>
           <View style={Styles.rowName}>
             <Text>{rowData}</Text>
           </View>
@@ -346,7 +347,7 @@ class ContactsScreen extends React.Component {
       requests.push(
         <View key={`request-${k}`}>
           <View style={Styles.row}>
-            <Image source={Images.chatsActive} resizeMode='cover' style={Styles.rowLogo}/>
+            <Image source={Images.default} resizeMode='cover' style={Styles.rowLogo}/>
             <View style={Styles.rowName}>
               <Text>{v.from}</Text>
             </View>
@@ -414,7 +415,7 @@ class ContactsScreen extends React.Component {
       <TabBarIOS
         unselectedTintColor='yellow'
         tintColor='white'
-        barTintColor={Colors.coolGrey50}
+        barTintColor={Colors.white1}
         translucent={false}
       >
         <TabBarIOS.Item
@@ -424,9 +425,12 @@ class ContactsScreen extends React.Component {
           selected={this.state.selectedTab == 'contacts'}
           title=''
           onPress={() => {
-            this.setState({
-              selectedTab: 'contacts'
-            })
+            this.props.test()
+            {/*this.setState({*/
+            }
+            {/*selectedTab: 'contacts'*/
+            }
+            {/*})*/}
           }}>
           {this._renderContent('#414A8C', 'Blue Tab')}
         </TabBarIOS.Item>
@@ -482,6 +486,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    test: () => {
+      dispatch(CommonActions.fetching())
+
+      setTimeout(() => {
+        dispatch(CommonActions.fetched())
+
+      }, 3000)
+
+    },
     getContacts: () => dispatch(ContactsActions.getContacts()),
     requestSubscribe: (id) => dispatch(WebIMActions.requestSubscribe(id)),
     acceptSubscribe: (name) => dispatch(WebIMActions.acceptSubscribe(name)),

@@ -1,6 +1,6 @@
 // @flow
 
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux'
 import configureStore from './CreateStore'
 // import rootSaga from '../Sagas/'
 
@@ -12,8 +12,10 @@ export default () => {
       groups: require('./GroupsRedux').reducer,
     }),
     ui: combineReducers({
+      common: require('./CommonRedux').reducer,
       login: require('./LoginRedux').reducer,
       contacts: require('./ContactsRedux').reducer,
+      contactInfo: require('./ContactInfoRedux').reducer,
     }),
     im: require('./WebIMRedux').reducer
   })
