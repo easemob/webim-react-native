@@ -1,19 +1,20 @@
 'use strict'
 
-import '../sdk/dist/strophe-1.2.8.js'
-import websdk from '../sdk'
+import '../Sdk/dist/strophe-1.2.8.js'
+import websdk from '../Sdk'
 import xmldom from 'xmldom'
 import config from './WebIMConfig'
 // for rest api -> http
 import Api from '../Services/Api'
 
 
-
 // init DOMParser / document for strophe and sdk
 // window.WebIM.config.isDebug = true
 console = console || {}
-console.group = console.group || function() {}
-console.groupEnd = console.groupEnd || function() {}
+console.group = console.group || function () {
+  }
+console.groupEnd = console.groupEnd || function () {
+  }
 
 let WebIM = window.WebIM = websdk
 window.WebIM.config = config
@@ -21,7 +22,7 @@ window.DOMParser = xmldom.DOMParser
 let document = window.document = new DOMParser().parseFromString("<?xml version='1.0'?>\n", 'text/xml')
 
 if (WebIM.config.isDebug) {
-  function ts () {
+  function ts() {
     var d = new Date()
     var Hours = d.getHours() // 获取当前小时数(0-23)
     var Minutes = d.getMinutes() // 获取当前分钟数(0-59)
@@ -32,7 +33,7 @@ if (WebIM.config.isDebug) {
   window.Strophe.log = function (level, msg) {
     try {
       // console.group('%crecv # ' + ts(), 'color: blue; font-size: large')
-      console.log('%c ' +ts()+' recv: ' + msg, 'color: green')
+      console.log('%c ' + ts() + ' recv: ' + msg, 'color: green')
       // console.groupEnd()
     } catch (e) {
     }
@@ -41,7 +42,7 @@ if (WebIM.config.isDebug) {
   window.Strophe.Connection.prototype.rawOutput = function (data) {
     try {
       // console.group('%csend # ' + ts(), 'color: blue; font-size: large')
-      console.log('%c ' +ts()+' send: ' + data, 'color: blue')
+      console.log('%c ' + ts() + ' send: ' + data, 'color: blue')
       // console.groupEnd()
     } catch (e) {
     }

@@ -1,78 +1,12 @@
-// @flow
-
 import {createReducer, createActions} from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import WebIM from '../Lib/WebIM'
-import I18n from 'react-native-i18n'
 import {Actions as NavigationActions} from 'react-native-router-flux'
-import ContactsActions from '../Redux/ContactsRedux'
-import CommonActions from '../Redux/CommonRedux'
-import ContactInfoActions from '../Redux/ContactInfoRedux'
-
 
 /* ------------- Types and Action Creators ------------- */
 
 const {Types, Creators} = createActions({
-  subscribe: ['msg'],
-  removeSubscribe: ['name'],
-  // 删除好友
-  removeContact: (id) => {
-    return (dispatch, getState) => {
-      //loading
-      dispatch(CommonActions.fetching())
-      WebIM.conn.removeRoster({
-        to: id,
-        success: function () {
-          //loading end
-          dispatch(CommonActions.fetched())
-          dispatch(ContactInfoActions.contactDeleted())
-          dispatch(ContactsActions.getContacts())
-
-          WebIM.conn.unsubscribed({
-            to: id
-          });
-        },
-        error: function () {
-        }
-      })
-    }
-  },
-  // 添加好友
-  requestSubscribe: (id) => {
-    return (dispatch, getState) => {
-      WebIM.conn.subscribe({
-        to: id,
-        message: I18n.t('request')
-      })
-    }
-  },
-  // 接受好友请求
-  acceptSubscribe: (name) => {
-    return (dispatch, state) => {
-      dispatch(Creators.removeSubscribe(name))
-
-      WebIM.conn.subscribed({
-        to: name,
-        message: '[resp:true]'
-      })
-
-      WebIM.conn.subscribe({
-        to: name,
-        message: '[resp:true]'
-      })
-    }
-  },
-  // 拒绝好友请求
-  declineSubscribe: (name) => {
-    return (dispatch, state) => {
-      dispatch(Creators.removeSubscribe(name))
-
-      WebIM.conn.unsubscribed({
-        to: name,
-        message: new Date().toLocaleString()
-      })
-    }
-  },
+  // ----------------async------------------
   // 登出
   logout: () => {
     return (dispatch, state) => {
@@ -105,9 +39,7 @@ export const subscribe = (state, {msg}) => {
 
 export const removeSubscribe = (state, {name}) => {
   let subs = state.subscribes.asMutable()
-  console.log('subs', subs)
   delete subs[name]
-  console.log('subs', subs)
   return state.merge({
     subscribes: Immutable(subs)
   })

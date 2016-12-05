@@ -1,6 +1,5 @@
 import {createReducer, createActions} from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import WebIM, {api} from '../Lib/WebIM'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -9,7 +8,7 @@ const {Types, Creators} = createActions({
   contactShowed: []
 })
 
-export const ContactInfoTypes = Types
+export const ContactInfoScreenTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */

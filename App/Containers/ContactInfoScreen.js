@@ -19,7 +19,8 @@ import {Images, Metrics, Colors} from '../Themes'
 import WebIMActions from '../Redux/WebIMRedux'
 import InfoNavBar from '../Components/InfoNavBar'
 import {Actions as NavigationActions} from 'react-native-router-flux'
-import ContactInfoActions from '../Redux/ContactInfoRedux'
+import ContactInfoActions from '../Redux/ContactInfoScreenRedux'
+import RosterActions from '../Redux/RosterRedux'
 
 
 //TODO: 返回键定义到页面上，因为导航条的返回滚动时不跟着走
@@ -43,7 +44,6 @@ class ContactInfoScreen extends Component {
   // ------------ lifecycle  ---------------
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', nextProps)
     if (!nextProps.show) {
       NavigationActions.pop()
     }
@@ -161,7 +161,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    removeContact: (id) => dispatch(WebIMActions.removeContact(id)),
+    removeContact: (id) => dispatch(RosterActions.removeContact(id)),
     contactShowed: () => dispatch(ContactInfoActions.contactShowed()),
   }
 }

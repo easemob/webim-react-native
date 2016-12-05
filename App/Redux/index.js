@@ -9,19 +9,17 @@ export default () => {
   let rootReducer = combineReducers({
     entities: combineReducers({
       roster: require('./RosterRedux').reducer,
-      groups: require('./GroupsRedux').reducer,
+      group: require('./GroupRedux').reducer,
+      subscribe: require('./SubscribeRedux').reducer,
     }),
     ui: combineReducers({
       common: require('./CommonRedux').reducer,
       login: require('./LoginRedux').reducer,
-      contacts: require('./ContactsRedux').reducer,
-      contactInfo: require('./ContactInfoRedux').reducer,
+      contacts: require('./ContactsScreenRedux').reducer,
+      contactInfo: require('./ContactInfoScreenRedux').reducer,
     }),
     im: require('./WebIMRedux').reducer
   })
-
-  // rootReducer = combineReducers(rootReducer, require('./ContactRedux').reducer)
-
 
   const store = configureStore(rootReducer)
 

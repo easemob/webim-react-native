@@ -22,12 +22,12 @@ import I18n from 'react-native-i18n'
 import Styles from './Styles/ContactsScreenStyle'
 import {Images, Colors} from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ContactsActions from '../Redux/ContactsRedux'
 import CommonActions from '../Redux/CommonRedux'
 import WebIMActions from '../Redux/WebIMRedux'
+import RosterActions from '../Redux/RosterRedux'
+import SubscribeActions from '../Redux/SubscribeRedux'
 import AddContactModal from '../Components/AddContactModal'
 import {Actions as NavigationActions} from 'react-native-router-flux'
-import Input from '../Components/Input'
 import Button from '../Components/Button'
 
 class ContactsScreen extends React.Component {
@@ -156,7 +156,7 @@ class ContactsScreen extends React.Component {
     if (this.props.user == id.trim()) {
       return;
     }
-    this.props.requestSubscribe(id)
+    this.props.addContact(id)
   }
 
   handleDecline(name) {
@@ -430,7 +430,8 @@ class ContactsScreen extends React.Component {
             }
             {/*selectedTab: 'contacts'*/
             }
-            {/*})*/}
+            {/*})*/
+            }
           }}>
           {this._renderContent('#414A8C', 'Blue Tab')}
         </TabBarIOS.Item>
@@ -479,7 +480,7 @@ ContactsScreen.propTypes = {
 const mapStateToProps = (state) => {
   return {
     roster: state.entities.roster,
-    subscribes: state.im.subscribes,
+    subscribes: state.entities.subscribe.byFrom,
     user: state.ui.login.username,
   }
 }
@@ -495,10 +496,10 @@ const mapDispatchToProps = (dispatch) => {
       }, 3000)
 
     },
-    getContacts: () => dispatch(ContactsActions.getContacts()),
-    requestSubscribe: (id) => dispatch(WebIMActions.requestSubscribe(id)),
-    acceptSubscribe: (name) => dispatch(WebIMActions.acceptSubscribe(name)),
-    declineSubscribe: (name) => dispatch(WebIMActions.declineSubscribe(name)),
+    getContacts: () => dispatch(RosterActions.getContacts()),
+    addContact: (id) => dispatch(RosterActions.addContact(id)),
+    acceptSubscribe: (name) => dispatch(SubscribeActions.acceptSubscribe(name)),
+    declineSubscribe: (name) => dispatch(SubscribeActions.declineSubscribe(name)),
     logout: () => dispatch(WebIMActions.logout()),
   }
 }

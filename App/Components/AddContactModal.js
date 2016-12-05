@@ -7,7 +7,7 @@ import I18n from 'react-native-i18n'
 import {Images, Colors} from '../Themes'
 import Styles from './Styles/AddContactModalStyle'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ContactsActions from '../Redux/ContactsRedux'
+import ContactsActions from '../Redux/ContactsScreenRedux'
 
 import ModalHeader from './ModalHeader'
 import Button from './Button'
