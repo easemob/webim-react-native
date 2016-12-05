@@ -19,25 +19,38 @@ class NavigationDrawer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // console.log('componentWillReceiveProps', this.props, nextProps)
     //TODO: hack
     const state = this.props.navigationState
 
-    if (this.state.fetching != nextProps.fetching) {
-      this.setState({
-        fetching: nextProps.fetching
-      })
-      nextProps.fetching ?
-        NavigationActions.refresh({key: state.key, open: true}) :
-        NavigationActions.refresh({key: state.key, open: false})
-    }
+    // if (this.state.fetching != nextProps.fetching) {
+    this.setState({
+      fetching: nextProps.fetching
+    })
+    // nextProps.fetching ?
+    //   NavigationActions.refresh({key: state.key, open: true}) :
+    //   NavigationActions.refresh({key: state.key, open: false})
+
+    // nextProps.fetching ?
+    //   this.refs.navigation.open() :
+    //   this.refs.navigation.close
+    // }
+
+    // console.log("fetching", nextProps.fetching)
+
   }
 
   render() {
     const state = this.props.navigationState
     const children = state.children
     //TODO: hack
+    // console.log("open", state.open)
+
+    return <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate}/>
+
     if (!state.open) {
-      return <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate}/>
+      {/*return <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate}/>*/
+      }
     }
     return (
       <Drawer

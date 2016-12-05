@@ -16,11 +16,10 @@ import {
 import I18n from 'react-native-i18n'
 import Styles from './Styles/ContactInfoScreenStyle'
 import {Images, Metrics, Colors} from '../Themes'
-import WebIMActions from '../Redux/WebIMRedux'
 import InfoNavBar from '../Components/InfoNavBar'
 import {Actions as NavigationActions} from 'react-native-router-flux'
-import ContactInfoActions from '../Redux/ContactInfoScreenRedux'
 import RosterActions from '../Redux/RosterRedux'
+import BlacklistActions from '../Redux/BlacklistRedux'
 
 
 //TODO: 返回键定义到页面上，因为导航条的返回滚动时不跟着走
@@ -36,17 +35,28 @@ class ContactInfoScreen extends Component {
   constructor(props) {
     super(props)
     //TODO: 此处作为删除后show：false状态的重置操作，为了下次删除的时候能够正常运作，是不是最好的方式呢？
-    this.props.contactShowed();
   }
 
   // ------------ logic  ---------------
+  setBlock(props) {
+    const {uid, names, rosterNames} = props
+    let isBlocked = names.indexOf(uid) !== -1
+    this.setState({
+      isBlocked
+    })
 
-  // ------------ lifecycle  ---------------
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.show) {
+    if (rosterNames.indexOf(uid) === -1) {
       NavigationActions.pop()
     }
+  }
+
+  // ------------ lifecycle  ---------------
+  componentDidMount() {
+    this.setBlock(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setBlock(nextProps)
   }
 
   // ------------ renders -------------
@@ -66,9 +76,21 @@ class ContactInfoScreen extends Component {
       });
   }
 
+  handleSwitch(v) {
+    this.setState({
+      isBlocked: v
+    })
+    if (v) {
+      this.props.doAddBlacklist(this.props.uid)
+    } else {
+      this.props.doRemoveBlacklist(this.props.uid)
+    }
+  }
+
   // ------------ render -------------
   render() {
-    const {uid} = this.props
+    const {uid, names} = this.props
+    const {isBlocked} = this.state
 
     {/*contentOffset={{x: 0, y: -10}}*/
     }
@@ -123,11 +145,7 @@ class ContactInfoScreen extends Component {
                 <Text style={Styles.text}>{I18n.t('blockContact')}</Text>
               </View>
               <View style={[Styles.flex, Styles.end]}>
-                <Switch onValueChange={(v) => {
-                  this.setState({
-                    isBlocked: v
-                  })
-                }} value={this.state.isBlocked}/>
+                <Switch onValueChange={this.handleSwitch.bind(this)} value={isBlocked}/>
               </View>
             </View>
             <View style={[Styles.rowDetail]}>
@@ -146,23 +164,21 @@ class ContactInfoScreen extends Component {
 ContactInfoScreen.propTypes = {
   // 当前查看的用户id
   uid: PropTypes.string,
-  // 联系人列表
-  roster: PropTypes.shape({
-    names: PropTypes.array
-  })
 }
 
 // ------------ redux -------------
 const mapStateToProps = (state) => {
   return {
-    show: state.ui.contactInfo.show,
+    rosterNames: state.entities.roster.names,
+    names: state.entities.blacklist.names
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     removeContact: (id) => dispatch(RosterActions.removeContact(id)),
-    contactShowed: () => dispatch(ContactInfoActions.contactShowed()),
+    doAddBlacklist: (id) => dispatch(BlacklistActions.doAddBlacklist(id)),
+    doRemoveBlacklist: (id) => dispatch(BlacklistActions.doRemoveBlacklist(id)),
   }
 }
 

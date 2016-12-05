@@ -3,7 +3,6 @@ import Immutable from 'seamless-immutable'
 import WebIM from '../Lib/WebIM'
 
 import CommonActions from '../Redux/CommonRedux'
-import ContactInfoActions from './ContactInfoScreenRedux'
 
 /* ------------- Types and Action Creators ------------- */
 const {Types, Creators} = createActions({
@@ -32,7 +31,6 @@ const {Types, Creators} = createActions({
         success: function () {
           //loading end
           dispatch(CommonActions.fetched())
-          dispatch(ContactInfoActions.contactDeleted())
           dispatch(Creators.getContacts())
 
           WebIM.conn.unsubscribed({

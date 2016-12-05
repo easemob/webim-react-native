@@ -48,7 +48,7 @@ class LoadingContent extends Component {
   }
 
   toggleDrawer() {
-    this.context.drawer.toggle()
+    // this.context.drawer.toggle()
   }
 
   render() {

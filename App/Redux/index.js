@@ -11,12 +11,12 @@ export default () => {
       roster: require('./RosterRedux').reducer,
       group: require('./GroupRedux').reducer,
       subscribe: require('./SubscribeRedux').reducer,
+      blacklist: require('./BlacklistRedux').reducer,
     }),
     ui: combineReducers({
       common: require('./CommonRedux').reducer,
       login: require('./LoginRedux').reducer,
       contacts: require('./ContactsScreenRedux').reducer,
-      contactInfo: require('./ContactInfoScreenRedux').reducer,
     }),
     im: require('./WebIMRedux').reducer
   })
