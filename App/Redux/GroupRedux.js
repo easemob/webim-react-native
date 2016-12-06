@@ -4,50 +4,70 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const {Types, Creators} = createActions({
-  nop: [''],
-  nopFunc: null,
-  asyncFunc: () => {
+  updateGroupInfo: ['info'],
+  updateGroup: ['groups'],
+  // ---------------async------------------
+  getGroups: () => {
     return (dispatch, getState) => {
-
+      WebIM.conn.listRooms({
+        success: function (rooms) {
+          dispatch(Creators.updateGroup(rooms))
+        },
+        error: function (e) {
+          WebIM.conn.setPresence();
+        }
+      });
     }
-  }
+  },
 })
 
-export const DemoTypes = Types
+export const GroupsTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  error: null,
-  fetching: false,
+  byName: {},
+  names: [],
 })
 
 /* ------------- Reducers ------------- */
-
-export const request = (state, {username, password}) => {
-  return state.merge({fetching: true, error: false})
+// [{jid,name,roomId}] groups
+export const updateGroup = (state, {groups}) => {
+  let byName = {}
+  let byId = {}
+  groups.forEach((v) => {
+    byName[v.name] = v
+    byId[v.roomId] = v
+  })
+  return state.merge({
+    byName,
+    byId,
+    names: Object.keys(byName)
+  })
 }
 
-export const success = (state, {msg}) => {
-  return state.merge({fetching: false, error: false, msg})
+// [{affiliations,description,maxusers,name,occupants,owner}] info
+export const updateGroupInfo = (state, {info}) => {
+  // let byName = {}
+  // let byId = {}
+  // state.group.forEach((v) => {
+  //   byName[v.name] = v
+  //   byId[v.roomId] = v
+  // })
+  // return state.merge({
+  //   byName,
+  //   byId,
+  //   names: Object.keys(byName)
+  // })
+  state.group.byName[info.name]
+  return {}
 }
-
-export const failure = (state, {error}) => {
-  return state.merge({fetching: false, error: true})
-}
-
-// we've logged out
-export const logout = (state) => INITIAL_STATE
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.NOP]: request,
-  [Types.NOP_FUNC]: request,
+  [Types.UPDATE_GROUP]: updateGroup,
 })
 
 /* ------------- Selectors ------------- */
-
-// Is the current user logged in?
-export const isLoggedIn = (loginState) => loginState.username !== null

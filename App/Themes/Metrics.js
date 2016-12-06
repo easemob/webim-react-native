@@ -19,6 +19,7 @@ const metrics = {
   statusBarHeight: 20,
   buttonRadius: 4,
   icons: {
+    tiny0: 13,
     tiny: 15,
     tiny2: 17,
     small: 20,

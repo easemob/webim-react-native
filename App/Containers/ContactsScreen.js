@@ -26,7 +26,7 @@ import CommonActions from '../Redux/CommonRedux'
 import WebIMActions from '../Redux/WebIMRedux'
 import RosterActions from '../Redux/RosterRedux'
 import SubscribeActions from '../Redux/SubscribeRedux'
-import AddContactModal from '../Components/AddContactModal'
+import AddContactModal from '../Containers/AddContactModal'
 import {Actions as NavigationActions} from 'react-native-router-flux'
 import Button from '../Components/Button'
 
@@ -380,12 +380,14 @@ class ContactsScreen extends React.Component {
 
   _renderSectionGroupHeader() {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+        NavigationActions.groupList()
+      }}>
         {/* <TouchableHighlight animationVelocity={0} underlayColor="#ccc" activeOpacity={1}> */}
         {/* TODO: highlight 无效 */}
         <View style={Styles.groupHeader}>
           <View style={Styles.groupHeaderTextWrapper}>
-            <Text style={Styles.groupHeaderText}>Groups</Text>
+            <Text style={Styles.groupHeaderText}>{I18n.t('groups')}</Text>
           </View>
           <View style={Styles.groupHeaderIcon}>
             <Icon name="chevron-right" size={13} color={Colors.blueGrey}/>

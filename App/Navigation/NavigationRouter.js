@@ -1,7 +1,7 @@
 // @flow
 
 import React, {Component} from 'react'
-import {Scene, Router} from 'react-native-router-flux'
+import {Scene, Router, ActionConst} from 'react-native-router-flux'
 import Styles from './Styles/NavigationContainerStyle'
 import NavigationDrawer from './NavigationDrawer'
 import {connect} from 'react-redux'
@@ -29,6 +29,8 @@ import RegisterScreen from '../Containers/RegisterScreen'
 import ContactsScreen from '../Containers/ContactsScreen'
 import ContactsAndroidScreen from '../Containers/ContactsAndroidScreen'
 import ContactInfoScreen from '../Containers/ContactInfoScreen'
+import GroupListScreen from '../Containers/GroupListScreen'
+import GroupMembersScreen from '../Containers/GroupMembersScreen'
 import InfoNavBar from '../Components/InfoNavBar'
 
 import LoadingContent from '../Containers/LoadingContent'
@@ -72,8 +74,20 @@ class NavigationRouter extends Component {
             {/*<Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar}/>*/}
             <Scene key='login' component={LoginScreen} title='Login' hideNavBar/>
             <Scene key='register' component={RegisterScreen} title='Register' hideNavBar/>
-            <Scene key='contactInfo' component={ContactInfoScreen} schema="modal" title='Contact Info'
-                   hideNavBar={true}/>
+            <Scene key='contactInfo' component={ContactInfoScreen}
+                   schema="modal" title='Contact Info'
+                   hideNavBar={true}
+            />
+            <Scene key='groupList' component={GroupListScreen}
+                   title='Groups'
+                   navBar={InfoNavBar}
+                   hideNavBar={false}
+            />
+            <Scene key='groupMembers' component={GroupMembersScreen}
+                   title='Hyphenate Events'
+                   navBar={InfoNavBar}
+                   hideNavBar={false}
+            />
             {/*navBar={InfoNavBar}*/}
             { scenes }
 

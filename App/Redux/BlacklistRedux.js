@@ -50,6 +50,8 @@ const {Types, Creators} = createActions({
         type: 'jid',
         success: function () {
           // TODO: 之前添加当前黑名单用户还是重新拉取黑名单
+          // 其实此处可以支持同步完成，只不过sdk中写的代码也自持listen
+          // 就直接使用listen，但是都没有做增量更新blacklist的操作
           dispatch(CommonActions.fetched())
         },
         error: function () {

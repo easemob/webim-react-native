@@ -10,6 +10,7 @@ export default () => {
     entities: combineReducers({
       roster: require('./RosterRedux').reducer,
       group: require('./GroupRedux').reducer,
+      groupMember: require('./GroupMemberRedux').reducer,
       subscribe: require('./SubscribeRedux').reducer,
       blacklist: require('./BlacklistRedux').reducer,
     }),

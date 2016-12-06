@@ -16,6 +16,7 @@ const size = {
   input: 18,
   regular: 17,
   medium: 14,
+  small2: 13,
   small: 12,
   tiny: 8.5
 }
@@ -51,6 +52,10 @@ const style = {
   },
   description: {
     fontFamily: type.base,
+    fontSize: size.medium
+  },
+  rowText: {
+    fontFamily: type.small2,
     fontSize: size.medium
   }
 }

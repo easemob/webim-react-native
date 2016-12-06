@@ -21,9 +21,6 @@ import {Actions as NavigationActions} from 'react-native-router-flux'
 import RosterActions from '../Redux/RosterRedux'
 import BlacklistActions from '../Redux/BlacklistRedux'
 
-
-//TODO: 返回键定义到页面上，因为导航条的返回滚动时不跟着走
-
 const SHEET_BUTTON = ['Delete', 'Cancel']
 
 class ContactInfoScreen extends Component {

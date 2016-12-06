@@ -44,5 +44,7 @@
   "infoName": "Name",
   "infoID": "Hyphenate ID",
   "blockContact": "Block Contact",
-  "deleteContact": "Delete Contact"
+  "deleteContact": "Delete Contact",
+  "requestHasSent": "Your request has been sent",
+  "groups": "Groups"
 }

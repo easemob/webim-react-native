@@ -10,11 +10,12 @@ export default create({
     right: 0,
     height: Metrics.navBarHeight,
     // paddingHorizontal: Metrics.baseMargin,
-    backgroundColor: 'transparent',
+    // backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 20,
+    paddingTop: 30,
+    backgroundColor: Colors.white1
   },
   leftButton: {
     paddingHorizontal: 15,

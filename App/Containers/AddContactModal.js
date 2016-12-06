@@ -1,19 +1,19 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {Modal, Text, TouchableHighlight, View, Dimensions} from 'react-native';
+import {Modal, Alert, TouchableHighlight, View, Dimensions} from 'react-native';
 
 // custom
 import I18n from 'react-native-i18n'
-import {Images, Colors} from '../Themes'
+import {Colors} from '../Themes'
 import Styles from './Styles/AddContactModalStyle'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ContactsActions from '../Redux/ContactsScreenRedux'
 
-import ModalHeader from './ModalHeader'
-import Button from './Button'
-import Input from './Input'
+import ModalHeader from '../Components/ModalHeader'
+import Button from '../Components/Button'
+import Input from '../Components/Input'
 
-//TODO: 连接错误登出时，需要关闭所有的modal框
+//TODO: 连接错误登出时，需要关闭所有的modal框 - mixin 也许可以全局设置
 //TODO: 用router的scene代替此页面
 export default class AddContactModal extends Component {
 
@@ -66,6 +66,7 @@ export default class AddContactModal extends Component {
                 styles={Styles.button}
                 onPress={() => {
                   addContact(this.state.id)
+                  Alert.alert(I18n.t('requestHasSent'))
                   this.setState({
                     id: ''
                   })

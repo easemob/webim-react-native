@@ -16,6 +16,7 @@ const images = {
   invitationsIcon: require('../Images/invitationsIcon.png'),
   requestsIcon: require('../Images/requestsIcon.png'),
   default: require('../Images/default.png'),
+  groupDefault: require('../Images/groupDefault.png'),
   buttonChat: require('../Images/buttonChat.png'),
   buttonCall: require('../Images/buttonCall.png'),
   buttonVideo: require('../Images/buttonVideo.png'),

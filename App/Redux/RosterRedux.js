@@ -3,6 +3,7 @@ import Immutable from 'seamless-immutable'
 import WebIM from '../Lib/WebIM'
 
 import CommonActions from '../Redux/CommonRedux'
+import I18n from 'react-native-i18n'
 
 /* ------------- Types and Action Creators ------------- */
 const {Types, Creators} = createActions({
