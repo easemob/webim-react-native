@@ -10,7 +10,6 @@ import ReduxPersist from '../Config/ReduxPersist'
 // Styles
 import styles from './Styles/RootContainerStyle'
 
-
 // import WebIM from '../Lib/WebIM'
 // import WebIMActions from '../Redux/WebIMRedux'
 
@@ -23,14 +22,15 @@ class RootContainer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     console.log('componentWillReceiveProps', nextProps)
   }
 
   render () {
     return (
       <View style={styles.applicationView}>
-        <StatusBar barStyle='light-content' hidden={true}  />
+        {/*  barStyle='light-content' */}
+        <StatusBar />
         <NavigationRouter />
       </View>
     )
@@ -38,7 +38,7 @@ class RootContainer extends Component {
 }
 
 const mapStateToDispatch = (dispatch) => ({
-  startup: () => dispatch(StartupActions.startup()),
+  startup: () => dispatch(StartupActions.startup())
   // dispatch: dispatch
 })
 

@@ -13,66 +13,66 @@ import {
   LayoutAnimation,
   Platform
 } from 'react-native'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import Styles from './Styles/LoginScreenStyle'
 import {Images, Metrics} from '../Themes'
 import LoginActions from '../Redux/LoginRedux'
-import { Actions as NavigationActions } from 'react-native-router-flux'
+import {Actions as NavigationActions} from 'react-native-router-flux'
 import I18n from 'react-native-i18n'
 
-type LoginScreenProps = {
-  dispatch: () => any,
-  fetching: boolean,
-  attemptLogin: () => void
-}
+// type LoginScreenProps = {
+//   dispatch: () => any,
+//   fetching: boolean,
+//   attemptLogin: () => void
+// }
 
 class LoginScreen extends React.Component {
 
-  props: LoginScreenProps
+  // props: LoginScreenProps
 
-  state: {
-    username: string,
-    password: string,
-    visibleHeight: number,
-    topLogo: {
-      width: number
-    }
-  }
+  // state: {
+  //   username: string,
+  //   password: string,
+  //   visibleHeight: number,
+  //   topLogo: {
+  //     width: number
+  //   }
+  // }
 
-  isAttempting: boolean
-  keyboardDidShowListener: Object
-  keyboardDidHideListener: Object
+  // isAttempting: boolean
+  // keyboardDidShowListener: Object
+  // keyboardDidHideListener: Object
 
-  constructor (props: LoginScreenProps) {
+  constructor(props) {
     super(props)
     this.state = {
       // username: Platform.OS,
       // password: 'password',
       visibleHeight: Metrics.screenHeight,
-      topLogo: { width: Metrics.screenWidth }
+      topLogo: {width: Metrics.screenWidth}
     }
     this.isAttempting = false
   }
 
-  componentWillReceiveProps (newProps) {
-    this.forceUpdate()
+  componentWillReceiveProps(newProps) {
+    // this.forceUpdate()
     // Did the login attempt complete?
-    console.log('newProps',newProps)
+    // console.log('newProps', newProps)
     if (this.isAttempting && !newProps.fetching && !newProps.error) {
-      NavigationActions.contacts();
+      NavigationActions.contacts()
 
       // NavigationActions.pop()
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
     // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.keyboardDidShowListener.remove()
     this.keyboardDidHideListener.remove()
   }
@@ -97,14 +97,13 @@ class LoginScreen extends React.Component {
   }
 
   handlePressLogin = (e) => {
+    const {username, password} = this.state
 
-    const { username, password } = this.state
-
-    if( !username || !username.trim() ) {
-        return Alert.alert(I18n.t('invalidID'))
+    if (!username || !username.trim()) {
+      return Alert.alert(I18n.t('invalidID'))
     }
-    if( !password || !password.trim() ) {
-        return Alert.alert(I18n.t('invalidPassword'))
+    if (!password || !password.trim()) {
+      return Alert.alert(I18n.t('invalidPassword'))
     }
 
     this.isAttempting = true
@@ -113,21 +112,21 @@ class LoginScreen extends React.Component {
   }
 
   handleChangeUsername = (text) => {
-    this.setState({ username: text })
+    this.setState({username: text})
   }
 
   handleChangePassword = (text) => {
-    this.setState({ password: text })
+    this.setState({password: text})
   }
 
-  render () {
-    const { username, password } = this.state
-    const { fetching } = this.props
+  render() {
+    const {username, password} = this.state
+    const {fetching} = this.props
     const editable = !fetching
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
-    let otherView = '<Text></Text>';
+    let otherView = '<Text></Text>'
 
-    if( Platform.OS == 'android' ) {
+    if (Platform.OS == 'android') {
       otherView = [
         <View key='button' style={[Styles.loginRow]}>
           <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
@@ -145,7 +144,7 @@ class LoginScreen extends React.Component {
       ]
     }
 
-    if( Platform.OS == 'ios' ) {
+    if (Platform.OS == 'ios') {
       otherView = [
         <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
           <Text style={Styles.tips}>{I18n.t('signUpTips')}</Text>
@@ -158,8 +157,9 @@ class LoginScreen extends React.Component {
 
     return (
       <View style={{flexDirection: 'column'}}>
-        <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps>
-          <Image source={Images.logo} style={[Styles.topLogo, this.state.topLogo]} />
+        <ScrollView contentContainerStyle={{justifyContent: 'center'}}
+                    style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps>
+          <Image source={Images.logo} style={[Styles.topLogo, this.state.topLogo]}/>
           <View style={Styles.form}>
             <View style={[Styles.row, Styles.borderBottom]}>
               {/* <Text style={Styles.rowLabel}>{I18n.t('username')}</Text> */}
@@ -198,7 +198,7 @@ class LoginScreen extends React.Component {
                 onSubmitEditing={this.handlePressLogin}
                 placeholder={I18n.t('password')}
                 placeholderTextColor={Styles.plachholder}
-                selectionColor ={Styles.selectionColor}
+                selectionColor={Styles.selectionColor}
               />
             </View>
 
@@ -208,7 +208,7 @@ class LoginScreen extends React.Component {
 
         {
           (() => {
-            if( Platform.OS == 'ios') {
+            if (Platform.OS == 'ios') {
               return (
                 <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
                   <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
@@ -223,7 +223,6 @@ class LoginScreen extends React.Component {
         }
       </View>
 
-
     )
   }
 
@@ -231,14 +230,14 @@ class LoginScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    fetching: state.login.fetching,
-    error: state.login.error
+    fetching: state.ui.login.fetching,
+    error: state.ui.login.error
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password))
+    attemptLogin: (username, password) => dispatch(LoginActions.login(username, password))
   }
 }
 

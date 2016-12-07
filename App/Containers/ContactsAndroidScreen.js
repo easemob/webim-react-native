@@ -8,40 +8,38 @@ import { Images, Colors } from '../Themes'
 var styles = StyleSheet.create({
   tabContent: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   tabText: {
     color: 'white',
-    margin: 50,
-  },
-});
-
+    margin: 50
+  }
+})
 
 class ContactsScreen extends React.Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
       selectedTab: 'blueTab',
       notifCount: 0,
-      presses: 0,
+      presses: 0
     }
   }
 
-  _renderContent(color, pageText, num) {
+  _renderContent (color, pageText, num) {
     return (
-       <View style={[styles.tabContent, {backgroundColor: color}]}>
-         <ScrollView>
-           <Text style={styles.tabText}>{pageText}</Text>
-           <Text style={styles.tabText}>{num} re-renders of the {pageText}</Text>
-         </ScrollView>
-       </View>
-   );
+      <View style={[styles.tabContent, {backgroundColor: color}]}>
+        <ScrollView>
+          <Text style={styles.tabText}>{pageText}</Text>
+          <Text style={styles.tabText}>{num} re-renders of the {pageText}</Text>
+        </ScrollView>
+      </View>
+   )
   }
 
-  render() {
-
+  render () {
     console.log(this.state)
 
     return (
@@ -54,7 +52,6 @@ class ContactsScreen extends React.Component {
     )
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {

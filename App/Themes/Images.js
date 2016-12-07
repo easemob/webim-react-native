@@ -13,6 +13,15 @@ const images = {
   contactsActive: require('../Images/contactsActive.png'),
   settings: require('../Images/settings.png'),
   settingsActive: require('../Images/settings.png'),
+  invitationsIcon: require('../Images/invitationsIcon.png'),
+  requestsIcon: require('../Images/requestsIcon.png'),
+  default: require('../Images/default.png'),
+  groupDefault: require('../Images/groupDefault.png'),
+  buttonChat: require('../Images/buttonChat.png'),
+  buttonCall: require('../Images/buttonCall.png'),
+  buttonVideo: require('../Images/buttonVideo.png'),
+  message: require('../Images/message.png'),
+  feedback: require('../Images/feedback.png'),
 }
 
 export default images

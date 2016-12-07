@@ -1,14 +1,22 @@
-// @flow
-
-import { createReducer, createActions } from 'reduxsauce'
+import {createReducer, createActions} from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import WebIM from '../Lib/WebIM'
+import {Actions as NavigationActions} from 'react-native-router-flux'
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
-  onOpened: ['msg'],
-  onError: ['msg'],
+const {Types, Creators} = createActions({
+  // ----------------async------------------
+  // 登出
+  logout: () => {
+    return (dispatch, state) => {
+      if (WebIM.conn.isOpened()) {
+        WebIM.conn.close('logout')
+      }
+
+      NavigationActions.login();
+    }
+  },
 })
 
 export const WebIMTypes = Types
@@ -17,37 +25,38 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-    test: 1,
-    error: {},  
+  msgs: {},
+  subscribes: {}
 })
 
 /* ------------- Reducers ------------- */
 
-
-export const onOpened = (state: Object, { msg }) => {
-  console.log('onOpened', msg)
-  return state.merge({test: 2})
+export const subscribe = (state, {msg}) => {
+  return state.merge({
+    subscribes: Immutable(state.subscribes).set(msg.from, msg)
+  }, {deep: true})
 }
 
-export const onError = (state, { msg }) => {
-  console.log('onError', state, WebIM.conn.Status)
-  return state.merge( {error: {isError: true, code: 101, msg: 'abc'}} )
+export const removeSubscribe = (state, {name}) => {
+  let subs = state.subscribes.asMutable()
+  delete subs[name]
+  return state.merge({
+    subscribes: Immutable(subs)
+  })
 }
 
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.ON_OPENED]: onOpened,
-  [Types.ON_ERROR]: onError,
+  [Types.SUBSCRIBE]: subscribe,
+  [Types.REMOVE_SUBSCRIBE]: removeSubscribe,
 })
 
 /* ------------- Selectors ------------- */
 
 // Is the current user logged in?
-//export const isLoggedIn = (loginState: Object) => loginState.username !== null
-
-
+// export const isLoggedIn = (loginState: Object) => loginState.username !== null
 
 /** Constants: Connection Status Constants
  *  Connection status constants for use by the connection handler

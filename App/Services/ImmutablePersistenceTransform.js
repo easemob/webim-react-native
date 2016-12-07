@@ -18,7 +18,7 @@ const toImmutable = (raw: Object) => Immutable(raw)
 // the transform interface that redux-persist is expecting
 export default {
   out: (state: Object) => {
-    // console.log({ retrieving: state })
+    console.log('retrieving', state)
     // --- HACKZORZ ---
     // Attach a empty-ass function to the object called `mergeDeep`.
     // This tricks redux-persist into just placing our Immutable object into the state tree

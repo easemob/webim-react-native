@@ -7,7 +7,7 @@ import R from 'ramda'
 import RehydrationServices from '../Services/RehydrationServices'
 import ReduxPersist from '../Config/ReduxPersist'
 //
-import thunkMiddleware from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk'
 
 // creates the store
 export default (rootReducer, rootSaga) => {

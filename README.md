@@ -1,4 +1,17 @@
 #  app
+> based on ignite , the react-native starter kit
+
+
+
+## Startup
+
+- iOS
+	1. run `npm run newclear` 项目初始化
+
+
+
+## ignite
+
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
 * Standard compliant React Native App Utilizing [Ignite](https://github.com/infinitered/ignite)
