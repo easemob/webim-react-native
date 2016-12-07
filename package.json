@@ -92,7 +92,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "if [ -d 'ignite-base' ]; then cd ignite-base; fi; npm run lint"
+      "pre-commit2": "if [ -d 'ignite-base' ]; then cd ignite-base; fi; npm run lint"
     }
   }
 }
