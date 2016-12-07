@@ -14,3 +14,4 @@ android/.gradle
 android/app/build
 android/build
 ios/build
+npm-debug.log
