@@ -46,5 +46,7 @@
   "blockContact": "Block Contact",
   "deleteContact": "Delete Contact",
   "requestHasSent": "Your request has been sent",
-  "groups": "Groups"
+  "groups": "Groups",
+  "newChat": "New Chat",
+  "newGroup": "New Group"
 }

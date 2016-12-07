@@ -5,6 +5,7 @@ import {Scene, Router, ActionConst} from 'react-native-router-flux'
 import Styles from './Styles/NavigationContainerStyle'
 import NavigationDrawer from './NavigationDrawer'
 import {connect} from 'react-redux'
+import I18n from 'react-native-i18n'
 
 // import NavItems from './NavItems'
 // import CustomNavBar from '../Components/CustomNavBar'
@@ -30,10 +31,12 @@ import ContactsScreen from '../Containers/ContactsScreen'
 import ContactsAndroidScreen from '../Containers/ContactsAndroidScreen'
 import ContactInfoScreen from '../Containers/ContactInfoScreen'
 import GroupListScreen from '../Containers/GroupListScreen'
+import GroupCreateScreen from '../Containers/GroupCreateScreen'
 import GroupMembersScreen from '../Containers/GroupMembersScreen'
 import InfoNavBar from '../Components/InfoNavBar'
 
-import LoadingContent from '../Containers/LoadingContent'
+import {Actions as NavigationActions} from 'react-native-router-flux'
+
 
 /* **************************
  * Documentation: https://github.com/aksonov/react-native-router-flux
@@ -45,7 +48,7 @@ class NavigationRouter extends Component {
 
     if (Platform.OS == 'ios') {
       scenes = (
-        <Scene initial key='contacts' component={ContactsScreen} title='Contacts' hideNavBar/>
+        <Scene key='contacts' component={ContactsScreen} title='Contacts' hideNavBar/>
       )
     } else {
       scenes = (
@@ -78,11 +81,30 @@ class NavigationRouter extends Component {
                    schema="modal" title='Contact Info'
                    hideNavBar={true}
             />
+            {/* 群组列表 */}
             <Scene key='groupList' component={GroupListScreen}
                    title='Groups'
                    navBar={InfoNavBar}
+                   rightIcon="ios-add"
+                   onRight={() => {
+                     NavigationActions.groupCreate()
+                   }}
                    hideNavBar={false}
             />
+            {/* 群组创建 */}
+            <Scene initial key='groupCreate' component={GroupCreateScreen}
+                   schema="modal"
+                   title='Groups Create'
+                   navBar={InfoNavBar}
+                   rightTitle={I18n.t('cancel')}
+                   onRight={() => {
+                     NavigationActions.pop()
+                   }}
+                   leftShow={false}
+                   direction="vertical"
+                   hideNavBar={false}
+            />
+            {/* 群组成员 */}
             <Scene key='groupMembers' component={GroupMembersScreen}
                    title='Hyphenate Events'
                    navBar={InfoNavBar}

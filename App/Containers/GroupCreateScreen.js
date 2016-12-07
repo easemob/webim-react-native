@@ -19,8 +19,8 @@ import {
 
 // custom
 import I18n from 'react-native-i18n'
-import Styles from './Styles/ContactsScreenStyle'
-import {Images, Colors} from '../Themes'
+import Styles from './Styles/GroupCreateScreenStyle'
+import {Images, Colors, Metrics} from '../Themes'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CommonActions from '../Redux/CommonRedux'
@@ -30,8 +30,9 @@ import SubscribeActions from '../Redux/SubscribeRedux'
 import AddContactModal from '../Containers/AddContactModal'
 import {Actions as NavigationActions} from 'react-native-router-flux'
 import Button from '../Components/Button'
+import Row from '../Components/Row'
 
-class ContactsScreen extends React.Component {
+class GroupCreateScreen extends React.Component {
 
   // ------------ init -------------
 
@@ -413,68 +414,78 @@ class ContactsScreen extends React.Component {
     )
   }
 
-  // ------------ rende -------------
+  // ------------ render -------------
   render() {
+    const data = {
+      onPress: null,
+      wrapperStyle: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: Colors.coolGrey50
+      },
+      subs: [
+        {
+          type: 'image',
+          source: Images.message,
+          style: {},
+          wrapperStyle: {
+            flex: 0,
+            width: 50,
+            paddingLeft: 15,
+            alignItems: 'center'
+          }
+        },
+        {
+          type: 'text',
+          text: I18n.t('newChat'),
+          wrapperStyle: {
+            // alignItems: 'center'
+          }
+        }
+      ]
+    }
+
+    const rowData2 = {
+      onPress: null,
+      wrapperStyle: {
+        marginTop: 0,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: Colors.coolGrey50
+      },
+      subs: [
+        {
+          type: 'image',
+          source: Images.feedback,
+          style: {},
+          wrapperStyle: {
+            flex: 0,
+            width: 50,
+            paddingLeft: 15,
+            alignItems: 'center'
+          }
+        },
+        {
+          type: 'text',
+          text: I18n.t('newGroup'),
+          wrapperStyle: {
+            // alignItems: 'center'
+          }
+        }
+      ]
+    }
+
     return (
-      <TabBarIOS
-        unselectedTintColor='yellow'
-        tintColor='white'
-        barTintColor={Colors.white1}
-        translucent={false}
-      >
-        <TabBarIOS.Item
-          icon={Images.contacts}
-          selectedIcon={Images.contactsActive}
-          renderAsOriginal
-          selected={this.state.selectedTab == 'contacts'}
-          title=''
-          onPress={() => {
-            this.props.test()
-            {/*this.setState({*/
-            }
-            {/*selectedTab: 'contacts'*/
-            }
-            {/*})*/
-            }
-          }}>
-          {this._renderContent('#414A8C', 'Blue Tab')}
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
-          icon={Images.chats}
-          selectedIcon={Images.chatsActive}
-          renderAsOriginal
-          selected={this.state.selectedTab === 'chats'}
-          title=''
-          onPress={() => {
-            this.setState({
-              selectedTab: 'chats',
-              notifyCount: this.state.notifyCount + 1
-            })
-          }}>
-          {this._renderContent('#783E33', 'Red Tab', this.state.notifyCount)}
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
-          icon={Images.settings}
-          selectedIcon={Images.settingsActive}
-          renderAsOriginal
-          selected={this.state.selectedTab === 'settings'}
-          title=''
-          onPress={() => {
-            this.setState({
-              selectedTab: 'settings',
-              presses: this.state.presses + 1
-            })
-            this.props.logout()
-          }}>
-          {this._renderContent('#21551C', 'Green Tab', this.state.presses)}
-        </TabBarIOS.Item>
-      </TabBarIOS>
+      <View style={{marginTop: Metrics.navBarHeight}}>
+        {/*<Row data={data}/>*/}
+        <Row data={rowData2}/>
+      </View>
     )
   }
+
+  // {this._renderContent()
 }
 
 
-ContactsScreen.propTypes = {
+GroupCreateScreen.propTypes = {
   roster: PropTypes.shape({
     names: PropTypes.array
   })
@@ -508,4 +519,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(GroupCreateScreen)

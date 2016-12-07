@@ -38,7 +38,7 @@ export const updateGroupMember = (state, {id, members}) => {
   return state.merge({
     [id]: {
       byName,
-      names: Object.keys(byName)
+      names: Object.keys(byName).sort()
     }
   })
 }

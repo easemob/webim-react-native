@@ -20,6 +20,8 @@ const images = {
   buttonChat: require('../Images/buttonChat.png'),
   buttonCall: require('../Images/buttonCall.png'),
   buttonVideo: require('../Images/buttonVideo.png'),
+  message: require('../Images/message.png'),
+  feedback: require('../Images/feedback.png'),
 }
 
 export default images

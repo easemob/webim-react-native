@@ -101,7 +101,7 @@ class ContactInfoScreen extends Component {
           automaticallyAdjustContentInsets={false}
         >
           <View style={Styles.top}>
-            <InfoNavBar />
+            <InfoNavBar containerStyle={{borderBottomWidth: 0}}/>
             <Image source={Images.default} resizeMode='cover' style={Styles.photo}/>
             <Text style={Styles.name}>{uid}</Text>
             <View style={Styles.rowIcons}>

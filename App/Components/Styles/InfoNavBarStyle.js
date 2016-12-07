@@ -15,7 +15,9 @@ export default create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: 30,
-    backgroundColor: Colors.white1
+    backgroundColor: Colors.white1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.paleGrey
   },
   leftButton: {
     paddingHorizontal: 15,
@@ -29,5 +31,19 @@ export default create({
   rightButton: {
     paddingHorizontal: 15,
     paddingVertical: 3,
+  },
+  title: {
+    flex: 1,
+    textAlign: 'center',
+    flexDirection: 'row',
+  },
+  flexLeft: {
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
+  flexRight: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
   }
 })
