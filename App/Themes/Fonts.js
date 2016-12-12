@@ -18,6 +18,7 @@ const size = {
   medium: 14,
   small2: 13,
   small: 12,
+  tiny1: 11,
   tiny: 8.5
 }
 
@@ -55,8 +56,8 @@ const style = {
     fontSize: size.medium
   },
   rowText: {
-    fontFamily: type.small2,
-    fontSize: size.medium
+    fontFamily: type.base,
+    fontSize: size.small2
   }
 }
 

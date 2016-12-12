@@ -48,5 +48,7 @@
   "requestHasSent": "Your request has been sent",
   "groups": "Groups",
   "newChat": "New Chat",
-  "newGroup": "New Group"
+  "newGroup": "New Group",
+  "sendMessage": "Send Message",
+  "send": "Send"
 }

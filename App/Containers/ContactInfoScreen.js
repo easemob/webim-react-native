@@ -105,7 +105,12 @@ class ContactInfoScreen extends Component {
             <Image source={Images.default} resizeMode='cover' style={Styles.photo}/>
             <Text style={Styles.name}>{uid}</Text>
             <View style={Styles.rowIcons}>
-              <TouchableOpacity style={[Styles.rowIcon, Styles.chat]}>
+              <TouchableOpacity style={[Styles.rowIcon, Styles.chat]} onPress={() => {
+                NavigationActions.message({
+                  type: 'chat',
+                  id: this.props.uid
+                })
+              }}>
                 <Image source={Images.buttonChat} resizeMode='center'/>
               </TouchableOpacity>
               <TouchableOpacity style={[Styles.rowIcon, Styles.call]}>

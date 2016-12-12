@@ -33,6 +33,7 @@ import ContactInfoScreen from '../Containers/ContactInfoScreen'
 import GroupListScreen from '../Containers/GroupListScreen'
 import GroupCreateScreen from '../Containers/GroupCreateScreen'
 import GroupMembersScreen from '../Containers/GroupMembersScreen'
+import MessageScreen from '../Containers/MessageScreen'
 import InfoNavBar from '../Components/InfoNavBar'
 
 import {Actions as NavigationActions} from 'react-native-router-flux'
@@ -77,9 +78,16 @@ class NavigationRouter extends Component {
             {/*<Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar}/>*/}
             <Scene key='login' component={LoginScreen} title='Login' hideNavBar/>
             <Scene key='register' component={RegisterScreen} title='Register' hideNavBar/>
+            {/* 联系人信息 */}
             <Scene key='contactInfo' component={ContactInfoScreen}
                    schema="modal" title='Contact Info'
                    hideNavBar={true}
+            />
+            {/* 聊天窗口 */}
+            <Scene initial key='message' component={MessageScreen}
+                   title='Message'
+                   navBar={InfoNavBar}
+                   hideNavBar={false}
             />
             {/* 群组列表 */}
             <Scene key='groupList' component={GroupListScreen}
@@ -92,7 +100,7 @@ class NavigationRouter extends Component {
                    hideNavBar={false}
             />
             {/* 群组创建 */}
-            <Scene initial key='groupCreate' component={GroupCreateScreen}
+            <Scene key='groupCreate' component={GroupCreateScreen}
                    schema="modal"
                    title='Groups Create'
                    navBar={InfoNavBar}
