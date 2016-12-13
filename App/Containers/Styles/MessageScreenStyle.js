@@ -85,6 +85,14 @@ export default create({
     marginRight: 5,
     // marginTop: 12
   },
+  rowImage: {
+    flex: 1,
+    // height: 100,
+    // alignSelf: 'flex-start',
+    minHeight: 50,
+    borderRadius: 10,
+    resizeMode: 'contain'
+  },
   rowLogoRight: {
     marginLeft: 5
   },
@@ -101,6 +109,11 @@ export default create({
     borderRadius: 10,
     backgroundColor: Colors.paleGreyTwo,
     padding: 11
+  },
+  messageImage: {
+    width: 250,
+    backgroundColor: Colors.transparent,
+    padding: 0
   },
   messageRight: {
     backgroundColor: Colors.messageSelf
