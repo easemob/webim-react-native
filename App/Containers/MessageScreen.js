@@ -9,7 +9,8 @@ import {
   Image,
   ActivityIndicator,
   Keyboard,
-  LayoutAnimation
+  LayoutAnimation,
+  Dimensions
 } from 'react-native'
 
 // custom
@@ -19,7 +20,12 @@ import {Images, Colors, Metrics} from '../Themes'
 import MessageActions from '../Redux/MessageRedux'
 import BaseListView from '../Components/BaseListView'
 import ImagePicker from 'react-native-image-picker'
+import Emoji from 'react-native-emoji'
+import Swiper from 'react-native-swiper'
 import WebIM from '../Lib/WebIM'
+
+const {width, height} = Dimensions.get('window')
+
 
 const options = {
   title: 'Select Avatar',
@@ -44,6 +50,7 @@ class MessageScreen extends React.Component {
       modalVisible: false,
       focused: false,
       visibleHeight: Metrics.screenHeight,
+      isEmoji: false,
     }
   }
 
@@ -123,7 +130,7 @@ class MessageScreen extends React.Component {
   }
 
   handleSend() {
-    if (!this.state.value.trim()) return
+    if (!this.state.value || !this.state.value.trim()) return
     this.props.sendTxtMessage(this.props.type, this.props.id, {
       msg: this.state.value.trim()
     })
@@ -203,6 +210,38 @@ class MessageScreen extends React.Component {
     });
   }
 
+  handleEmojiOpen() {
+    this.setState({
+      isEmoji: !this.state.isEmoji
+    })
+  }
+
+  handleEmojiClick(v) {
+    this.setState({
+      value: (this.state.value || '') + v
+    })
+  }
+
+  handleEmojiCancel() {
+    if (!this.state.value) return
+    const arr = this.state.value.split('')
+    const len = arr.length
+    let newValue = ''
+
+    if (arr[len - 1] != ']') {
+      arr.pop()
+      newValue = arr.join('')
+    } else {
+      const index = arr.lastIndexOf('[')
+      newValue = arr.splice(0, index).join('')
+    }
+
+    this.setState({
+      value: newValue
+    })
+  }
+
+
 // ------------ renders -------------
   _renderRow(rowId, sectionId, rowID, highlightRow) {
     const {message} = this.props
@@ -244,8 +283,8 @@ class MessageScreen extends React.Component {
     let width = Math.min(maxWidth, body.width)
     let height = body.height * width / body.width
     const loading = rowData.status == 'sending' ? (
-      <ActivityIndicator style={{margin: 5}}/>
-    ) : null
+        <ActivityIndicator style={{margin: 5}}/>
+      ) : null
 
     return (
       <View style={[Styles.row, Styles.directionEnd]}>
@@ -289,8 +328,8 @@ class MessageScreen extends React.Component {
 
   _renderLeftImg(rowData = {}) {
     const loading = rowData.status == 'sending' ? (
-      <ActivityIndicator style={{margin: 5}}/>
-    ) : null
+        <ActivityIndicator style={{margin: 5}}/>
+      ) : null
 
     return (
       <View style={Styles.row}>
@@ -318,14 +357,75 @@ class MessageScreen extends React.Component {
     const {focused} = this.state
 
     return focused ? (
-      <TouchableOpacity style={Styles.searchExtra} onPress={this.handleSend.bind(this)}>
-        <Text style={Styles.sendText}>{I18n.t('send')}</Text>
-      </TouchableOpacity>
-    ) : null
+        <TouchableOpacity style={Styles.searchExtra} onPress={this.handleSend.bind(this)}>
+          <Text style={Styles.sendText}>{I18n.t('send')}</Text>
+        </TouchableOpacity>
+      ) : null
+  }
+
+  _renderEmoji() {
+    const {isEmoji} = this.state
+    const emoji = WebIM.emoji
+    const emojiStyle = []
+    const rowIconNum = 7
+    const rowNum = 3
+    const emojis = Object.keys(emoji.map).map((v, k) => {
+      const name = emoji.map[v]
+      return (
+        <TouchableOpacity key={v + k} onPress={() => {
+          this.handleEmojiClick(v)
+        }}>
+          <Text style={[Styles.emoji, emojiStyle]}><Emoji name={name}/></Text>
+        </TouchableOpacity>
+      )
+    })
+    return isEmoji ? (
+        <View style={Styles.emojiRow}>
+          <Swiper style={Styles.wrapper} loop={false}
+                  height={125}
+                  dotStyle={ {bottom: -20} }
+                  activeDotStyle={ {bottom: -20} }
+          >
+            <View style={Styles.slide}>
+              <View style={Styles.slideRow}>
+                {emojis.slice(0, rowIconNum)}
+              </View>
+              <View style={Styles.slideRow}>
+                {emojis.slice(1 * rowIconNum, rowIconNum * 2)}
+              </View>
+              <View style={Styles.slideRow}>
+                {emojis.slice(2 * rowIconNum, rowIconNum * 3 - 1)}
+                <TouchableOpacity onPress={this.handleEmojiCancel.bind(this)}>
+                  <Text style={[Styles.emoji, emojiStyle]}><Emoji name="arrow_left"/></Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={Styles.slide}>
+              <View style={Styles.slideRow}>
+                {emojis.slice(3 * rowIconNum - 1, rowIconNum * 4 - 1)}
+              </View>
+              <View style={Styles.slideRow}>
+                {emojis.slice(4 * rowIconNum - 1, rowIconNum * 5 - 1)}
+              </View>
+              <View style={Styles.slideRow}>
+                {emojis.slice(5 * rowIconNum - 1, rowIconNum * 6 - 1)}
+                <TouchableOpacity>
+                  <Text style={[Styles.emoji, emojiStyle]}><Emoji name="arrow_left"/></Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Swiper>
+          <View style={Styles.sendRow}>
+            <TouchableOpacity style={Styles.send} onPress={this.handleSend.bind(this)}>
+              <Text style={Styles.sendText}>{I18n.t('send')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : null
   }
 
   _renderMessageBar() {
-    const {value = ''} = this.state
+    const {value = '', isEmoji} = this.state
 
     return (
       <View style={Styles.search}>
@@ -369,7 +469,7 @@ class MessageScreen extends React.Component {
           <TouchableOpacity onPress={this.handleImagePicker.bind(this)}>
             <Image source={Images.iconImage}/>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.handleEmojiOpen.bind(this)}>
             <Image source={Images.iconEmoji}/>
           </TouchableOpacity>
           {/*<TouchableOpacity>*/}
@@ -382,6 +482,7 @@ class MessageScreen extends React.Component {
           {/*<Image source={Images.iconFile}/>*/}
           {/*</TouchableOpacity>*/}
         </View>
+        {this._renderEmoji()}
       </View>
     )
   }

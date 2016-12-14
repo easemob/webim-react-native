@@ -17,13 +17,13 @@ export default create({
     // height: 30
     marginTop: 5,
     flexDirection: 'column',
-    paddingHorizontal: 15,
     paddingTop: 10,
     backgroundColor: Colors.white1,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Colors.coolGrey50
   },
   inputRow: {
+    paddingHorizontal: 15,
     flexDirection: 'row',
   },
   iconRow: {
@@ -31,7 +31,9 @@ export default create({
     justifyContent: 'space-between',
     paddingTop: 12,
     paddingBottom: 10,
-    paddingHorizontal: 5
+    paddingHorizontal: 20,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Colors.coolGrey50
   },
   searchRow: {
     flex: 1,
@@ -68,7 +70,8 @@ export default create({
   },
   sendText: {
     ...Fonts.rowText,
-    color: Colors.textRed
+    color: Colors.textRed,
+    textAlign: 'center'
   },
   // message left
   row: {
@@ -136,5 +139,40 @@ export default create({
   textRight: {
     textAlign: 'right',
     marginRight: 12
+  },
+  emojiRow: {
+    backgroundColor: Colors.emojiBackground,
+  },
+  wrapper: {
+    backgroundColor: Colors.emojiBackground,
+  },
+  slide: {
+    height: 100,
+    paddingTop: 5,
+    paddingHorizontal: 11,
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    flexWrap: 'wrap'
+  },
+  slideRow: {
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    height: 30,
+  },
+  sendRow: {
+    justifyContent: 'flex-end',
+    flexDirection: 'row'
+  },
+  emoji: {
+    // flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 20,
+    paddingLeft: 4
+    // height: 30
+  },
+  send: {
+    width: 50,
   }
 })

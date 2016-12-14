@@ -49,6 +49,7 @@ const colors = {
   textRed: 'rgba(0, 186, 110, 1)',
   paleGreyTwo: 'rgba(236, 239, 241, 1)',
   messageSelf: 'rgba(0, 186, 110, 1)',
+  emojiBackground: '#e8ebef'
 }
 const colorsIos = {}
 
