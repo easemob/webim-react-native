@@ -133,8 +133,8 @@ const {Types, Creators} = createActions({
         apiUrl: WebIM.config.apiURL,
         ext: {
           file_length: source.fileSize,
-          filename: source.fileName,
-          filetype: (source.fileName.split('.')).pop(),
+          filename: source.fileName || '',
+          filetype: source.fileName && (source.fileName.split('.')).pop(),
           width: source.width,
           height: source.height,
         },
@@ -165,7 +165,8 @@ const {Types, Creators} = createActions({
       WebIM.conn.send(msgObj.body);
       pMessage = parseFromLocal(chatType, chatId, msgObj.body, 'img')
       // uri只记录在本地
-      pMessage.ext.uri = source.uri
+      pMessage.body.uri = source.uri
+      // console.log('pMessage', pMessage, pMessage.body.uri)
       dispatch(Creators.addMessage(pMessage, type))
     }
   },

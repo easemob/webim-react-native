@@ -7,7 +7,9 @@ import {
   TextInput,
   Text,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  Keyboard,
+  LayoutAnimation
 } from 'react-native'
 
 // custom
@@ -41,6 +43,7 @@ class MessageScreen extends React.Component {
       isRefreshing: false,
       modalVisible: false,
       focused: false,
+      visibleHeight: Metrics.screenHeight,
     }
   }
 
@@ -67,10 +70,39 @@ class MessageScreen extends React.Component {
     this.updateList(nextProps)
   }
 
+  componentWillMount() {
+    // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
+    // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener.remove()
+  }
+
+  keyboardDidShow = (e) => {
+    // Animation types easeInEaseOut/linear/spring
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    let newSize = Metrics.screenHeight - e.endCoordinates.height
+    this.setState({
+      visibleHeight: newSize,
+    })
+    console.log('visibleHeight', newSize)
+  }
+
+  keyboardDidHide = (e) => {
+    // Animation types easeInEaseOut/linear/spring
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.setState({
+      visibleHeight: Metrics.screenHeight,
+    })
+  }
   // ------------ handlers -------------
   handleRefresh() {
     this.setState({isRefreshing: true})
-    this.props.getContacts()
+    // this.props.getContacts()
     // TODO: 刷新成功/刷新失败
     setTimeout(() => {
       this.setState({isRefreshing: false})
@@ -356,10 +388,10 @@ class MessageScreen extends React.Component {
 
 // ------------ render -------------
   render() {
-    const {messages = {}} = this.state
+    const {messages = {}, visibleHeight} = this.state
 
     return (
-      <View style={Styles.container}>
+      <View style={[Styles.container, {height: visibleHeight}]}>
         <BaseListView
           autoScroll={true}
           hasNav={true}
