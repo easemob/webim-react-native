@@ -10,7 +10,9 @@ import {
   ActivityIndicator,
   Keyboard,
   LayoutAnimation,
-  Dimensions
+  Dimensions,
+  TouchableWithoutFeedback,
+  Animated
 } from 'react-native'
 
 // custom
@@ -23,6 +25,7 @@ import ImagePicker from 'react-native-image-picker'
 import Emoji from 'react-native-emoji'
 import Swiper from 'react-native-swiper'
 import WebIM from '../Lib/WebIM'
+import debounce from 'lodash/function/debounce'
 
 const {width, height} = Dimensions.get('window')
 
@@ -116,13 +119,12 @@ class MessageScreen extends React.Component {
     }, 1000)
   }
 
-  handleSelectSearch() {
-    this.refs.search && this.refs.search.focus()
-    this.setState({focused: true})
-  }
-
   handleFocusSearch() {
-    this.setState({focused: true})
+    this.setState({
+      focused: true,
+      isEmoji: false,
+    })
+
   }
 
   handleBlurSearch() {
@@ -140,10 +142,23 @@ class MessageScreen extends React.Component {
     })
   }
 
-  handleChangeText() {
+  handleChangeText(v) {
+    // 场景1：正常+ -
+    // 场景2：从中间位置+ - -> 如果删除一个字符后字符串匹配，则非中间位置
+    // 场景3：删除操作可以从textInput直接编辑，适应于以上情况
+    // 场景5：从emoji的删除按钮删除，则从末尾位置编辑
+    // 场景6：点击外部区域隐藏emoji框
+    const splitValue = this.state.value ? this.state.value.split('') : []
+    splitValue.pop()
+    if (v == splitValue.join('')) {
+      this.handleEmojiCancel()
+    }
   }
 
   handleImagePicker() {
+    this.setState({
+      isEmoji: false
+    })
     ImagePicker.launchImageLibrary(options, (response) => {
         console.log('Response = ', response);
 
@@ -178,6 +193,9 @@ class MessageScreen extends React.Component {
   }
 
   handleCameraPicker() {
+    this.setState({
+      isEmoji: false
+    })
     // Launch Camera:
     ImagePicker.launchCamera(options, (response) => {
       console.log('Response = ', response);
@@ -214,6 +232,8 @@ class MessageScreen extends React.Component {
     this.setState({
       isEmoji: !this.state.isEmoji
     })
+
+    this.refs.search.blur()
   }
 
   handleEmojiClick(v) {
@@ -269,7 +289,7 @@ class MessageScreen extends React.Component {
         <View style={Styles.rowMessage}>
           {/*<Text style={[Styles.nameText, Styles.textRight]}>{rowData.from}</Text>*/}
           <View style={[Styles.message, Styles.messageRight]}>
-            <Text style={[Styles.messageText, Styles.messageTextRight]}>{rowData.body.msg || ''}</Text>
+            <Text style={[Styles.messageText, Styles.messageTextRight]}>{this._renderTxt(rowData.body.msg || '')}</Text>
           </View>
           <Text style={[Styles.timeText, Styles.textRight]}>{this._renderDate(rowData.time)}</Text>
         </View>
@@ -318,7 +338,7 @@ class MessageScreen extends React.Component {
         <View style={Styles.rowMessage}>
           <Text style={Styles.nameText}>{rowData.from}</Text>
           <View style={Styles.message}>
-            <Text style={Styles.messageText}>{rowData.body.msg || ''}</Text>
+            <Text style={Styles.messageText}>{this._renderTxt(rowData.body.msg || '')}</Text>
           </View>
           <Text style={Styles.timeText}>{this._renderDate(rowData.time)}</Text>
         </View>
@@ -363,8 +383,36 @@ class MessageScreen extends React.Component {
       ) : null
   }
 
+  _renderTxt(txt) {
+    const emoji = WebIM.emoji
+
+    // 替换不能直接用replace，必须以数组组合的方式，因为混合着dom元素
+    let rnTxt = []
+    let match = null
+    const regex = /(\[.*?\])/g
+    let start = 0
+    let index = 0
+    while (match = regex.exec(txt)) {
+      index = match.index
+      if (index > start) {
+        rnTxt.push(txt.substring(start, index))
+      }
+      if (match[1] in emoji.map) {
+        rnTxt.push((
+          <Emoji style={{marginBottom: 3}} key={`emoji-${index}-${match[1]}`} name={emoji.map[match[1]]}/>
+        ))
+      } else {
+        rnTxt.push(match[1])
+      }
+      start = index + match[1].length
+    }
+    rnTxt.push(txt.substring(start, txt.length))
+
+    return rnTxt
+  }
+
   _renderEmoji() {
-    const {isEmoji} = this.state
+    const {isEmoji, focused} = this.state
     const emoji = WebIM.emoji
     const emojiStyle = []
     const rowIconNum = 7
@@ -383,8 +431,8 @@ class MessageScreen extends React.Component {
         <View style={Styles.emojiRow}>
           <Swiper style={Styles.wrapper} loop={false}
                   height={125}
-                  dotStyle={ {bottom: -20} }
-                  activeDotStyle={ {bottom: -20} }
+                  dotStyle={ {bottom: -30} }
+                  activeDotStyle={ {bottom: -30} }
           >
             <View style={Styles.slide}>
               <View style={Styles.slideRow}>
@@ -428,7 +476,7 @@ class MessageScreen extends React.Component {
     const {value = '', isEmoji} = this.state
 
     return (
-      <View style={Styles.search}>
+      <Animated.View style={Styles.search}>
         <View style={Styles.inputRow}>
           <View style={Styles.searchRow}>
             <TextInput
@@ -463,13 +511,13 @@ class MessageScreen extends React.Component {
           {this._renderSendButton()}
         </View>
         <View style={Styles.iconRow}>
-          <TouchableOpacity onPress={this.handleCameraPicker.bind(this)}>
+          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleCameraPicker.bind(this), 2000, true)}>
             <Image source={Images.iconCamera}/>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.handleImagePicker.bind(this)}>
+          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleImagePicker.bind(this), 2000, true)}>
             <Image source={Images.iconImage}/>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.handleEmojiOpen.bind(this)}>
+          <TouchableOpacity style={Styles.iconTouch} onPress={this.handleEmojiOpen.bind(this)}>
             <Image source={Images.iconEmoji}/>
           </TouchableOpacity>
           {/*<TouchableOpacity>*/}
@@ -483,7 +531,7 @@ class MessageScreen extends React.Component {
           {/*</TouchableOpacity>*/}
         </View>
         {this._renderEmoji()}
-      </View>
+      </Animated.View>
     )
   }
 
@@ -492,7 +540,7 @@ class MessageScreen extends React.Component {
     const {messages = {}, visibleHeight} = this.state
 
     return (
-      <View style={[Styles.container, {height: visibleHeight}]}>
+      <Animated.View style={[Styles.container, {height: visibleHeight}]}>
         <BaseListView
           autoScroll={true}
           hasNav={true}
@@ -502,7 +550,7 @@ class MessageScreen extends React.Component {
           renderSeparator={() => null}
         />
         {this._renderMessageBar()}
-      </View>
+      </Animated.View>
     )
   }
 }
@@ -516,26 +564,8 @@ MessageScreen.propTypes = {
 // ------------ redux -------------
 const mapStateToProps = (state) => {
   return {
-    // TODO: 如果过滤无用的请求 、普通聊天和群里拆离 or 判断props？
+    // TODO: 如何过滤无用的请求 、普通聊天和群里拆离 or 判断props？
     message: state.entities.message,
-    // message: {
-    //   byId: {
-    //     '11': {
-    //       bySelf: false,
-    //       data: 'dada',
-    //       error: false,
-    //       errorCode: '',
-    //       errorText: '',
-    //       from: 'lwz3',
-    //       id: '11',
-    //       type: 'chat'
-    //     }
-    //   },
-    //   chat: {
-    //     lwz3: ['11']
-    //   }
-    // },
-    // test
     type: 'chat',
     id: 'lwz3'
   }

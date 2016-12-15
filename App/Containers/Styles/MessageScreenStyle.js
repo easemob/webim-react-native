@@ -29,11 +29,14 @@ export default create({
   iconRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 12,
-    paddingBottom: 10,
-    paddingHorizontal: 20,
+    paddingTop: 4,
+    paddingBottom: 2,
+    paddingHorizontal: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.coolGrey50
+  },
+  iconTouch: {
+    padding: 8,
   },
   searchRow: {
     flex: 1,
@@ -121,7 +124,9 @@ export default create({
     backgroundColor: Colors.messageSelf
   },
   messageText: {
-    color: Colors.almostBlack
+    color: Colors.almostBlack,
+    paddingBottom: 2,
+    // textAlignVertical: 'center'
   },
   messageTextRight: {
     color: Colors.snow
@@ -147,7 +152,7 @@ export default create({
     backgroundColor: Colors.emojiBackground,
   },
   slide: {
-    height: 100,
+    height: 120,
     paddingTop: 5,
     paddingHorizontal: 11,
     justifyContent: 'flex-start',
@@ -168,11 +173,14 @@ export default create({
     // flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: 20,
-    paddingLeft: 4
+    fontSize: 30,
+    paddingLeft: 4,
+    paddingBottom: 1,
     // height: 30
   },
   send: {
+    marginRight: 12,
+    paddingVertical: 8,
     width: 50,
   }
 })
