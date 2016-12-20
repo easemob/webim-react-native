@@ -47,6 +47,8 @@ class MessageScreen extends React.Component {
   constructor(props) {
     super(props)
 
+    console.log(props)
+
     this.state = {
       height: 34,
       isRefreshing: false,
@@ -59,11 +61,11 @@ class MessageScreen extends React.Component {
 
   // ------------ logic  ---------------
   updateList(props) {
-    const {message, type, id} = props
+    const {message, chatType, id} = props
     const {byId} = message
-    const typeData = message[type] || {}
-    const chatData = typeData[id] || []
-    console.log(type, id, message, typeData, chatData)
+    const chatTypeData = message[chatType] || {}
+    const chatData = chatTypeData[id] || []
+    console.log(chatType, id, message, chatTypeData, chatData)
     this.setState({
       messages: {
         messages: chatData
@@ -93,17 +95,16 @@ class MessageScreen extends React.Component {
   }
 
   keyboardDidShow = (e) => {
-    // Animation types easeInEaseOut/linear/spring
+    // Animation chatTypes easeInEaseOut/linear/spring
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     let newSize = Metrics.screenHeight - e.endCoordinates.height
     this.setState({
       visibleHeight: newSize,
     })
-    console.log('visibleHeight', newSize)
   }
 
   keyboardDidHide = (e) => {
-    // Animation types easeInEaseOut/linear/spring
+    // Animation chatTypes easeInEaseOut/linear/spring
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     this.setState({
       visibleHeight: Metrics.screenHeight,
@@ -133,7 +134,7 @@ class MessageScreen extends React.Component {
 
   handleSend() {
     if (!this.state.value || !this.state.value.trim()) return
-    this.props.sendTxtMessage(this.props.type, this.props.id, {
+    this.props.sendTxtMessage(this.props.chatType, this.props.id, {
       msg: this.state.value.trim()
     })
     this.setState({
@@ -184,8 +185,8 @@ class MessageScreen extends React.Component {
           }
 
           response.uri = source.uri
-          const {type, id} = this.props
-          this.props.sendImgMessage(type, id, {}, response)
+          const {chatType, id} = this.props
+          this.props.sendImgMessage(chatType, id, {}, response)
         }
       }
     )
@@ -222,8 +223,8 @@ class MessageScreen extends React.Component {
         }
 
         response.uri = source.uri
-        const {type, id} = this.props
-        this.props.sendImgMessage(type, id, {}, response)
+        const {chatType, id} = this.props
+        this.props.sendImgMessage(chatType, id, {}, response)
       }
     });
   }
@@ -274,12 +275,13 @@ class MessageScreen extends React.Component {
   }
 
   _renderRightRow(rowData) {
-    const type = rowData.body.type || ''
+    const chatType = rowData.body.type || ''
     const obj = {
       txt: this._renderRightTxt.bind(this),
       img: this._renderRightImg.bind(this),
     }
-    return typeof obj[type] == 'function' ? (obj[type](rowData)) : null
+    return typeof
+      obj[chatType] == 'function' ? (obj[chatType](rowData)) : null
   }
 
   _renderRightTxt(rowData = {}) {
@@ -323,12 +325,13 @@ class MessageScreen extends React.Component {
   }
 
   _renderLeftRow(rowData) {
-    const type = rowData.body.type || ''
+    const chatType = rowData.body.type || ''
     const obj = {
       txt: this._renderLeftTxt.bind(this),
       img: this._renderLeftImg.bind(this),
     }
-    return typeof obj[type] == 'function' ? (obj[type](rowData)) : null
+    return typeof
+      obj[chatType] == 'function' ? (obj[chatType](rowData)) : null
   }
 
   _renderLeftTxt(rowData = {}) {
@@ -538,12 +541,10 @@ class MessageScreen extends React.Component {
 // ------------ render -------------
   render() {
     const {messages = {}, visibleHeight} = this.state
-
     return (
-      <Animated.View style={[Styles.container, {height: visibleHeight}]}>
+      <Animated.View style={[Styles.container, {height: visibleHeight - Metrics.navBarHeight}]}>
         <BaseListView
           autoScroll={true}
-          hasNav={true}
           data={messages}
           handleRefresh={this.handleRefresh.bind(this)}
           renderRow={this._renderRow.bind(this)}
@@ -557,7 +558,7 @@ class MessageScreen extends React.Component {
 
 MessageScreen.propTypes = {
   message: PropTypes.object,
-  // type: PropTypes.oneOf(['chat', 'groupChat']),
+  // chatType: PropTypes.oneOf(['chat', 'groupChat']),
   // id: PropTypes.string
 }
 
@@ -566,15 +567,15 @@ const mapStateToProps = (state) => {
   return {
     // TODO: 如何过滤无用的请求 、普通聊天和群里拆离 or 判断props？
     message: state.entities.message,
-    type: 'chat',
-    id: 'lwz3'
+    // chatType: 'chat',
+    // id: 'lwz3'
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendTxtMessage: (type, id, message) => dispatch(MessageActions.sendTxtMessage(type, id, message)),
-    sendImgMessage: (type, id, message, source) => dispatch(MessageActions.sendImgMessage(type, id, message, source))
+    sendTxtMessage: (chatType, id, message) => dispatch(MessageActions.sendTxtMessage(chatType, id, message)),
+    sendImgMessage: (chatType, id, message, source) => dispatch(MessageActions.sendImgMessage(chatType, id, message, source))
   }
 }
 

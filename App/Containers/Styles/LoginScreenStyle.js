@@ -1,10 +1,8 @@
 // @flow
 
-import { StyleSheet, PixelRatio } from 'react-native'
-import { Colors, Metrics } from '../../Themes'
-import { create } from '../../Lib/PlatformStyleSheet'
-
-console.log(PixelRatio.get())
+import {StyleSheet, PixelRatio} from 'react-native'
+import {Colors, Metrics} from '../../Themes'
+import {create} from '../../Lib/PlatformStyleSheet'
 
 export default create({
   container: {
@@ -46,9 +44,7 @@ export default create({
       borderBottomColor: '#adb9c1',
       paddingHorizontal: Metrics.doubleBaseMargin
     },
-    android: {
-
-    }
+    android: {}
   },
   // 提示行
   tips: {
@@ -69,8 +65,7 @@ export default create({
   textInput: {
     height: 50,
     color: Colors.almostBlack,
-    android: {
-    }
+    android: {}
   },
   textInputReadonly: {
     height: 40,
@@ -90,25 +85,24 @@ export default create({
     // height: 50
   },
   loginButtonWrapper: {
-    android: {
-      flex: 1,
-      height: 37,
-      marginTop: 32
-    }
-    // height: 50
-  },
-  loginButton: {
-    backgroundColor: Colors.buttonSignin,
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    right: 0,
     ios: {
       paddingTop: 17,
       paddingBottom: 16
     },
     android: {
-      // and only
+      flex: 1,
+      height: 37,
+      marginTop: 32,
       elevation: 3,
       paddingTop: 10,
       paddingBottom: 9.5
-    }
+    },
+    backgroundColor: Colors.buttonSignin,
+    // height: 50
   },
   loginText: {
     ios: {

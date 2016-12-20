@@ -8,7 +8,7 @@ export default create({
   container: {
     flex: 1,
     backgroundColor: Colors.snow,
-    marginTop: Metrics.navBarHeight,
+    // marginTop: Metrics.navBarHeight,
   },
   // 头
   // header: {

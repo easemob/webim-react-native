@@ -24,14 +24,12 @@ import BlacklistActions from '../Redux/BlacklistRedux'
 const SHEET_BUTTON = ['Delete', 'Cancel']
 
 class ContactInfoScreen extends Component {
-  state = {
-    isBlocked: false,
-  }
-
   // ------------ init -------------
   constructor(props) {
     super(props)
-    //TODO: 此处作为删除后show：false状态的重置操作，为了下次删除的时候能够正常运作，是不是最好的方式呢？
+    this.state = {
+      isBlocked: false
+    }
   }
 
   // ------------ logic  ---------------
@@ -107,7 +105,8 @@ class ContactInfoScreen extends Component {
             <View style={Styles.rowIcons}>
               <TouchableOpacity style={[Styles.rowIcon, Styles.chat]} onPress={() => {
                 NavigationActions.message({
-                  type: 'chat',
+                  type: 'replace',
+                  chatType: 'chat',
                   id: this.props.uid
                 })
               }}>

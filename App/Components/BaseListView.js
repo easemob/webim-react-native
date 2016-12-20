@@ -118,7 +118,7 @@ class BaseListView extends Component {
     const {hasNav, renderRow, renderSeparator, listViewStyle, autoScroll = false} = this.props
 
     const containerStyle = [Styles.container]
-    hasNav && containerStyle.push({marginTop: Metrics.navBarHeight})
+    // hasNav && containerStyle.push({marginTop: Metrics.navBarHeight})
     const listStyle = [Styles.listView]
     listViewStyle && listStyle.push(listViewStyle)
 

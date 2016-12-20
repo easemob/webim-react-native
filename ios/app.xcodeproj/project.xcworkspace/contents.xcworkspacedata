@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/lwz/Documents/htdocs/easemob/webim-react-native/ios/app.xcodeproj">
    </FileRef>
 </Workspace>

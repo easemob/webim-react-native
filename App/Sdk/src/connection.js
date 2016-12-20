@@ -2293,7 +2293,7 @@ connection.prototype.removeGroupMemberFromBlacklist = function (options) {
 
   iq.c('query', {xmlns: 'http://jabber.org/protocol/muc#' + affiliation})
     .c('item', {
-      affiliation: 'member',
+      affiliation: 'none',
       jid: jid
     })
 

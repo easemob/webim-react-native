@@ -1,30 +1,9 @@
 // @flow
 
 import React, {Component} from 'react'
-import {Scene, Router, ActionConst} from 'react-native-router-flux'
-import Styles from './Styles/NavigationContainerStyle'
-import NavigationDrawer from './NavigationDrawer'
-import {connect} from 'react-redux'
+import {Actions as NavigationActions, Reducer, Scene, Router, Modal, ActionConst} from 'react-native-router-flux'
 import I18n from 'react-native-i18n'
-
-// import NavItems from './NavItems'
-// import CustomNavBar from '../Components/CustomNavBar'
-// import {Actions as NavigationActions} from 'react-native-router-flux'
 import {Platform} from 'react-native'
-
-// screens identified by the router
-// import PresentationScreen from '../Containers/PresentationScreen'
-// import AllComponentsScreen from '../Containers/AllComponentsScreen'
-// import UsageExamplesScreen from '../Containers/UsageExamplesScreen'
-// import ListviewExample from '../Containers/ListviewExample'
-// import ListviewGridExample from '../Containers/ListviewGridExample'
-// import ListviewSectionsExample from '../Containers/ListviewSectionsExample'
-// import MapviewExample from '../Containers/MapviewExample'
-// import APITestingScreen from '../Containers/APITestingScreen'
-// import ThemeScreen from '../Containers/ThemeScreen'
-// import DeviceInfoScreen from '../Containers/DeviceInfoScreen'
-
-// custom
 import LoginScreen from '../Containers/LoginScreen'
 import RegisterScreen from '../Containers/RegisterScreen'
 import ContactsScreen from '../Containers/ContactsScreen'
@@ -34,14 +13,35 @@ import GroupListScreen from '../Containers/GroupListScreen'
 import GroupCreateScreen from '../Containers/GroupCreateScreen'
 import GroupMembersScreen from '../Containers/GroupMembersScreen'
 import MessageScreen from '../Containers/MessageScreen'
+import LoadingContent from '../Containers/LoadingContent'
 import InfoNavBar from '../Components/InfoNavBar'
+import Styles from './Styles/NavigationContainerStyle'
+import NavigationDrawer from './NavigationDrawer'
 
-import {Actions as NavigationActions} from 'react-native-router-flux'
 
+const reducerCreate = params => {
+  const defaultReducer = new Reducer(params);
+  return (state, action) => {
+    // console.log('ACTION:', action);
+    return defaultReducer(state, action);
+  };
+};
 
-/* **************************
- * Documentation: https://github.com/aksonov/react-native-router-flux
- ***************************/
+const getSceneStyle = (/* NavigationSceneRendererProps */ props, computedProps) => {
+  const style = {
+    flex: 1,
+    backgroundColor: '#fff',
+    shadowColor: null,
+    shadowOffset: null,
+    shadowOpacity: null,
+    shadowRadius: null,
+  };
+  if (computedProps.isActive) {
+    style.marginTop = computedProps.hideNavBar ? 0 : 64;
+    style.marginBottom = computedProps.hideTabBar ? 0 : 50;
+  }
+  return style;
+};
 
 class NavigationRouter extends Component {
   render() {
@@ -58,45 +58,32 @@ class NavigationRouter extends Component {
     }
 
     return (
-      <Router>
+      <Router createReducer={reducerCreate} getSceneStyle={getSceneStyle}>
         <Scene key='drawer' component={NavigationDrawer} open={false}>
           <Scene key='drawerChildrenWrapper' navigationBarStyle={Styles.navBar} titleStyle={Styles.title}
-                 leftButtonIconStyle={Styles.leftButton} rightButtonTextStyle={Styles.rightButton}>
-            {/*<Scene key='presentationScreen' component={PresentationScreen} title='Ignite'*/}
-            {/*renderLeftButton={NavItems.hamburgerButton}/>*/}
-            {/*<Scene key='componentExamples' component={AllComponentsScreen} title='Components'/>*/}
-            {/*<Scene key='usageExamples' component={UsageExamplesScreen} title='Usage' rightTitle='Example'*/}
-            {/*onRight={() => window.alert('Example Pressed')}/>*/}
-            {/*<Scene key='listviewExample' component={ListviewExample} title='Listview Example'/>*/}
-            {/*<Scene key='listviewGridExample' component={ListviewGridExample} title='Listview Grid'/>*/}
-            {/*<Scene key='listviewSectionsExample' component={ListviewSectionsExample} title='Listview Sections'/>*/}
-            {/*<Scene key='mapviewExample' component={MapviewExample} title='Mapview Example'/>*/}
-            {/*<Scene key='apiTesting' component={APITestingScreen} title='API Testing'/>*/}
-            {/*<Scene key='theme' component={ThemeScreen} title='Theme'/>*/}
-
-            {/* Custom navigation bar example */}
-            {/*<Scene key='deviceInfo' component={DeviceInfoScreen} title='Device Info' navBar={CustomNavBar}/>*/}
-            <Scene key='login' component={LoginScreen} title='Login' hideNavBar/>
-            <Scene key='register' component={RegisterScreen} title='Register' hideNavBar/>
+                 leftButtonIconStyle={Styles.leftButton} rightButtonTextStyle={Styles.rightButton} hideNavBar
+                 hideTabBar>
+            <Scene initial key='login' component={LoginScreen} title='Login'/>
+            <Scene key='register' component={RegisterScreen} title='Register'/>
             {/* 联系人信息 */}
             <Scene key='contactInfo' component={ContactInfoScreen}
-                   schema="modal" title='Contact Info'
+                   title='Contact Info'
                    hideNavBar={true}
             />
             {/* 聊天窗口 */}
-            <Scene initial key='message' component={MessageScreen}
+            <Scene key='message' component={MessageScreen}
                    title='Message'
                    navBar={InfoNavBar}
                    hideNavBar={false}
             />
             {/* 群组列表 */}
+            {/*rightIcon="ios-add"*/}
+            {/*onRight={() => {*/}
+            {/*NavigationActions.groupCreate()*/}
+            {/*}}*/}
             <Scene key='groupList' component={GroupListScreen}
                    title='Groups'
                    navBar={InfoNavBar}
-                   rightIcon="ios-add"
-                   onRight={() => {
-                     NavigationActions.groupCreate()
-                   }}
                    hideNavBar={false}
             />
             {/* 群组创建 */}
@@ -120,7 +107,6 @@ class NavigationRouter extends Component {
             />
             {/*navBar={InfoNavBar}*/}
             { scenes }
-
           </Scene>
         </Scene>
       </Router>
