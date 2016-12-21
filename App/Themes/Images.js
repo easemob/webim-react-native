@@ -22,6 +22,13 @@ const images = {
   buttonVideo: require('../Images/buttonVideo.png'),
   message: require('../Images/message.png'),
   feedback: require('../Images/feedback.png'),
+  iconAdd: require('../Images/iconAdd.png'),
+  iconAudio: require('../Images/iconAudio.png'),
+  iconCamera: require('../Images/iconCamera.png'),
+  iconEmoji: require('../Images/iconEmoji.png'),
+  iconFile: require('../Images/iconFile.png'),
+  iconLocation: require('../Images/iconLocation.png'),
+  iconImage: require('../Images/iconImage.png'),
 }
 
 export default images

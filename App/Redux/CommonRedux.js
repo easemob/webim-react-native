@@ -19,11 +19,11 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Reducers ------------- */
 
-export const fetching = (state, {}) => {
+export const fetching = (state) => {
   return state.merge({fetching: true})
 }
 
-export const fetched = (state, {}) => {
+export const fetched = (state) => {
   return state.merge({fetching: false})
 }
 

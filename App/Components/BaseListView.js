@@ -62,6 +62,17 @@ class BaseListView extends Component {
     this.updateList(nextProps)
   }
 
+  componentDidUpdate() {
+    const {autoScroll} = this.props
+
+    if (autoScroll && "listHeight" in this.state &&
+      "footerY" in this.state &&
+      this.state.footerY > this.state.listHeight) {
+      let scrollDistance = this.state.listHeight - this.state.footerY;
+      this.refs.list.getScrollResponder().scrollTo({y: -scrollDistance, animated: true});
+    }
+  }
+
   // ------------ handlers -------------
 
   handleRefresh() {
@@ -104,16 +115,17 @@ class BaseListView extends Component {
 
 
   render() {
-    const {hasNav, renderRow, renderSeparator, listViewStyle} = this.props
+    const {hasNav, renderRow, renderSeparator, listViewStyle, autoScroll = false} = this.props
 
     const containerStyle = [Styles.container]
-    hasNav && containerStyle.push({marginTop: Metrics.navBarHeight})
+    // hasNav && containerStyle.push({marginTop: Metrics.navBarHeight})
     const listStyle = [Styles.listView]
     listViewStyle && listStyle.push(listViewStyle)
 
     return (
       <View style={containerStyle}>
         <ListView
+          ref="list"
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
@@ -133,6 +145,18 @@ class BaseListView extends Component {
           renderRow={renderRow || this._renderRow.bind(this)}
           renderSeparator={renderSeparator || this._renderSeparator.bind(this)}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
+          onLayout={(event) => {
+            this.setState({
+              listHeight: event.nativeEvent.layout.height
+            })
+          }}
+          renderFooter={() => {
+            return (<View onLayout={(event) => {
+              this.setState({
+                footerY: event.nativeEvent.layout.y
+              })
+            }}/>)
+          }}
         />
       </View>
     )

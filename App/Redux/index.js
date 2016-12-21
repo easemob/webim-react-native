@@ -13,6 +13,7 @@ export default () => {
       groupMember: require('./GroupMemberRedux').reducer,
       subscribe: require('./SubscribeRedux').reducer,
       blacklist: require('./BlacklistRedux').reducer,
+      message: require('./MessageRedux').reducer,
     }),
     ui: combineReducers({
       common: require('./CommonRedux').reducer,

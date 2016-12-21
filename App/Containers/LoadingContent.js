@@ -29,6 +29,10 @@ class LoadingContent extends Component {
     this.setState({hide: true})
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+  }
+
   componentDidMount() {
     // BackAndroid.addEventListener('hardwareBackPress', () => {
     //   if (this.context.drawer.props.open) {
@@ -38,18 +42,22 @@ class LoadingContent extends Component {
     //   return false
     // })
     // TODO: 10秒没有通知即关闭loading防止应该用户正常操作
+  }
+
+  componentDidUpdate() {
     setTimeout(() => {
       console.log('setTimeout', this.context.drawer.props)
       if (this.context.drawer.props.open) {
         this.toggleDrawer()
         return true
       }
-    }, 10000)
+    }, 2000)
   }
 
   toggleDrawer() {
-    // this.context.drawer.toggle()
+    this.context.drawer.toggle()
   }
+
 
   render() {
     // if(this.props.hide) {

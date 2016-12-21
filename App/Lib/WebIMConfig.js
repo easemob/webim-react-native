@@ -18,7 +18,7 @@ let config = {
    * XMPP server
    */
   xmppURL: 'im-api.easemob.com',
-  // xmppURL: '172.17.3.122:5280',
+  // xmppURL: '172.17.2.139:5280',
   /*
    * Backend REST API URL
    */

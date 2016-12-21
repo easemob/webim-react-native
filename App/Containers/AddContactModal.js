@@ -34,53 +34,56 @@ export default class AddContactModal extends Component {
     let {modalVisible, toggle, addContact} = this.props
 
     return modalVisible ? (
-      <View>
-        {/* onRequestClose: android */}
-        <Modal
-          animationType={"slide"}
-          transparent={false}
-          visible={modalVisible}
-        >
-          <View style={Styles.container}>
-            <ModalHeader
-              title={I18n.t('addContact')}
-              rightBtn={I18n.t('cancel')}
-              rightClick={toggle}
-            />
-            <View style={Styles.body}>
-              <Input
-                ref="addInput"
-                iconName="search"
-                iconSize={13}
-                iconColor={Colors.iconColor}
-                backgroundColor={Colors.snow}
-                value={this.state.id}
-                onChangeText={(v) => {
-                  this.setState({id: v})
-                }}
-                placeholder={I18n.t('enterHyphenateID')}
+        <View>
+          {/* onRequestClose: android */}
+          <Modal
+            animationType={"slide"}
+            transparent={false}
+            visible={modalVisible}
+          >
+            <View style={Styles.container}>
+              <ModalHeader
+                title={I18n.t('addContact')}
+                rightBtn={I18n.t('cancel')}
+                rightClick={toggle}
               />
-              <Button
-                color={Colors.snow}
-                text={I18n.t('add')}
-                styles={Styles.button}
-                onPress={() => {
-                  addContact(this.state.id)
-                  Alert.alert(I18n.t('requestHasSent'))
-                  this.setState({
-                    id: ''
-                  })
-                }}
-              />
+              <View style={Styles.body}>
+                <Input
+                  ref="addInput"
+                  iconName="search"
+                  iconSize={13}
+                  iconColor={Colors.iconColor}
+                  backgroundColor={Colors.snow}
+                  value={this.state.id}
+                  onChangeText={(v) => {
+                    this.setState({id: v})
+                  }}
+                  placeholder={I18n.t('enterHyphenateID')}
+                />
+                <Button
+                  color={Colors.snow}
+                  text={I18n.t('add')}
+                  styles={Styles.button}
+                  onPress={() => {
+                    if (!this.state.id) {
+                      return
+                    }
+                    addContact(this.state.id)
+                    Alert.alert(I18n.t('requestHasSent'))
+                    this.setState({
+                      id: ''
+                    })
+                  }}
+                />
+              </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
 
-        {/* <TouchableHighlight onPress={this.props.toggle}>
-         <Text>Show Modal</Text>
-         </TouchableHighlight>
-         */}
-      </View>
-    ) : null
+          {/* <TouchableHighlight onPress={this.props.toggle}>
+           <Text>Show Modal</Text>
+           </TouchableHighlight>
+           */}
+        </View>
+      ) : null
   }
 }

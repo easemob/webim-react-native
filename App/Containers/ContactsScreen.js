@@ -205,12 +205,12 @@ class ContactsScreen extends React.Component {
 
   _renderCancel() {
     return this.state.focused ? (
-      <TouchableOpacity style={Styles.searchCancel} onPress={this.handleCancelSearch.bind(this)}>
-        <View>
-          <Text>Cancel</Text>
-        </View>
-      </TouchableOpacity>
-    ) : null;
+        <TouchableOpacity style={Styles.searchCancel} onPress={this.handleCancelSearch.bind(this)}>
+          <View>
+            <Text>Cancel</Text>
+          </View>
+        </TouchableOpacity>
+      ) : null;
   }
 
   _renderModel() {
@@ -417,8 +417,8 @@ class ContactsScreen extends React.Component {
   render() {
     return (
       <TabBarIOS
-        unselectedTintColor='yellow'
-        tintColor='white'
+        unselectedTintColor='black'
+        tintColor='black'
         barTintColor={Colors.white1}
         translucent={false}
       >
@@ -429,44 +429,41 @@ class ContactsScreen extends React.Component {
           selected={this.state.selectedTab == 'contacts'}
           title=''
           onPress={() => {
-            this.props.test()
-            {/*this.setState({*/
-            }
-            {/*selectedTab: 'contacts'*/
-            }
-            {/*})*/
-            }
           }}>
           {this._renderContent('#414A8C', 'Blue Tab')}
         </TabBarIOS.Item>
+        {/*<TabBarIOS.Item*/}
+        {/*icon={Images.chats}*/}
+        {/*selectedIcon={Images.chatsActive}*/}
+        {/*renderAsOriginal*/}
+        {/*selected={this.state.selectedTab === 'chats'}*/}
+        {/*title=''*/}
+        {/*onPress={() => {*/}
+        {/*this.setState({*/}
+        {/*selectedTab: 'chats',*/}
+        {/*notifyCount: this.state.notifyCount + 1*/}
+        {/*})*/}
+        {/*}}>*/}
+        {/*{this._renderContent('#783E33', 'Red Tab', this.state.notifyCount)}*/}
+        {/*</TabBarIOS.Item>*/}
+        {/*selectedIcon={Images.settingsActive}*/}
+        {/*icon={Images.settings}*/}
         <TabBarIOS.Item
-          icon={Images.chats}
-          selectedIcon={Images.chatsActive}
           renderAsOriginal
-          selected={this.state.selectedTab === 'chats'}
-          title=''
-          onPress={() => {
-            this.setState({
-              selectedTab: 'chats',
-              notifyCount: this.state.notifyCount + 1
-            })
-          }}>
-          {this._renderContent('#783E33', 'Red Tab', this.state.notifyCount)}
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
-          icon={Images.settings}
-          selectedIcon={Images.settingsActive}
-          renderAsOriginal
+          icon={Images.contacts}
           selected={this.state.selectedTab === 'settings'}
-          title=''
+          title={I18n.t('logOut')}
           onPress={() => {
-            this.setState({
-              selectedTab: 'settings',
-              presses: this.state.presses + 1
-            })
+            {/*this.setState({*/
+            }
+            {/*selectedTab: 'settings',*/
+            }
+            {/*presses: this.state.presses + 1*/
+            }
+            {/*})*/
+            }
             this.props.logout()
           }}>
-          {this._renderContent('#21551C', 'Green Tab', this.state.presses)}
         </TabBarIOS.Item>
       </TabBarIOS>
     )

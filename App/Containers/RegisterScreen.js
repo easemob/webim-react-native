@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react'
 import {
   View,
@@ -13,48 +11,27 @@ import {
   LayoutAnimation,
   Platform
 } from 'react-native'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import Styles from './Styles/RegisterScreenStyle'
 import {Images, Metrics} from '../Themes'
 import LoginActions from '../Redux/LoginRedux'
-import { Actions as NavigationActions } from 'react-native-router-flux'
+import {Actions as NavigationActions} from 'react-native-router-flux'
 import I18n from 'react-native-i18n'
-
-type RegisterScreenProps = {
-  dispatch: () => any,
-  fetching: boolean,
-  attemptRegister: () => void
-}
 
 class RegisterScreen extends React.Component {
 
-  props: RegisterScreenProps
-
-  state: {
-    username: string,
-    password: string,
-    visibleHeight: number,
-    topLogo: {
-      width: number
-    }
-  }
-
-  isAttempting: boolean
-  keyboardDidShowListener: Object
-  keyboardDidHideListener: Object
-
-  constructor (props: RegisterScreenProps) {
+  constructor(props) {
     super(props)
     this.state = {
       // username: 'reactnative@infinite.red11123',
       // password: 'password',
       visibleHeight: Metrics.screenHeight,
-      topLogo: { width: Metrics.screenWidth }
+      topLogo: {}
     }
     this.isAttempting = false
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     // this.forceUpdate()
     // Did the login attempt complete?
     // console.log('newProps', newProps)
@@ -65,14 +42,14 @@ class RegisterScreen extends React.Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
     // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.keyboardDidShowListener.remove()
     this.keyboardDidHideListener.remove()
   }
@@ -83,7 +60,7 @@ class RegisterScreen extends React.Component {
     let newSize = Metrics.screenHeight - e.endCoordinates.height
     this.setState({
       visibleHeight: newSize,
-      topLogo: {width: 100, height: 70}
+      topLogo: {paddingTop: 30}
     })
   }
 
@@ -92,12 +69,12 @@ class RegisterScreen extends React.Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     this.setState({
       visibleHeight: Metrics.screenHeight,
-      topLogo: {width: Metrics.screenWidth}
+      topLogo: {}
     })
   }
 
   handlePressLogin = () => {
-    const { username, password } = this.state
+    const {username, password} = this.state
 
     if (!username || !username.trim()) {
       return Alert.alert(I18n.t('invalidID'))
@@ -112,17 +89,17 @@ class RegisterScreen extends React.Component {
   }
 
   handleChangeUsername = (text) => {
-    this.setState({ username: text })
+    this.setState({username: text})
   }
 
   handleChangePassword = (text) => {
-    this.setState({ password: text })
+    this.setState({password: text})
   }
 
-  render () {
-    const { username, password } = this.state
-    const { fetching } = this.props
-    const editable = !fetching
+  render() {
+    const {username, password} = this.state
+    const {fetching} = this.props
+    const editable = true; //!fetching
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
     let otherView = '<Text></Text>'
 
@@ -157,11 +134,12 @@ class RegisterScreen extends React.Component {
 
     return (
       <View style={{flexDirection: 'column'}}>
-        <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps>
-          <Image source={Images.logo} style={[Styles.topLogo, this.state.topLogo]} />
+        <ScrollView contentContainerStyle={{justifyContent: 'center'}}
+                    style={[Styles.container, {height: this.state.visibleHeight}, this.state.topLogo]}
+        >
+          <Image source={Images.logo} style={[Styles.topLogo]}/>
           <View style={Styles.form}>
             <View style={[Styles.row, Styles.borderBottom]}>
-              {/* <Text style={Styles.rowLabel}>{I18n.t('username')}</Text> */}
               <TextInput
                 ref='username'
                 style={textInputStyle}
@@ -181,7 +159,6 @@ class RegisterScreen extends React.Component {
             </View>
 
             <View style={Styles.row}>
-              {/* <Text style={Styles.rowLabel}>{I18n.t('password')}</Text> */}
               <TextInput
                 ref='password'
                 style={textInputStyle}
@@ -206,17 +183,11 @@ class RegisterScreen extends React.Component {
         </ScrollView>
 
         {
-          (() => {
-            if (Platform.OS == 'ios') {
-              return <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
-                <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-                  <View style={Styles.loginButton}>
-                    <Text style={Styles.loginText}>{I18n.t('signUp')}</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            }
-          })()
+          (Platform.OS == 'ios') ? (
+              <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+                <Text style={Styles.loginText}>{I18n.t('signUp')}</Text>
+              </TouchableOpacity>
+            ) : null
         }
       </View>
 

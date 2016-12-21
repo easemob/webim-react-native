@@ -40,18 +40,33 @@ class NavigationDrawer extends Component {
 
   }
 
+  componentDidUpdate() {
+    // const {open} = this.props.navigationState
+    //
+    // setTimeout(() => {
+    //   console.log(open)
+    //   if (open) {
+    //     console.log(this.refs.navigation)
+    //     NavigationActions.refresh({key: 'drawer', open: false});
+    //     return true
+    //   }
+    // }, 2000)
+  }
+
   render() {
     const state = this.props.navigationState
     const children = state.children
-    //TODO: hack
-    // console.log("open", state.open)
 
-    return <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate}/>
+    console.log('render', state.open)
 
-    if (!state.open) {
-      {/*return <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate}/>*/
-      }
-    }
+    // setTimeout(() => {
+    //   if (state.open) {
+    //     console.log(this.refs.navigation)
+    //     NavigationActions.refresh({key: 'drawer', open: false});
+    //     return true
+    //   }
+    // }, 2000)
+
     return (
       <Drawer
         ref='navigation'

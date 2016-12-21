@@ -39,7 +39,8 @@ export default create({
   },
   flexLeft: {
     flex: 1,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
   },
   flexRight: {
     flex: 1,

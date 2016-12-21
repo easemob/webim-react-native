@@ -5,6 +5,7 @@ var _version = '1.1.3'
 var _code = require('./status').code
 var _utils = require('./utils').utils
 var _msg = require('./message')
+var _emoji = require('./emoji')
 var _message = _msg._msg
 var _msgHash = {}
 var Queue = require('./queue').Queue
@@ -2292,7 +2293,7 @@ connection.prototype.removeGroupMemberFromBlacklist = function (options) {
 
   iq.c('query', {xmlns: 'http://jabber.org/protocol/muc#' + affiliation})
     .c('item', {
-      affiliation: 'member',
+      affiliation: 'none',
       jid: jid
     })
 
@@ -2660,6 +2661,7 @@ WebIM.connection = connection
 WebIM.utils = _utils
 WebIM.statusCode = _code
 WebIM.message = _msg.message
+WebIM.emoji = _emoji
 WebIM.doQuery = function (str, suc, fail) {
   if (typeof window.cefQuery === 'undefined') {
     return

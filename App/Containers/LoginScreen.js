@@ -49,7 +49,7 @@ class LoginScreen extends React.Component {
       // username: Platform.OS,
       // password: 'password',
       visibleHeight: Metrics.screenHeight,
-      topLogo: {width: Metrics.screenWidth}
+      topLogo: {}
     }
     this.isAttempting = false
   }
@@ -66,6 +66,7 @@ class LoginScreen extends React.Component {
   }
 
   componentWillMount() {
+
     // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
     // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
@@ -83,7 +84,7 @@ class LoginScreen extends React.Component {
     let newSize = Metrics.screenHeight - e.endCoordinates.height
     this.setState({
       visibleHeight: newSize,
-      topLogo: {width: 100, height: 70}
+      topLogo: {paddingTop: 30}
     })
   }
 
@@ -92,7 +93,7 @@ class LoginScreen extends React.Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     this.setState({
       visibleHeight: Metrics.screenHeight,
-      topLogo: {width: Metrics.screenWidth}
+      topLogo: {}
     })
   }
 
@@ -122,19 +123,16 @@ class LoginScreen extends React.Component {
   render() {
     const {username, password} = this.state
     const {fetching} = this.props
-    const editable = !fetching
+    const editable = true;//!fetching
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
     let otherView = '<Text></Text>'
 
     if (Platform.OS == 'android') {
       otherView = [
-        <View key='button' style={[Styles.loginRow]}>
-          <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-            <View style={Styles.loginButton}>
-              <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>,
+        <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+          <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
+        </TouchableOpacity>
+        ,
         <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
           <Text style={Styles.tips}>{I18n.t('signUpTips')}</Text>
           <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.register}>
@@ -154,15 +152,15 @@ class LoginScreen extends React.Component {
         </View>
       ]
     }
+    //keyboardShouldPersistTaps
 
     return (
       <View style={{flexDirection: 'column'}}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}}
-                    style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps>
-          <Image source={Images.logo} style={[Styles.topLogo, this.state.topLogo]}/>
+                    style={[Styles.container, {height: this.state.visibleHeight}, this.state.topLogo]}>
+          <Image source={Images.logo} style={[Styles.topLogo]}/>
           <View style={Styles.form}>
             <View style={[Styles.row, Styles.borderBottom]}>
-              {/* <Text style={Styles.rowLabel}>{I18n.t('username')}</Text> */}
               <TextInput
                 ref='username'
                 style={textInputStyle}
@@ -182,7 +180,6 @@ class LoginScreen extends React.Component {
             </View>
 
             <View style={Styles.row}>
-              {/* <Text style={Styles.rowLabel}>{I18n.t('password')}</Text> */}
               <TextInput
                 ref='password'
                 style={textInputStyle}
@@ -207,19 +204,12 @@ class LoginScreen extends React.Component {
         </ScrollView>
 
         {
-          (() => {
-            if (Platform.OS == 'ios') {
-              return (
-                <View key='buttonLoginRow' style={[Styles.buttonLoginRow]}>
-                  <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-                    <View style={Styles.loginButton}>
-                      <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )
-            }
-          })()
+          (Platform.OS == 'ios') ?
+            (
+              <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+                <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
+              </TouchableOpacity>
+            ) : null
         }
       </View>
 
