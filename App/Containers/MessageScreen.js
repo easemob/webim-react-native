@@ -99,6 +99,7 @@ class MessageScreen extends React.Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     let newSize = Metrics.screenHeight - e.endCoordinates.height
     this.setState({
+      keyboardHeight: e.endCoordinates.height,
       visibleHeight: newSize,
     })
   }
@@ -107,6 +108,7 @@ class MessageScreen extends React.Component {
     // Animation chatTypes easeInEaseOut/linear/spring
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     this.setState({
+      keyboardHeight: 0,
       visibleHeight: Metrics.screenHeight,
     })
   }
@@ -479,7 +481,7 @@ class MessageScreen extends React.Component {
     const {value = '', isEmoji} = this.state
 
     return (
-      <Animated.View style={Styles.search}>
+      <View style={Styles.search}>
         <View style={Styles.inputRow}>
           <View style={Styles.searchRow}>
             <TextInput
@@ -521,7 +523,9 @@ class MessageScreen extends React.Component {
             <Image source={Images.iconImage}/>
           </TouchableOpacity>
           <TouchableOpacity style={Styles.iconTouch} onPress={this.handleEmojiOpen.bind(this)}>
-            <Image source={Images.iconEmoji}/>
+            {
+              isEmoji ? <Image source={Images.iconEmojiActive}/> : <Image source={Images.iconEmoji}/>
+            }
           </TouchableOpacity>
           {/*<TouchableOpacity>*/}
           {/*<Image source={Images.iconAudio}/>*/}
@@ -534,15 +538,15 @@ class MessageScreen extends React.Component {
           {/*</TouchableOpacity>*/}
         </View>
         {this._renderEmoji()}
-      </Animated.View>
+      </View>
     )
   }
 
 // ------------ render -------------
   render() {
-    const {messages = {}, visibleHeight} = this.state
+    const {messages = {}, visibleHeight, keyboardHeight} = this.state
     return (
-      <Animated.View style={[Styles.container, {height: visibleHeight - Metrics.navBarHeight}]}>
+      <View style={[Styles.container, {flex: 1}]}>
         <BaseListView
           autoScroll={true}
           data={messages}
@@ -551,8 +555,11 @@ class MessageScreen extends React.Component {
           renderSeparator={() => null}
         />
         {this._renderMessageBar()}
-      </Animated.View>
+        <View style={{height: keyboardHeight}}/>
+      </View>
     )
+
+    // <View style={{height: keyboardHeight, borderWidth: 1, borderColor: 'black'}}></View>
   }
 }
 

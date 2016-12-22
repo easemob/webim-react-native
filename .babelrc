@@ -5,11 +5,6 @@
   "env": {
     "development": {
       "sourceMaps": "inline"
-    },
-    "production": {
-      "plugins": [
-        "transform-remove-console"
-      ]
     }
   }
 }

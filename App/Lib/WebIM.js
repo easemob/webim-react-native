@@ -74,7 +74,7 @@ if (WebIM.config.autoSignIn) {
 
 WebIM.conn = new WebIM.connection({
   isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
-  https: typeof WebIM.config.https === 'boolean' ? WebIM.config.https : location.protocol === 'https:',
+  https: WebIM.config.https,
   url: WebIM.config.xmppURL,
   isAutoLogin: false,
   heartBeatWait: WebIM.config.heartBeatWait,
