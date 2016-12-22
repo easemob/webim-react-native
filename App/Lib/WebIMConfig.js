@@ -34,7 +34,7 @@ let config = {
    * Whether to use HTTPS
    * @parameter {Boolean} true or false
    */
-  https: false,
+  https: true,
   /*
    * isMultiLoginSessions
    * true: A visitor can sign in to multiple webpages and receive messages at all the webpages.
