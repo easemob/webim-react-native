@@ -152,12 +152,13 @@ class LoginScreen extends React.Component {
         </View>
       ]
     }
-    //keyboardShouldPersistTaps
+    //
 
     return (
       <View style={{flexDirection: 'column'}}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}}
-                    style={[Styles.container, {height: this.state.visibleHeight}, this.state.topLogo]}>
+                    style={[Styles.container, {height: this.state.visibleHeight}, this.state.topLogo]}
+                    keyboardShouldPersistTaps>
           <Image source={Images.logo} style={[Styles.topLogo]}/>
           <View style={Styles.form}>
             <View style={[Styles.row, Styles.borderBottom]}>
