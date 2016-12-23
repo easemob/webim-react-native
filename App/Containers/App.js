@@ -108,8 +108,11 @@ class App extends Component {
           NavigationActions.login()
           return;
         }
-        console.log('onError', error)
-        store.dispatch(LoginActions.loginFailure(error))
+        if (error.type == 1) {
+          let data = error.data ? error.data.data : ''
+          data && Alert.alert('Error', data)
+          store.dispatch(LoginActions.loginFailure(error))
+        }
       },
       // 连接断开
       onClosed: (msg) => {

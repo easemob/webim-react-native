@@ -389,6 +389,8 @@ var _loginCallback = function (status, msg, conn) {
     conflict && (error.conflict = true)
     conn.onError(error)
   } else if (status == Strophe.Status.ATTACHED || status == Strophe.Status.CONNECTED) {
+    conn.autoReconnectNumTotal = 0
+
     // client should limit the speed of sending ack messages  up to 5/s
     conn.intervalId = setInterval(function () {
       conn.handelSendQueue()
@@ -461,6 +463,11 @@ var _loginCallback = function (status, msg, conn) {
     })
   } else if (status == Strophe.Status.DISCONNECTING) {
     if (conn.isOpened()) {
+      if (conn.autoReconnectNumTotal < conn.autoReconnectNumMax) {
+        conn.reconnect()
+        return
+      }
+
       conn.stopHeartBeat()
       conn.context.status = _code.STATUS_CLOSING
 

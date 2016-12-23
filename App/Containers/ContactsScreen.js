@@ -450,7 +450,6 @@ class ContactsScreen extends React.Component {
         {/*icon={Images.settings}*/}
         <TabBarIOS.Item
           renderAsOriginal
-          icon={Images.contacts}
           selected={this.state.selectedTab === 'settings'}
           title={I18n.t('logOut')}
           onPress={() => {
