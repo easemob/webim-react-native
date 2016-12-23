@@ -210,11 +210,9 @@ export const addMessage = (state, {message, bodyType = 'txt'}) => {
   })
   const chatData = state[type] && state[type][chatId] ? state[type][chatId].asMutable() : []
   chatData.push(id)
-  state = state.merge({
-    [type]: {
-      [chatId]: chatData
-    }
-  })
+
+  state = state
+    .setIn([type, chatId], chatData)
   return state
 }
 

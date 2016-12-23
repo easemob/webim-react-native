@@ -63,8 +63,8 @@ class NavigationRouter extends Component {
           <Scene key='drawerChildrenWrapper' navigationBarStyle={Styles.navBar} titleStyle={Styles.title}
                  leftButtonIconStyle={Styles.leftButton} rightButtonTextStyle={Styles.rightButton} hideNavBar
                  hideTabBar>
-            <Scene initial key='login' component={LoginScreen} title='Login'/>
-            <Scene key='register' component={RegisterScreen} title='Register'/>
+            <Scene initial key='login' component={LoginScreen} title='Login' hideNavBar/>
+            <Scene key='register' component={RegisterScreen} title='Register' hideNavBar/>
             {/* 联系人信息 */}
             <Scene key='contactInfo' component={ContactInfoScreen}
                    title='Contact Info'

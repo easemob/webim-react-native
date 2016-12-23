@@ -136,7 +136,7 @@ class RegisterScreen extends React.Component {
       <View style={{flexDirection: 'column'}}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}}
                     style={[Styles.container, {height: this.state.visibleHeight}, this.state.topLogo]}
-        >
+                    keyboardShouldPersistTaps>
           <Image source={Images.logo} style={[Styles.topLogo]}/>
           <View style={Styles.form}>
             <View style={[Styles.row, Styles.borderBottom]}>
