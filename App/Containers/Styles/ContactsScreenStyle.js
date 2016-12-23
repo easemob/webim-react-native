@@ -7,9 +7,10 @@ import {create} from '../../Lib/PlatformStyleSheet'
 export default create({
   container: {
     flex: 1,
-    // flexDirection: 'column',
+    flexDirection: 'column',
     backgroundColor: '#fff',
     marginTop: 18,
+    paddingBottom: 50
   },
   // 头
   header: {
