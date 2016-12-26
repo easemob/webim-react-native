@@ -4,7 +4,7 @@
 
 ## 版本支持
 
-iOS > 9.0 , Android 4.1 (API 16)
+iOS >= 9.0 , Android >= 4.1 (API 16)
 
 注：所有开发调试环境均基于Mac
 
@@ -55,8 +55,10 @@ iOS > 9.0 , Android 4.1 (API 16)
 
 ## Start
 
+### Initial
+
 1. ** 首先：项目初始化 `$ npm run newclear` ，只执行一次即可**
-2. 修改 node_modules/axios/lib/utils.js
+2. 修改 node_modules/axios/lib/utils.js (http通信使用axios库，但是跟框架不太兼容，需要稍作调整)
 
 ```js
 function isStandardBrowserEnv() {
