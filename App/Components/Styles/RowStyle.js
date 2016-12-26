@@ -36,7 +36,7 @@ export default create({
       shadowRadius: 0.1,
     },
     android: {
-      evaluate: 0.5
+      elevation: 0.5
     }
   },
   photo: {

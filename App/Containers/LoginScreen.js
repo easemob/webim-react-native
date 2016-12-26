@@ -129,7 +129,7 @@ class LoginScreen extends React.Component {
 
     if (Platform.OS == 'android') {
       otherView = [
-        <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+        <TouchableOpacity key='sign-in' style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
           <Text style={Styles.loginText}>{I18n.t('signIn')}</Text>
         </TouchableOpacity>
         ,

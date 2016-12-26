@@ -52,11 +52,11 @@ export default create({
     textAlign: 'center'
   },
   tipRow: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   tipsButtonWrapper: {
     // alignSelf: 'stretch',
-    marginLeft: 6
+    marginLeft: 6,
   },
   rowLabel: {
     color: Colors.charcoal
@@ -85,23 +85,28 @@ export default create({
     // height: 50
   },
   loginButtonWrapper: {
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    right: 0,
     ios: {
+      position: 'absolute',
+      left: 0,
+      bottom: 0,
+      right: 0,
       paddingTop: 17,
-      paddingBottom: 16
+      paddingBottom: 16,
+      backgroundColor: Colors.buttonSignin,
     },
     android: {
       flex: 1,
+      left: 0,
+      right: 0,
       height: 37,
       marginTop: 32,
+      marginBottom: 18,
       elevation: 3,
-      paddingTop: 10,
-      paddingBottom: 9.5
+      paddingTop: 7,
+      paddingBottom: 9.5,
+      backgroundColor: Colors.buttonSignin,
+      alignSelf: 'stretch',
     },
-    backgroundColor: Colors.buttonSignin,
     // height: 50
   },
   loginText: {

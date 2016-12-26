@@ -105,13 +105,10 @@ class RegisterScreen extends React.Component {
 
     if (Platform.OS == 'android') {
       otherView = [
-        <View key='button' style={[Styles.loginRow]}>
-          <TouchableOpacity style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-            <View style={Styles.loginButton}>
-              <Text style={Styles.loginText}>{I18n.t('signUp')}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>,
+        <TouchableOpacity key='sign-up' style={Styles.loginButtonWrapper} onPress={this.handlePressLogin}>
+          <Text style={Styles.loginText}>{I18n.t('signUp')}</Text>
+        </TouchableOpacity>
+        ,
         <View key='tips' style={[Styles.loginRow, Styles.tipRow]}>
           <Text style={Styles.tips}>{I18n.t('signInTips')}</Text>
           <TouchableOpacity style={Styles.tipsButtonWrapper} onPress={NavigationActions.pop}>
