@@ -177,7 +177,7 @@ class ContactsAndroidScreen extends React.Component {
             <Ionicons name="ios-search-outline" size={15} color='#8798a4'/>
             {/*<Icon name='ios-add' size={20} color='#8798a4'/>*/}
           </View>
-          <View style={Styles.searchRow}>
+          <View style={[Styles.searchRow, Styles.searchInputView]}>
             <TextInput
               ref='search'
               style={Styles.searchInput}
@@ -236,9 +236,7 @@ class ContactsAndroidScreen extends React.Component {
           {/* 取消按钮，当input聚焦的时候出现 */}
           {this._renderCancel()}
           {/* 加号 */}
-          <TouchableOpacity style={Styles.searchPlus} onPress={() => {
-            this.setState({modalVisible: true})
-          }}>
+          <TouchableOpacity style={Styles.searchPlus} onPress={NavigationActions.addContactModal}>
             <Ionicons size={30} name="ios-add" color={Colors.buttonGreen}/>
           </TouchableOpacity>
         </View>
@@ -265,8 +263,6 @@ class ContactsAndroidScreen extends React.Component {
           renderSectionHeader={this.renderSectionHeader}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
         />
-        {/* 添加好友 modal */}
-        {this._renderModel()}
       </View>
     )
   }

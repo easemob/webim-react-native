@@ -26,8 +26,13 @@ export default create({
       marginBottom: 32,
       borderRadius: 2,
       // and only
-      elevation: 3,
+      // elevation: 3,
       marginHorizontal: 25.5
+    }
+  },
+  borderRadius: {
+    android: {
+      elevation: 3,
     }
   },
   borderBottom: {
@@ -44,7 +49,9 @@ export default create({
       borderBottomColor: '#adb9c1',
       paddingHorizontal: Metrics.doubleBaseMargin
     },
-    android: {}
+    android: {
+      paddingHorizontal: Metrics.doubleBaseMargin
+    }
   },
   // 提示行
   tips: {
@@ -89,13 +96,10 @@ export default create({
     },
     android: {
       flex: 1,
-      left: 0,
-      right: 0,
-      height: 37,
       marginTop: 32,
       marginBottom: 18,
       elevation: 3,
-      paddingTop: 7,
+      paddingTop: 10,
       paddingBottom: 9.5,
       backgroundColor: Colors.buttonSignin,
       alignSelf: 'stretch',

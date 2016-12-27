@@ -155,7 +155,7 @@ class RegisterScreen extends React.Component {
               />
             </View>
 
-            <View style={Styles.row}>
+            <View style={[Styles.row, Styles.borderRadius]}>
               <TextInput
                 ref='password'
                 style={textInputStyle}

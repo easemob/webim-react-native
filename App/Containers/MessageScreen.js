@@ -85,13 +85,18 @@ class MessageScreen extends React.Component {
   componentWillMount() {
     // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
     // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
+    if (Platform.OS == 'ios') {
+      this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow)
+      this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide)
+    } else {
+      //this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
+      //this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
+    }
   }
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove()
-    this.keyboardDidHideListener.remove()
+    this.keyboardDidShowListener && this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener && this.keyboardDidHideListener.remove()
   }
 
   keyboardDidShow = (e) => {
@@ -546,7 +551,7 @@ class MessageScreen extends React.Component {
   render() {
     const {messages = {}, visibleHeight, keyboardHeight} = this.state
     return (
-      <View style={[Styles.container, {flex: 1}]}>
+      <View style={[Styles.container, {flex: 1, flexDirection: 'column'}]}>
         <BaseListView
           autoScroll={true}
           data={messages}

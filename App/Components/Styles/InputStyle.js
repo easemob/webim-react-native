@@ -19,16 +19,20 @@ export default StyleSheet.create({
   searchRow: {
     // color: Colors.blueyGrey,
     flex: 1,
-    width: 100,
     height: 30,
     justifyContent: 'center',
     alignItems: 'flex-start',
     backgroundColor: Colors.paleGrey,
+    flexDirection: 'column',
+    // borderWidth: 1
   },
   searchInput: {
-    height: 30,
+    // height: 30,
+    flex: 1,
+    alignSelf: 'stretch',
     fontSize: 13,
-    paddingLeft: 4
+    paddingLeft: 4,
+    paddingVertical: 5
   },
   searchIcon: {
     alignItems: 'flex-end',

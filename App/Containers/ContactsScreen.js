@@ -144,22 +144,6 @@ class ContactsScreen extends React.Component {
     this.updateList()
   }
 
-  handleAddContact(id) {
-    // TODO: 已经是好友了
-    // TODO: 已经发送过邀请了
-
-    //TODO: 提示
-    if (!id.trim()) {
-      return;
-    }
-
-    //TODO: 提示
-    if (this.props.user == id.trim()) {
-      return;
-    }
-    this.props.addContact(id)
-  }
-
   handleDecline(name) {
     this.props.declineSubscribe(name)
   }
@@ -213,19 +197,7 @@ class ContactsScreen extends React.Component {
       ) : null;
   }
 
-  _renderModel() {
-    return (
-      <AddContactModal
-        modalVisible={this.state.modalVisible}
-        toggle={() => {
-          this.setState({modalVisible: !this.state.modalVisible})
-        }}
-        addContact={this.handleAddContact.bind(this)}
-      />
-    )
-  }
-
-  _renderContent(color, pageText, num) {
+  _renderContent() {
 
     return (
       <View style={[Styles.container]}>
@@ -237,9 +209,7 @@ class ContactsScreen extends React.Component {
           {/* 取消按钮，当input聚焦的时候出现 */}
           {this._renderCancel()}
           {/* 加号 */}
-          <TouchableOpacity style={Styles.searchPlus} onPress={() => {
-            this.setState({modalVisible: true})
-          }}>
+          <TouchableOpacity style={Styles.searchPlus} onPress={NavigationActions.addContactModal}>
             <Ionicons size={30} name="ios-add" color={Colors.buttonGreen}/>
           </TouchableOpacity>
         </View>
@@ -266,8 +236,6 @@ class ContactsScreen extends React.Component {
           renderSectionHeader={this.renderSectionHeader}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
         />
-        {/* 添加好友 modal */}
-        {this._renderModel()}
       </View>
     )
   }
@@ -430,7 +398,7 @@ class ContactsScreen extends React.Component {
           title=''
           onPress={() => {
           }}>
-          {this._renderContent('#414A8C', 'Blue Tab')}
+          {this._renderContent()}
         </TabBarIOS.Item>
         {/*<TabBarIOS.Item*/}
         {/*icon={Images.chats}*/}
@@ -487,15 +455,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    test: () => {
-      dispatch(CommonActions.fetching())
-
-      setTimeout(() => {
-        dispatch(CommonActions.fetched())
-
-      }, 3000)
-
-    },
     getContacts: () => dispatch(RosterActions.getContacts()),
     addContact: (id) => dispatch(RosterActions.addContact(id)),
     acceptSubscribe: (name) => dispatch(SubscribeActions.acceptSubscribe(name)),

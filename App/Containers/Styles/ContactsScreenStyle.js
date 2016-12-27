@@ -9,7 +9,10 @@ export default create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#fff',
-    marginTop: 18,
+    //
+    ios: {
+      marginTop: 18,
+    },
     paddingBottom: 50
   },
   // 头
@@ -37,10 +40,19 @@ export default create({
     alignItems: 'flex-start',
     backgroundColor: Colors.paleGrey,
   },
+  searchInputView: {
+    android: {
+      flexDirection: 'row'
+    }
+  },
   searchInput: {
     height: 30,
     fontSize: 13,
-    paddingLeft: 4
+    paddingLeft: 4,
+    android: {
+      flex: 1,
+      paddingVertical: 5,
+    }
   },
   searchIcon: {
     alignItems: 'flex-end',

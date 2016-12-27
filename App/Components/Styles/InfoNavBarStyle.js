@@ -14,7 +14,10 @@ export default create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 30,
+    //
+    ios: {
+      paddingTop: 30,
+    },
     backgroundColor: Colors.white1,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: Colors.paleGrey
