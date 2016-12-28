@@ -30,6 +30,7 @@ const images = {
   iconFile: require('../Images/iconFile.png'),
   iconLocation: require('../Images/iconLocation.png'),
   iconImage: require('../Images/iconImage.png'),
+  logout: require('../Images/logout.png'),
 }
 
 export default images
