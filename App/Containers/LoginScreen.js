@@ -58,11 +58,11 @@ class LoginScreen extends React.Component {
     // this.forceUpdate()
     // Did the login attempt complete?
     // console.log('newProps', newProps)
-    if (this.isAttempting && !newProps.fetching && !newProps.error) {
-      NavigationActions.contacts()
-
-      // NavigationActions.pop()
-    }
+    // if (this.isAttempting && !newProps.fetching && !newProps.error) {
+    //   NavigationActions.contacts()
+    //
+    //   // NavigationActions.pop()
+    // }
   }
 
   componentWillMount() {

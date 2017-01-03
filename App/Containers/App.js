@@ -57,6 +57,8 @@ class App extends Component {
         store.dispatch(BlacklistActions.getBlacklist())
         // 获取群组列表
         store.dispatch(GroupActions.getGroups())
+
+        NavigationActions.contacts()
       },
       // 出席消息
       onPresence: (msg) => {

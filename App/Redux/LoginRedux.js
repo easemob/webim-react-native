@@ -4,6 +4,7 @@ import {createReducer, createActions} from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import {Alert} from 'react-native'
 import WebIM, {api} from '../Lib/WebIM'
+import {Actions as NavigationActions} from 'react-native-router-flux'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -39,6 +40,8 @@ const {Types, Creators} = createActions({
 
           Alert.alert('success')
           dispatch(Creators.registerSuccess(data))
+          NavigationActions.login()
+
         }).catch(() => {
           console.log('error')
         })

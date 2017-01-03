@@ -8,69 +8,13 @@ iOS >= 9.0 , Android >= 4.1 (API 16)
 
 注：所有开发调试环境均基于Mac
 
-## 功能
+## 更新日志
 
-### iOS
-- 已完成功能
-	- 登陆
-	- 注册
-	- 好友
-		- 列表及筛选
-		- 好友信息展示
-	  	- 黑名单
-	  	- 删除好友
-	 - 好友通知
-	  	- 添加好友通知展示
-	  	- 接受好友请求
-	  	- 拒绝好友请求
-		- 添加好友
-	- 群组
-		- 群组列表
-		- 群组成员列表
-	- 聊天
-		- 相机图片消息
-		- 本地图片消息
-		- emoji消息
-		- 普通消息
-	- 异常状态处理
-		- 断线退出到登录页
-		- 重复登录退出到登录页
+当前版本 **v0.2.0 @ 2017-01-03**
 
-### Android
-- 已完成功能
-	- 登陆
-	- 注册
-	- 好友
-		- 列表及筛选
-		- 好友信息展示
-	  	- 黑名单
-  	- 好友通知
-	  	- 添加好友通知展示
-	  	- 接受好友请求
-	  	- 拒绝好友请求
-		- 添加好友
-	- 群组
-		- 群组列表
-		- 群组成员列表
-	- 聊天
-		- 相机图片消息
-		- 本地图片消息
-		- emoji消息
-		- 普通消息
+**[CHANGE LOG](./CHANGELOG.md)**
 
-Android部分基于iOS UI版本
-
-## TODO
-
-- https的问题
-- splash 开机过渡动画 no
-- 热加载
-	- react-native-code-push
-- [本地图片及相机](https://github.com/marcshilling/react-native-image-picker)
-	- 只添加了ios的依赖，android并没有添加
-- 本地存储
-- 聊天消息优化，限制队列长度及消息的分页展示
-- 全局loading
+注：此版本由于升级了react native库，需要先 `npm install` 安装依赖包
 
 ## Start
 
@@ -82,11 +26,6 @@ Android部分基于iOS UI版本
 ```js
 function isStandardBrowserEnv() {
   return false;
-  return (
-    typeof window !== 'undefined' &&
-    typeof document !== 'undefined' &&
-    typeof document.createElement === 'function'
-  );
 }
 ```
 
@@ -130,13 +69,14 @@ function isStandardBrowserEnv() {
 	- 按照上述步骤添加签名
 	- `build.gradle` 位于android/app目录
 	- 编译 `$ cd android && ./gradlew assembleRelease`
-5. 安装到设备，3种
+5. 安装到设备，4种
 	- `$ react-native run-android  --variant=release`
 	- `$ npm run android:install`
 		- 先删除手机上已经安装的包
 	- `$ npm run android:build`
 		- 到 `android/app/build/outpus/apk` 执行  `adb install xx.apk`，保证只有一个device正在运行
 		- 下载 `Android File Transfer`, 连接设备后会自动弹出上传界面（设备需要解锁、允许USB调试、非充电模式）
+	- `$ cd android && ./gradlew assembleRelease`
 6. log
 	- `$ npm run android:logcat`
 	- 程序异常终止也可以通过此命令查看，需要设备和本地在同网络下
@@ -196,9 +136,7 @@ A: 尝试删除已经安装的app
 			- curl的方式打包  https://github.com/facebook/react-native/issues/5747
 			- `react-native bundle --dev false --platform ios --entry-file ./index.ios.js --bundle-output ./ios/app/main.jsbundle`
 				- 此种方式打包不支持npm link， 需要先`npm unlink easemob-websdk`
-	- 关掉`npm start`启动的控制台
-		- 因为打包时会判断是否有packager在运行，有的话直接使用
-		- 但是打包用的是release版本， 非dev，打包后会报babel的错，如上
+	- ~~关掉`npm start`启动的控制台~~ debug和publish的控制台可以共用，只要修改xcode配置为debug或者release即可
 	- 在xcode通过正常run编译到手机
 		- 没有packager启动时，会自动启动一个packager，这时打包的即为发布版本
 		- 注意：跟本地之前引入的main.jsbundle没有关系，打包文件并不会更新到本地
@@ -224,6 +162,36 @@ $ react-native bundle --dev false --platform ios --entry-file ./index.ios.js --b
 
 ##### Q: 如果编译不生效
 A: 可以尝试先clean，关掉package控制台，再run
+
+##### Q: Undefined symbols for architecture arm64: "___gxx_personality_v0"
+A:  https://github.com/facebook/react-native/issues/11454
+
+##### Q: cant find module npmlog （安装 yarn 后）
+A: 修复 `curl -0 -L http://npmjs.org/install.sh | sudo sh`
+
+##### Q: Animated: `useNativeDriver` is not supported because the native animated module is missing
+Include the NativeAnimation module on iOS in the starter projec
+
+A: https://github.com/facebook/react-native/issues/10638
+
+##### Q: React Native BUILD SUCCEED, but “No devices are booted.”
+
+A:
+
+- run-ios不要用 `sudo` 会导致app无法编译到模拟器当中
+- 如果不用sudo，总是编译报错 `NSLocalizedDescription = "Permission denied";`
+  - `sudo chmod 777 /Users/xxxx/.babel.json`
+
+##### Q: Latest react-native app doesn't work ":CFBundleIdentifier", Does Not Exist #7308
+
+A: https://github.com/facebook/react-native/issues/7308
+
+```
+Go to File -> Project settings
+Click the Advanced button
+Select "Custom" and select "Relative to Workspace" in the pull down
+click done, done
+```
 
 ## 目录结构
 - App
@@ -300,3 +268,14 @@ A: 可以尝试先clean，关掉package控制台，再run
 	}
 }
 ```
+
+## TODO
+
+- https的问题
+- splash 开机过渡动画
+- 热加载
+- 本地存储
+- 聊天消息优化，限制队列长度及消息的分页展示
+- 全局loading
+
+

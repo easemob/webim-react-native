@@ -35,13 +35,13 @@ class RegisterScreen extends React.Component {
     // this.forceUpdate()
     // Did the login attempt complete?
     // console.log('newProps', newProps)
-    if (this.isAttempting && !newProps.fetching && !newProps.registerError) {
-      NavigationActions.login()
-
-      // NavigationActions.pop()
-    }
+    // if (this.isAttempting && !newProps.fetching && !newProps.registerError) {
+    //   NavigationActions.login()
+    //
+    //   // NavigationActions.pop()
+    // }
   }
-
+a
   componentWillMount() {
     // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
     // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
