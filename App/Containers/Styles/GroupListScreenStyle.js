@@ -11,7 +11,7 @@ export default create({
   },
   row: {
     marginLeft: 15,
-    height: 90,
+    height: 70,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row'

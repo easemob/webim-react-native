@@ -1,7 +1,9 @@
 import {createReducer, createActions} from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import WebIM from '../Lib/WebIM'
-import {Actions as NavigationActions} from 'react-native-router-flux'
+import {Actions as NavigationActions, ActionConst} from 'react-native-router-flux'
+import RosterActions from '../Redux/RosterRedux'
+import GroupActions from '../Redux/GroupRedux'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -14,7 +16,11 @@ const {Types, Creators} = createActions({
         WebIM.conn.close('logout')
       }
 
-      NavigationActions.login();
+      // TODO 登陆的操作简单清空就ok？
+      dispatch(RosterActions.updateRoster([]))
+      dispatch(GroupActions.updateGroup([]))
+
+      NavigationActions.login({type: ActionConst.REPLACE});
     }
   },
 })

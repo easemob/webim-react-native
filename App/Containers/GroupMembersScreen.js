@@ -27,13 +27,12 @@ class GroupMembersScreen extends Component {
   // ------------ lifecycle  -----------
   componentDidMount() {
     const {getGroupMember, group} = this.props
-    console.log(this.props)
     getGroupMember(group.roomId)
   }
 
   // ------------ handlers -------------
   handleRefresh() {
-    this.props.getGroups()
+    // this.props.getGroupMember()
   }
 
   // ------------ renders -------------
@@ -85,32 +84,22 @@ class GroupMembersScreen extends Component {
 }
 
 
-GroupMembersScreen
-  .propTypes = {
+GroupMembersScreen.propTypes = {
   group: PropTypes.object,
 }
 
 // ------------ redux -------------
-const
-  mapStateToProps = (state) => {
-    return {
-      groupMember: state.entities.groupMember
-    }
+const mapStateToProps = (state) => {
+  return {
+    groupMember: state.entities.groupMember
   }
+}
 
-const
-  mapDispatchToProps = (dispatch) => {
-    return {
-      getGroupMember: (id) => dispatch(GroupMemberActions.getGroupMember(id))
-    }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getGroupMember: (id) => dispatch(GroupMemberActions.getGroupMember(id))
   }
+}
 
-export
-default
-
-connect(mapStateToProps, mapDispatchToProps)
-
-(
-  GroupMembersScreen
-)
+export default connect(mapStateToProps, mapDispatchToProps)(GroupMembersScreen)
 

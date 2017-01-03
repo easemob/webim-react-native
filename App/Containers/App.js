@@ -19,6 +19,7 @@ import RosterActions from '../Redux/RosterRedux'
 import MessageActions from '../Redux/MessageRedux'
 import GroupActions from '../Redux/GroupRedux'
 import {Actions as NavigationActions} from 'react-native-router-flux'
+import axios from 'axios'
 
 const RouterWithRedux = connect()(RootContainer);
 

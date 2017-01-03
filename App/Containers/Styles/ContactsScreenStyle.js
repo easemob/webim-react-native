@@ -13,7 +13,6 @@ export default create({
     ios: {
       marginTop: 18,
     },
-    paddingBottom: 50
   },
   // 头
   header: {

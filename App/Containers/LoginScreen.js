@@ -82,6 +82,7 @@ class LoginScreen extends React.Component {
     // Animation types easeInEaseOut/linear/spring
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     let newSize = Metrics.screenHeight - e.endCoordinates.height
+    console.log(newSize)
     this.setState({
       visibleHeight: newSize,
       topLogo: {paddingTop: 30}
@@ -152,12 +153,11 @@ class LoginScreen extends React.Component {
         </View>
       ]
     }
-    //
 
     return (
-      <View style={{flexDirection: 'column'}}>
+      <View style={{flexDirection: 'column', height: this.state.visibleHeight}}>
         <ScrollView contentContainerStyle={{justifyContent: 'center'}}
-                    style={[Styles.container, {height: this.state.visibleHeight}, this.state.topLogo]}
+                    style={[Styles.container, this.state.topLogo]}
                     keyboardShouldPersistTaps>
           <Image source={Images.logo} style={[Styles.topLogo]}/>
           <View style={Styles.form}>

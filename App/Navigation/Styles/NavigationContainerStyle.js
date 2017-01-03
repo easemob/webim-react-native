@@ -17,5 +17,13 @@ export default {
   },
   rightButton: {
     color: Colors.snow
+  },
+  tabBarStyle: {
+    borderTopWidth: .5,
+    borderColor: '#b7b7b7',
+    backgroundColor: Colors.white1,
+    justifyContent: 'center',
+    opacity: 1,
+    height: 50,
   }
 }

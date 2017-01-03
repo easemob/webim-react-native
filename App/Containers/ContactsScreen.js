@@ -30,6 +30,8 @@ import SubscribeActions from '../Redux/SubscribeRedux'
 import AddContactModal from '../Containers/AddContactModal'
 import {Actions as NavigationActions} from 'react-native-router-flux'
 import Button from '../Components/Button'
+import BaseListView from '../Components/BaseListView'
+
 
 class ContactsScreen extends React.Component {
 
@@ -52,14 +54,14 @@ class ContactsScreen extends React.Component {
       notifyCount: 0,
       presses: 0,
       ds,
-      dataSource: ds.cloneWithRowsAndSections({
+      data: {
         // [群组通知，好友通知, 通知总数]
         // notices: [null,subscribes, length],
         notices: [],
         // 作为Groups的快捷按钮使用
         groupHeader: ['INIT'],
         friends: [],
-      })
+      }
     }
   }
 
@@ -77,19 +79,19 @@ class ContactsScreen extends React.Component {
       })
 
       this.setState({
-        dataSource: this.state.ds.cloneWithRowsAndSections({
+        data: {
           notices: [null, subscribes, Object.keys(subscribes).length > 0],
           groupHeader: ['INIT'],
           friends: friendsFilter
-        })
+        }
       })
     } else {
       this.setState({
-        dataSource: this.state.ds.cloneWithRowsAndSections({
+        data: {
           notices: [null, subscribes, Object.keys(subscribes).length > 0],
           groupHeader: ['INIT'],
           friends: friends
-        })
+        }
       })
     }
   }
@@ -213,35 +215,19 @@ class ContactsScreen extends React.Component {
             <Ionicons size={30} name="ios-add" color={Colors.buttonGreen}/>
           </TouchableOpacity>
         </View>
-        {/* 内容区：listview */}
-        <ListView
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              onRefresh={this.handleRefresh.bind(this)}
-              tintColor="#ff0000"
-              title="Loading..."
-              titleColor="#00ff00"
-              colors={['#ff0000', '#00ff00', '#0000ff']}
-              progressBackgroundColor="#ffff00"
-            />
-          }
-          automaticallyAdjustContentInsets={false}
-          initialListSize={10}
-          enableEmptySections={true}
-          style={Styles.listView}
-          dataSource={this.state.dataSource}
+        <BaseListView
+          autoScroll={false}
+          data={this.state.data}
+          handleRefresh={this.handleRefresh.bind(this)}
           renderRow={this._renderRow.bind(this)}
-          renderSeparator={this._renderSeparator}
-          renderSectionHeader={this.renderSectionHeader}
-          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}
+          renderSeparator={this._renderSeparator.bind(this)}
         />
       </View>
     )
   }
 
   _renderRow(rowData, sectionId, rowID, highlightRow) {
-    // console.log(rowData, typeof rowData == 'boolean')
+    // console.log(sectionId, rowData, typeof rowData == 'boolean')
     switch (sectionId) {
       case 'groupHeader':
         return this._renderSectionGroupHeader()
@@ -350,20 +336,15 @@ class ContactsScreen extends React.Component {
 
   _renderSectionGroupHeader() {
     return (
-      <TouchableOpacity onPress={() => {
+      <TouchableOpacity style={Styles.groupHeader} onPress={() => {
         NavigationActions.groupList()
       }}>
-        {/* <TouchableHighlight animationVelocity={0} underlayColor="#ccc" activeOpacity={1}> */}
-        {/* TODO: highlight 无效 */}
-        <View style={Styles.groupHeader}>
-          <View style={Styles.groupHeaderTextWrapper}>
-            <Text style={Styles.groupHeaderText}>{I18n.t('groups')}</Text>
-          </View>
-          <View style={Styles.groupHeaderIcon}>
-            <Icon name="chevron-right" size={13} color={Colors.blueGrey}/>
-          </View>
+        <View style={Styles.groupHeaderTextWrapper}>
+          <Text style={Styles.groupHeaderText}>{I18n.t('groups')}</Text>
         </View>
-        {/* </TouchableHighlight> */}
+        <View style={Styles.groupHeaderIcon}>
+          <Icon name="chevron-right" size={13} color={Colors.blueGrey}/>
+        </View>
       </TouchableOpacity>
     )
   }
@@ -383,58 +364,7 @@ class ContactsScreen extends React.Component {
 
   // ------------ rende -------------
   render() {
-    return (
-      <TabBarIOS
-        unselectedTintColor='black'
-        tintColor='black'
-        barTintColor={Colors.white1}
-        translucent={false}
-      >
-        <TabBarIOS.Item
-          icon={Images.contacts}
-          selectedIcon={Images.contactsActive}
-          renderAsOriginal
-          selected={this.state.selectedTab == 'contacts'}
-          title=''
-          onPress={() => {
-          }}>
-          {this._renderContent()}
-        </TabBarIOS.Item>
-        {/*<TabBarIOS.Item*/}
-        {/*icon={Images.chats}*/}
-        {/*selectedIcon={Images.chatsActive}*/}
-        {/*renderAsOriginal*/}
-        {/*selected={this.state.selectedTab === 'chats'}*/}
-        {/*title=''*/}
-        {/*onPress={() => {*/}
-        {/*this.setState({*/}
-        {/*selectedTab: 'chats',*/}
-        {/*notifyCount: this.state.notifyCount + 1*/}
-        {/*})*/}
-        {/*}}>*/}
-        {/*{this._renderContent('#783E33', 'Red Tab', this.state.notifyCount)}*/}
-        {/*</TabBarIOS.Item>*/}
-        {/*selectedIcon={Images.settingsActive}*/}
-        {/*icon={Images.settings}*/}
-        <TabBarIOS.Item
-          renderAsOriginal
-          icon={Images.logout}
-          selected={this.state.selectedTab === 'settings'}
-          title=''
-          onPress={() => {
-            {/*this.setState({*/
-            }
-            {/*selectedTab: 'settings',*/
-            }
-            {/*presses: this.state.presses + 1*/
-            }
-            {/*})*/
-            }
-            this.props.logout()
-          }}>
-        </TabBarIOS.Item>
-      </TabBarIOS>
-    )
+    return this._renderContent()
   }
 }
 

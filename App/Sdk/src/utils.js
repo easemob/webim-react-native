@@ -141,11 +141,11 @@
 
     isSupportWss: (function () {
       var notSupportList = [
-                // 1: QQ browser X5 core
+        // 1: QQ browser X5 core
         /MQQBrowser[\/]5([.]\d+)?\sTBS/
 
-                // 2: etc.
-                // ...
+        // 2: etc.
+        // ...
       ]
 
       if (!window.WebSocket) {
@@ -162,6 +162,7 @@
     }()),
 
     getIEVersion: (function () {
+      return null;
       var ua = navigator.userAgent, matches, tridentMap = {'4': 8, '5': 9, '6': 10, '7': 11}
 
       matches = ua.match(/MSIE (\d+)/i)
@@ -327,10 +328,12 @@
           var pos1 = u.lastIndexOf('/')
           var pos2 = u.lastIndexOf('\\')
           var pos = Math.max(pos1, pos2)
-          if (pos < 0)
-                      { uri.filename = u }
-          else
-                        { uri.filename = u.substring(pos + 1) }
+          if (pos < 0) {
+            uri.filename = u
+          }
+          else {
+            uri.filename = u.substring(pos + 1)
+          }
         }
         var index = uri.filename.lastIndexOf('.')
         if (index != -1) {
@@ -366,8 +369,8 @@
       str = typeof str === 'string' ? str : ''
 
       return str.trim
-                ? str.trim()
-                : str.replace(/^\s|\s$/g, '')
+        ? str.trim()
+        : str.replace(/^\s|\s$/g, '')
     },
 
     parseEmoji: function (msg) {
@@ -395,10 +398,10 @@
         var prefix = /^https?/gm.test(v)
 
         return "<a href='"
-                    + (prefix ? v : '//' + v)
-                    + "' target='_blank'>"
-                    + v
-                    + '</a>'
+          + (prefix ? v : '//' + v)
+          + "' target='_blank'>"
+          + v
+          + '</a>'
       })
 
       return msg
@@ -414,34 +417,34 @@
         str = utils.trim(data + '')
 
       return str && !utils.trim(
-                str.replace(/(,)|(\[|{)|(}|])|"(?:[^"\\\r\n]|\\["\\\/bfnrt]|\\u[\da-fA-F]{4})*"\s*:?|true|false|null|-?(?!0\d)\d+(?:\.\d+|)(?:[eE][+-]?\d+|)/g
-                    , function (token, comma, open, close) {
-                      if (requireNonComma && comma) {
-                        depth = 0
-                      }
+        str.replace(/(,)|(\[|{)|(}|])|"(?:[^"\\\r\n]|\\["\\\/bfnrt]|\\u[\da-fA-F]{4})*"\s*:?|true|false|null|-?(?!0\d)\d+(?:\.\d+|)(?:[eE][+-]?\d+|)/g
+          , function (token, comma, open, close) {
+            if (requireNonComma && comma) {
+              depth = 0
+            }
 
-                      if (depth === 0) {
-                        return token
-                      }
+            if (depth === 0) {
+              return token
+            }
 
-                      requireNonComma = open || comma
-                      depth += !close - !open
-                      return ''
-                    })
-            )
-                ? (Function('return ' + str))()
-                : (Function('Invalid JSON: ' + data))()
+            requireNonComma = open || comma
+            depth += !close - !open
+            return ''
+          })
+      )
+        ? (Function('return ' + str))()
+        : (Function('Invalid JSON: ' + data))()
     },
 
     parseUploadResponse: function (response) {
       return response.indexOf('callback') > -1 ? // lte ie9
-                response.slice(9, -1) : response
+        response.slice(9, -1) : response
     },
 
     parseDownloadResponse: function (response) {
       return ((response && response.type && response.type === 'application/json')
-            || Object.prototype.toString.call(response).indexOf('Blob') < 0)
-                ? this.url + '?token=' : window.URL.createObjectURL(response)
+      || Object.prototype.toString.call(response).indexOf('Blob') < 0)
+        ? this.url + '?token=' : window.URL.createObjectURL(response)
     },
 
     uploadFile: function (options) {
@@ -550,11 +553,11 @@
                 options.onFileUploadComplete(json)
               } catch (e) {
                 options.onFileUploadError({
-                    type: _code.WEBIM_UPLOADFILE_ERROR,
-                    data: xhr.responseText,
-                    id: options.id,
-                    xhr: xhr
-                  })
+                  type: _code.WEBIM_UPLOADFILE_ERROR,
+                  data: xhr.responseText,
+                  id: options.id,
+                  xhr: xhr
+                })
               }
             } else {
               options.onFileUploadError({
@@ -846,7 +849,7 @@
             xhr.setRequestHeader(key, headers[key])
           }
         }
-                // todo by lwz
+        // todo by lwz
         xhr.setRequestHeader('content-type', 'application/json')
       }
 

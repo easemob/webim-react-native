@@ -25,7 +25,7 @@ import ImagePicker from 'react-native-image-picker'
 import Emoji from 'react-native-emoji'
 import Swiper from 'react-native-swiper'
 import WebIM from '../Lib/WebIM'
-import debounce from 'lodash/function/debounce'
+import debounce from 'lodash.debounce'
 
 const {width, height} = Dimensions.get('window')
 
@@ -65,7 +65,7 @@ class MessageScreen extends React.Component {
     const {byId} = message
     const chatTypeData = message[chatType] || {}
     const chatData = chatTypeData[id] || []
-    console.log(chatType, id, message, chatTypeData, chatData)
+    // console.log(chatType, id, message, chatTypeData, chatData)
     this.setState({
       messages: {
         messages: chatData
