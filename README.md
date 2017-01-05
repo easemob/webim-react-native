@@ -14,7 +14,16 @@ iOS >= 9.0 , Android >= 4.1 (API 16)
 
 **[CHANGE LOG](./CHANGELOG.md)**
 
-注：此版本由于升级了react native库，需要先 `npm install` 安装依赖包
+注：
+1. 此版本由于升级了react native库，需要先 `npm install` 安装依赖包
+2. 去工程Librares中找到： RCTNetwork.xcodeproj / RCTNetworking.mm / RCTGenerateFormBoundary -> 去掉特殊字符 `/ .` 等
+   - 或者去 `node_modules/react-native/Libraries/Network/RCTNetworking.mm` 修改
+   - 因为上传文件时服务端rest服务会限制content-type不能出现特殊字符
+```
+//修改后： 
+const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+```
+
 
 ## Start
 

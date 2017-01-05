@@ -26,11 +26,14 @@
 		- emoji消息
 		- 普通消息
 		
-### BugFix
+### BugFix and Update
 
 * 群成员刷新crash的问题
 * 添加logout图标
 * 统一iOS和Android UI
+* emoji颜色在android颜色太浅
+* 登出的时候清空用户状态
+* 完善联系人页面的搜索在切换场景及刷新时的显示逻辑
 
 ### Extra
 
