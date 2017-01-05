@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -28,8 +28,8 @@
     "format-json": "^1.0.3",
     "querystringify": "0.0.4",
     "ramda": "^0.22.1",
-    "react": "~15.3.0",
-    "react-native": "^0.36.0",
+    "react": "^15.4.1",
+    "react-native": "^0.39.2",
     "react-native-animatable": "^0.6.0",
     "react-native-config": "^0.1.0",
     "react-native-device-info": "^0.9.5",
@@ -38,7 +38,7 @@
     "react-native-i18n": "^0.1.1",
     "react-native-image-picker": "^0.24.1",
     "react-native-maps": "^0.11.0",
-    "react-native-router-flux": "^3.35.0",
+    "react-native-router-flux": "^3.37.0",
     "react-native-swiper": "^1.5.4",
     "react-native-vector-icons": "^2.1.0",
     "react-redux": "^4.4.2",
@@ -101,5 +101,9 @@
     "ghooks": {
       "pre-commit-nouse": "if [ -d 'ignite-base' ]; then cd ignite-base; fi; npm run lint"
     }
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/easemob/webim-react-native.git",
+  "author": "wytheme <liu48566203@gmail.com>",
+  "license": "MIT"
 }

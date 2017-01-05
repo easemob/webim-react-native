@@ -4,6 +4,7 @@ import {createReducer, createActions} from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import {Alert} from 'react-native'
 import WebIM, {api} from '../Lib/WebIM'
+import {Actions as NavigationActions} from 'react-native-router-flux'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -30,15 +31,16 @@ const {Types, Creators} = createActions({
       // must be https for mac policy
       return api.register(options)
         .then(({data}) => {
-          console.log('success', data)
           if (data.error) {
-            Alert.alert(data.error_description)
+            Alert.alert('Error', data.error_description)
             dispatch(Creators.registerFailure(data))
             return Promise.reject()
           }
 
-          Alert.alert('success')
+          Alert.alert('Success')
           dispatch(Creators.registerSuccess(data))
+          NavigationActions.login()
+
         }).catch(() => {
           console.log('error')
         })

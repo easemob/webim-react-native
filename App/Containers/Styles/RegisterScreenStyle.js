@@ -26,8 +26,13 @@ export default create({
       marginBottom: 32,
       borderRadius: 2,
       // and only
-      elevation: 3,
+      // elevation: 3,
       marginHorizontal: 25.5
+    }
+  },
+  borderRadius: {
+    android: {
+      elevation: 3,
     }
   },
   borderBottom: {
@@ -44,7 +49,9 @@ export default create({
       borderBottomColor: '#adb9c1',
       paddingHorizontal: Metrics.doubleBaseMargin
     },
-    android: {}
+    android: {
+      paddingHorizontal: Metrics.doubleBaseMargin
+    }
   },
   // 提示行
   tips: {
@@ -78,23 +85,25 @@ export default create({
     flexDirection: 'row'
   },
   loginButtonWrapper: {
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    right: 0,
     ios: {
+      position: 'absolute',
+      left: 0,
+      bottom: 0,
+      right: 0,
       paddingTop: 17,
-      paddingBottom: 16
+      paddingBottom: 16,
+      backgroundColor: Colors.buttonSignin,
     },
     android: {
       flex: 1,
-      height: 37,
       marginTop: 32,
+      marginBottom: 18,
       elevation: 3,
       paddingTop: 10,
-      paddingBottom: 9.5
+      paddingBottom: 9.5,
+      backgroundColor: Colors.buttonSignin,
+      alignSelf: 'stretch',
     },
-    backgroundColor: Colors.buttonSignin,
     // height: 50
   },
   loginButton: {

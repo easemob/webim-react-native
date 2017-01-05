@@ -7,19 +7,19 @@ import {create} from '../../Lib/PlatformStyleSheet'
 export default create({
   container: {
     flex: 1,
-    marginTop: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'column'
   },
   body: {
-    flex: 1,
+    // flex: 1,
     height: 200,
-    marginBottom: 150,
+    marginTop: 100,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 33
   },
   button: {
-    marginTop: 39
+    marginTop: 39,
+    // flex: 0,
   }
 })

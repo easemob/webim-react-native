@@ -1,24 +1,24 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {Modal, Alert, TouchableHighlight, View, Dimensions} from 'react-native';
+import {Alert, View, LayoutAnimation, Keyboard, Platform} from 'react-native';
 
 // custom
 import I18n from 'react-native-i18n'
 import {Colors} from '../Themes'
 import Styles from './Styles/AddContactModalStyle'
-import Icon from 'react-native-vector-icons/FontAwesome';
-import ContactsActions from '../Redux/ContactsScreenRedux'
-
 import ModalHeader from '../Components/ModalHeader'
 import Button from '../Components/Button'
 import Input from '../Components/Input'
+import RosterActions from '../Redux/RosterRedux'
 
-//TODO: 连接错误登出时，需要关闭所有的modal框 - mixin 也许可以全局设置
-//TODO: 用router的scene代替此页面
-export default class AddContactModal extends Component {
+class AddContactModal extends Component {
 
-  state = {
-    id: ''
+  constructor(props) {
+    super(props)
+    this.state = {
+      id: '',
+      keyboardShow: false,
+    }
   }
 
   // ------------ init -------------
@@ -28,62 +28,107 @@ export default class AddContactModal extends Component {
 
 
   // ------------ handlers -------------
+  componentWillMount() {
+
+    // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
+    // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener.remove()
+  }
+
+  keyboardDidShow = (e) => {
+    // Animation types easeInEaseOut/linear/spring
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.setState({
+      keyboardShow: true,
+    })
+  }
+
+  keyboardDidHide = (e) => {
+    // Animation types easeInEaseOut/linear/spring
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    this.setState({
+      keyboardShow: false,
+    })
+  }
+
+
+  handleAddContact(id) {
+    // TODO: 已经是好友了
+    // TODO: 已经发送过邀请了
+
+    //TODO: 提示
+    if (!id.trim()) {
+      return;
+    }
+
+    //TODO: 提示
+    if (this.props.user == id.trim()) {
+      return;
+    }
+
+    this.setState({
+      id: ''
+    })
+    Alert.alert(I18n.t('requestHasSent'))
+    this.props.addContact(id)
+  }
 
   // ------------ renders -------------
   render() {
-    let {modalVisible, toggle, addContact} = this.props
+    let {keyboardShow} = this.state
 
-    return modalVisible ? (
-        <View>
-          {/* onRequestClose: android */}
-          <Modal
-            animationType={"slide"}
-            transparent={false}
-            visible={modalVisible}
-          >
-            <View style={Styles.container}>
-              <ModalHeader
-                title={I18n.t('addContact')}
-                rightBtn={I18n.t('cancel')}
-                rightClick={toggle}
-              />
-              <View style={Styles.body}>
-                <Input
-                  ref="addInput"
-                  iconName="search"
-                  iconSize={13}
-                  iconColor={Colors.iconColor}
-                  backgroundColor={Colors.snow}
-                  value={this.state.id}
-                  onChangeText={(v) => {
-                    this.setState({id: v})
-                  }}
-                  placeholder={I18n.t('enterHyphenateID')}
-                />
-                <Button
-                  color={Colors.snow}
-                  text={I18n.t('add')}
-                  styles={Styles.button}
-                  onPress={() => {
-                    if (!this.state.id) {
-                      return
-                    }
-                    addContact(this.state.id)
-                    Alert.alert(I18n.t('requestHasSent'))
-                    this.setState({
-                      id: ''
-                    })
-                  }}
-                />
-              </View>
-            </View>
-          </Modal>
-
-          {/* <TouchableHighlight onPress={this.props.toggle}>
-           <Text>Show Modal</Text>
-           </TouchableHighlight>
-           */}
+    return (
+      <View style={Styles.container}>
+        <View style={[Styles.body, keyboardShow && Platform.OS == 'android' ? {} : {}]}>
+          <Input
+            ref="addInput"
+            iconName="search"
+            iconSize={13}
+            iconColor={Colors.iconColor}
+            backgroundColor={Colors.snow}
+            value={this.state.id}
+            onChangeText={(v) => {
+              this.setState({id: v})
+            }}
+            placeholder={I18n.t('enterHyphenateID')}
+          />
+          <Button
+            color={Colors.snow}
+            text={I18n.t('add')}
+            styles={Styles.button}
+            isHighlight={!!this.state.id}
+            onPress={() => {
+              this.handleAddContact(this.state.id)
+            }}
+          />
         </View>
-      ) : null
+      </View>
+    )
   }
 }
+
+
+AddContactModal.propTypes = {
+  user: PropTypes.string
+}
+
+// ------------ redux -------------
+const mapStateToProps = (state) => {
+  return {
+    user: state.ui.login.username,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addContact: (id) => dispatch(RosterActions.addContact(id)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddContactModal)

@@ -3,13 +3,15 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {
+  Alert,
   View,
   Text,
   Switch,
   Image,
   ScrollView,
   TouchableOpacity,
-  ActionSheetIOS
+  ActionSheetIOS,
+  Platform
 } from 'react-native'
 
 // custom
@@ -57,18 +59,23 @@ class ContactInfoScreen extends Component {
   // ------------ renders -------------
 
   handleDelete() {
-    //TODO: 不同button如何定义不同的颜色
-    ActionSheetIOS.showActionSheetWithOptions({
-        options: SHEET_BUTTON,
-        cancelButtonIndex: 1,
-        tintColor: [Colors.orangeRed]
-      },
-      (buttonIndex) => {
-        // this.setState({clicked: SHEET_BUTTON[buttonIndex]});
-        if (SHEET_BUTTON[buttonIndex] == 'Delete') {
-          this.props.removeContact(this.props.uid)
-        }
-      });
+    if (Platform.OS == 'ios') {
+      //TODO: 不同button如何定义不同的颜色
+      ActionSheetIOS.showActionSheetWithOptions({
+          options: SHEET_BUTTON,
+          cancelButtonIndex: 1,
+          tintColor: [Colors.orangeRed]
+        },
+        (buttonIndex) => {
+          // this.setState({clicked: SHEET_BUTTON[buttonIndex]});
+          if (SHEET_BUTTON[buttonIndex] == 'Delete') {
+            this.props.removeContact(this.props.uid)
+          }
+        })
+    } else if (Platform.OS == 'android') {
+      this.props.removeContact(this.props.uid)
+    }
+
   }
 
   handleSwitch(v) {

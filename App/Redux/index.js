@@ -23,7 +23,16 @@ export default () => {
     im: require('./WebIMRedux').reducer
   })
 
-  const store = configureStore(rootReducer)
+  // 登出清空state
+  const appReducer = (state, action) => {
+    if (action.type === 'USER_LOGOUT') {
+      state = {}
+    }
+
+    return rootReducer(state, action)
+  }
+
+  const store = configureStore(appReducer)
 
   // Provider does not support changing `store` on the fly
   // TODO  https://github.com/reactjs/react-redux/releases/tag/v2.0.0 by lwz

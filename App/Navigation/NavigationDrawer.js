@@ -57,8 +57,6 @@ class NavigationDrawer extends Component {
     const state = this.props.navigationState
     const children = state.children
 
-    console.log('render', state.open)
-
     // setTimeout(() => {
     //   if (state.open) {
     //     console.log(this.refs.navigation)

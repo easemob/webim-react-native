@@ -25,7 +25,7 @@ import ImagePicker from 'react-native-image-picker'
 import Emoji from 'react-native-emoji'
 import Swiper from 'react-native-swiper'
 import WebIM from '../Lib/WebIM'
-import debounce from 'lodash/function/debounce'
+import debounce from 'lodash.debounce'
 
 const {width, height} = Dimensions.get('window')
 
@@ -65,7 +65,7 @@ class MessageScreen extends React.Component {
     const {byId} = message
     const chatTypeData = message[chatType] || {}
     const chatData = chatTypeData[id] || []
-    console.log(chatType, id, message, chatTypeData, chatData)
+    // console.log(chatType, id, message, chatTypeData, chatData)
     this.setState({
       messages: {
         messages: chatData
@@ -85,13 +85,18 @@ class MessageScreen extends React.Component {
   componentWillMount() {
     // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
     // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
+    if (Platform.OS == 'ios') {
+      this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow)
+      this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide)
+    } else {
+      //this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
+      //this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
+    }
   }
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove()
-    this.keyboardDidHideListener.remove()
+    this.keyboardDidShowListener && this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener && this.keyboardDidHideListener.remove()
   }
 
   keyboardDidShow = (e) => {
@@ -352,6 +357,10 @@ class MessageScreen extends React.Component {
   }
 
   _renderLeftImg(rowData = {}) {
+    const {body} = rowData
+    const maxWidth = 250
+    let width = Math.min(maxWidth, body.width)
+    let height = body.height * width / body.width
     const loading = rowData.status == 'sending' ? (
         <ActivityIndicator style={{margin: 5}}/>
       ) : null
@@ -362,7 +371,8 @@ class MessageScreen extends React.Component {
         <View style={Styles.rowMessage}>
           <Text style={Styles.nameText}>{rowData.from}</Text>
           <View style={[Styles.message, Styles.messageImage]}>
-            <Image source={{uri: rowData.body.url}} style={[Styles.rowImage, {}]}/>
+            <Image source={{uri: body.uri || body.url}}
+                   style={[Styles.rowImage, {width, height}]}/>
           </View>
           <Text style={Styles.timeText}>{this._renderDate(rowData.time)}</Text>
         </View>
@@ -516,10 +526,16 @@ class MessageScreen extends React.Component {
           {this._renderSendButton()}
         </View>
         <View style={Styles.iconRow}>
-          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleCameraPicker.bind(this), 2000, true)}>
+          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleCameraPicker.bind(this), 2000, {
+            'leading': true,
+            'trailing': false
+          })}>
             <Image source={Images.iconCamera}/>
           </TouchableOpacity>
-          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleImagePicker.bind(this), 2000, true)}>
+          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleImagePicker.bind(this), 2000, {
+            'leading': true,
+            'trailing': false
+          })}>
             <Image source={Images.iconImage}/>
           </TouchableOpacity>
           <TouchableOpacity style={Styles.iconTouch} onPress={this.handleEmojiOpen.bind(this)}>
@@ -546,7 +562,7 @@ class MessageScreen extends React.Component {
   render() {
     const {messages = {}, visibleHeight, keyboardHeight} = this.state
     return (
-      <View style={[Styles.container, {flex: 1}]}>
+      <View style={[Styles.container, {flex: 1, flexDirection: 'column'}]}>
         <BaseListView
           autoScroll={true}
           data={messages}

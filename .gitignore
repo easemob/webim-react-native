@@ -13,5 +13,6 @@ publish/*
 android/.gradle
 android/app/build
 android/build
+yarn-error.log
 ios/build
 npm-debug.log

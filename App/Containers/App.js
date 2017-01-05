@@ -19,6 +19,7 @@ import RosterActions from '../Redux/RosterRedux'
 import MessageActions from '../Redux/MessageRedux'
 import GroupActions from '../Redux/GroupRedux'
 import {Actions as NavigationActions} from 'react-native-router-flux'
+import axios from 'axios'
 
 const RouterWithRedux = connect()(RootContainer);
 
@@ -56,6 +57,8 @@ class App extends Component {
         store.dispatch(BlacklistActions.getBlacklist())
         // 获取群组列表
         store.dispatch(GroupActions.getGroups())
+
+        NavigationActions.contacts()
       },
       // 出席消息
       onPresence: (msg) => {
