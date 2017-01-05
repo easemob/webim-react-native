@@ -31,14 +31,13 @@ const {Types, Creators} = createActions({
       // must be https for mac policy
       return api.register(options)
         .then(({data}) => {
-          console.log('success', data)
           if (data.error) {
-            Alert.alert(data.error_description)
+            Alert.alert('Error', data.error_description)
             dispatch(Creators.registerFailure(data))
             return Promise.reject()
           }
 
-          Alert.alert('success')
+          Alert.alert('Success')
           dispatch(Creators.registerSuccess(data))
           NavigationActions.login()
 

@@ -20,13 +20,20 @@ iOS >= 9.0 , Android >= 4.1 (API 16)
 
 ### Initial
 
-1. ** 首先：项目初始化 `$ npm run newclear` ，只执行一次即可**
-2. 修改 node_modules/axios/lib/utils.js (http通信使用axios库，但是跟框架不太兼容，需要稍作调整)
-
+1. **首先：项目初始化 `$ npm run newclear` ，iOS和Android只执行一次即可**
+2. **修改 node_modules/axios/lib/utils.js (http通信使用axios库，但是跟框架不太兼容，需要稍作调整)**
 ```js
 function isStandardBrowserEnv() {
   return false;
 }
+```
+
+3. **去工程Librares中找到： RCTNetwork.xcodeproj / RCTNetworking.mm / RCTGenerateFormBoundary -> 去掉特殊字符 / . 等**
+   - 因为上传文件时服务端rest服务会限制content-type不能出现特殊字符
+   
+```
+//修改后： 
+const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 ```
 
 ### Android debug and publish
@@ -112,8 +119,6 @@ A: 尝试删除已经安装的app
 
 ### IOS debug and publish
 
-** 首先：项目初始化 `$ npm run newclear` ，iOS和Android只执行一次即可**
-
 1. 基础环境安装 ios 和 android https://facebook.github.io/react-native/docs/getting-started.html
 2. 模拟器安装
 	- xcode -> Preferences-> Components -> iOS x.x Simulator
@@ -175,15 +180,16 @@ Include the NativeAnimation module on iOS in the starter projec
 A: https://github.com/facebook/react-native/issues/10638
 
 ##### Q: React Native BUILD SUCCEED, but “No devices are booted.”
+A: 
 
-A:
-
-- run-ios不要用 `sudo` 会导致app无法编译到模拟器当中
-- 如果不用sudo，总是编译报错 `NSLocalizedDescription = "Permission denied";`
-  - `sudo chmod 777 /Users/xxxx/.babel.json`
+- `react-native run-ios`不要用 `sudo` 会导致app无法编译到模拟器当中
+- 如果不用`sudo`，总是编译报错 `NSLocalizedDescription = "Permission denied";`
+  - `sudo chmod 777 /Users/用户名/.babel.json`
+- 如果仍然报`Permission denied`的类似问题
+  - 可以去项目目录查看文件用户组，保证所有文件用户组都在当前用户下，而不是root下
+  - `sudo chown -R 用户:用户组 目录名`
 
 ##### Q: Latest react-native app doesn't work ":CFBundleIdentifier", Does Not Exist #7308
-
 A: https://github.com/facebook/react-native/issues/7308
 
 ```

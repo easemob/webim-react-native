@@ -16,9 +16,7 @@ const {Types, Creators} = createActions({
         WebIM.conn.close('logout')
       }
 
-      // TODO 登陆的操作简单清空就ok？
-      dispatch(RosterActions.updateRoster([]))
-      dispatch(GroupActions.updateGroup([]))
+      dispatch({type: 'USER_LOGOUT'})
 
       NavigationActions.login({type: ActionConst.REPLACE});
     }

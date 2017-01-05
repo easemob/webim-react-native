@@ -177,6 +177,7 @@ export default create({
     paddingLeft: 4,
     paddingBottom: 1,
     // height: 30
+    color: '#fff'
   },
   send: {
     marginRight: 12,

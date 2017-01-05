@@ -1,19 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {
-  RefreshControl,
   View,
   TouchableOpacity,
   TextInput,
   Text,
-  TabBarIOS,
-  StyleSheet,
-  ScrollView,
-  ListView,
-  StatusBar,
   Image,
-  RecyclerViewBackedScrollView,
-  TouchableHighlight,
   TouchableWithoutFeedback
 } from 'react-native'
 
@@ -40,11 +32,6 @@ class ContactsScreen extends React.Component {
   constructor(props) {
     super(props)
 
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-      sectionHeaderHasChanged: (s1, s2) => s1 !== s2
-    });
-
     this.state = {
       isRefreshing: false,
       modalVisible: false,
@@ -53,7 +40,6 @@ class ContactsScreen extends React.Component {
       selectedTab: 'contacts',
       notifyCount: 0,
       presses: 0,
-      ds,
       data: {
         // [群组通知，好友通知, 通知总数]
         // notices: [null,subscribes, length],
@@ -72,28 +58,20 @@ class ContactsScreen extends React.Component {
     let roster = props.roster || []
     let subscribes = props.subscribes || []
     let friends = roster && roster.friends
-
-    if (this.state.search != search) {
-      let friendsFilter = friends.filter((name) => {
+    let friendsFilter = friends
+    if (search) {
+      friendsFilter = friends.filter((name) => {
         return name.indexOf(search) !== -1
       })
-
-      this.setState({
-        data: {
-          notices: [null, subscribes, Object.keys(subscribes).length > 0],
-          groupHeader: ['INIT'],
-          friends: friendsFilter
-        }
-      })
-    } else {
-      this.setState({
-        data: {
-          notices: [null, subscribes, Object.keys(subscribes).length > 0],
-          groupHeader: ['INIT'],
-          friends: friends
-        }
-      })
     }
+
+    this.setState({
+      data: {
+        notices: [null, subscribes, Object.keys(subscribes).length > 0],
+        groupHeader: ['INIT'],
+        friends: friendsFilter
+      }
+    })
   }
 
 
@@ -105,7 +83,7 @@ class ContactsScreen extends React.Component {
   componentWillReceiveProps(nextProps) {
     // TODO: 是否需要更新的校验
     // TODO: props更新，有没有更好的方式通知
-    this.updateList(nextProps)
+    this.updateList(nextProps, this.state.search)
   }
 
   // ------------ handlers -------------
@@ -124,8 +102,8 @@ class ContactsScreen extends React.Component {
   }
 
   handleChangeSearch(text) {
-    this.updateList(false, text)
     this.setState({search: text})
+    this.updateList(false, text)
   }
 
   handleFocusSearch() {
@@ -141,6 +119,13 @@ class ContactsScreen extends React.Component {
     this.refs.search.blur()
     this.setState({
       focused: false,
+      search: null,
+    })
+    this.updateList()
+  }
+
+  handleInitSearch() {
+    this.setState({
       search: null,
     })
     this.updateList()
@@ -252,6 +237,7 @@ class ContactsScreen extends React.Component {
   _renderSectionFriends(rowData) {
     return (
       <TouchableOpacity onPress={() => {
+        this.handleInitSearch()
         NavigationActions.contactInfo({"uid": rowData})
       }}>
         <View style={Styles.row}>

@@ -1,5 +1,5 @@
 // @flow
-
+import {StyleSheet, Platform} from 'react-native'
 import {Colors} from '../../Themes/'
 
 export default {
@@ -19,7 +19,7 @@ export default {
     color: Colors.snow
   },
   tabBarStyle: {
-    borderTopWidth: .5,
+    borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: '#b7b7b7',
     backgroundColor: Colors.white1,
     justifyContent: 'center',

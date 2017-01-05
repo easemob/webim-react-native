@@ -357,6 +357,10 @@ class MessageScreen extends React.Component {
   }
 
   _renderLeftImg(rowData = {}) {
+    const {body} = rowData
+    const maxWidth = 250
+    let width = Math.min(maxWidth, body.width)
+    let height = body.height * width / body.width
     const loading = rowData.status == 'sending' ? (
         <ActivityIndicator style={{margin: 5}}/>
       ) : null
@@ -367,7 +371,8 @@ class MessageScreen extends React.Component {
         <View style={Styles.rowMessage}>
           <Text style={Styles.nameText}>{rowData.from}</Text>
           <View style={[Styles.message, Styles.messageImage]}>
-            <Image source={{uri: rowData.body.url}} style={[Styles.rowImage, {}]}/>
+            <Image source={{uri: body.uri || body.url}}
+                   style={[Styles.rowImage, {width, height}]}/>
           </View>
           <Text style={Styles.timeText}>{this._renderDate(rowData.time)}</Text>
         </View>
@@ -521,10 +526,16 @@ class MessageScreen extends React.Component {
           {this._renderSendButton()}
         </View>
         <View style={Styles.iconRow}>
-          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleCameraPicker.bind(this), 2000, true)}>
+          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleCameraPicker.bind(this), 2000, {
+            'leading': true,
+            'trailing': false
+          })}>
             <Image source={Images.iconCamera}/>
           </TouchableOpacity>
-          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleImagePicker.bind(this), 2000, true)}>
+          <TouchableOpacity style={Styles.iconTouch} onPress={debounce(this.handleImagePicker.bind(this), 2000, {
+            'leading': true,
+            'trailing': false
+          })}>
             <Image source={Images.iconImage}/>
           </TouchableOpacity>
           <TouchableOpacity style={Styles.iconTouch} onPress={this.handleEmojiOpen.bind(this)}>
