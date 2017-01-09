@@ -340,38 +340,65 @@ click done, done
 > 因为react-native不同于浏览器环境，所以sdk已经做了重新改造，webim的sdk已经不适应于react-native场景，目前react-native的sdk并没有独立出来，所以集成可以参考一下方式
 
 ### 如何单独集成
-1. App/Lib/WebIM.js
+1. 拷贝App/Lib/WebIM.js，App/Lib/WebIMConfig.js
+ 
+  WebIM.js
+
+  ```js
+  // 此处的strophe也是改造过的，需要拷贝
+  import '../Sdk/dist/strophe-1.2.8.js'
+  // 改造过的sdk目录
+  import websdk from '../Sdk'
+  // react-native有window对象但是，不是标准的浏览器对象所以，次数需要模拟一个window和document对象， 借助于xmldom模块
+  import xmldom from 'xmldom'
+  // 改造过的基础配置信息：去掉一些浏览器依赖
+  import config from './WebIMConfig'
+  // 为了http请求，此处可以随意使用自己的http组件
+  import Api from '../Services/Api'
+  ```
+  ```js
+  let WebIM = window.WebIM = websdk
+  window.WebIM.config = config
+  // strophe 依赖此属性
+  window.DOMParser = xmldom.DOMParser
+  // 模拟document对象
+  let document = window.document = new DOMParser().parseFromString("<?xml version='1.0'?>\n", 'text/xml')
+  
+  // 建立连接
+  WebIM.conn = new WebIM.connection({
+    isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
+    https: WebIM.config.https,
+    url: WebIM.config.xmppURL,
+    isAutoLogin: false,
+    heartBeatWait: WebIM.config.heartBeatWait,
+    autoReconnectNumMax: WebIM.config.autoReconnectNumMax,
+    autoReconnectInterval: WebIM.config.autoReconnectInterval
+  })
+  ```
+
+2. 拷贝App/Sdk目录
+3. 安装xmldom依赖  `npm install --save xmldom`
+4. 替换自己的http模块
+3. Api等同于webim的[sdk](http://docs.easemob.com/im/400webimintegration/10webimintro)
+
+本demo中实例：Containers/App.js ，全局xmpp的事件监听（此处用的redux，可以根据自己的框架定义数据流处理方式）
 
 ```js
-// 此处的strophe也是改造过的，需要拷贝
-import '../Sdk/dist/strophe-1.2.8.js'
-// 改造过的sdk目录
-import websdk from '../Sdk'
-// react-native有window对象但是，不是标准的浏览器对象所以，次数需要模拟一个window和document对象， 借助于xmldom模块
-import xmldom from 'xmldom'
-// 改造过的基础配置信息：去掉一些浏览器依赖
-import config from './WebIMConfig'
-// 为了http请求，此处可以随意使用自己的http组件
-import Api from '../Services/Api'
-```
-```js
-let WebIM = window.WebIM = websdk
-window.WebIM.config = config
-// strophe 依赖此属性
-window.DOMParser = xmldom.DOMParser
-// 模拟document对象
-let document = window.document = new DOMParser().parseFromString("<?xml version='1.0'?>\n", 'text/xml')
+    WebIM.conn.listen({
+      // xmpp连接成功
+      onOpened: (msg) => {
+        // 出席后才能接受推送消息
+        WebIM.conn.setPresence();
+        // 获取好友信息
+        store.dispatch(RosterActions.getContacts())
+        // 通知登陆成功
+        store.dispatch(LoginActions.loginSuccess(msg))
+        // 获取黑名单列表
+        store.dispatch(BlacklistActions.getBlacklist())
+        // 获取群组列表
+        store.dispatch(GroupActions.getGroups())
 
-// 建立连接
-WebIM.conn = new WebIM.connection({
-  isMultiLoginSessions: WebIM.config.isMultiLoginSessions,
-  https: WebIM.config.https,
-  url: WebIM.config.xmppURL,
-  isAutoLogin: false,
-  heartBeatWait: WebIM.config.heartBeatWait,
-  autoReconnectNumMax: WebIM.config.autoReconnectNumMax,
-  autoReconnectInterval: WebIM.config.autoReconnectInterval
-})
+        NavigationActions.contacts()
+      },
+      ...
 ```
-
-2. App/Sdk 目录需要拷贝使用
