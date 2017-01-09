@@ -2,6 +2,23 @@
 
 更详细的QA、IDE配置请参考[文档](https://github.com/wytheme/wytheme.github.io/blob/master/raw/react-native-and-strophe.md)
 
+## 目录
+
+1. [版本支持](#版本支持)
+1. [更新日志](#更新日志)
+1. [Start](#start)
+   1. [初始化项目](#initial) 
+   1. [注意事项](#notice)
+      - [node_modules](#node_modules)
+   1. [Android debug and publish](#android-debug-and-publish)
+      - [Android 可能遇到的问题](#android-可能遇到的问题)
+   1. [IOS debug and publish](#ios-debug-and-publish)
+      - [IOS 可能遇到的问题](#ios-可能遇到的问题)
+1. [目录结构](#目录结构)
+1. [Redux State](#redux-state)
+1. [Todo](#todo)
+1. [Sdk 集成](#sdk)
+      
 ## 版本支持
 
 iOS >= 9.0 , Android >= 4.1 (API 16)
@@ -60,7 +77,7 @@ const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
   - 如果之前有编译时自动打开的终端，请关闭终端
 5. 编译
 
-### node_modules 
+#### node_modules 
 
 > 根目录下执行` npm run newclear`会生成node_modules，是项目运行所需要的基础依赖包
  
@@ -138,7 +155,7 @@ $ cd android/app/build/outpus/apk && adb install app-release.apk
 
 **注：很多快捷命令见根目录 `package.json` scripts 内容**
 
-#### 可能遇到的问题
+#### Android  可能遇到的问题
 
 ##### Q: 模拟器第一可以正常启动，以后均启动失败
 A: 删除镜像文件，重新创建，并运行
@@ -194,7 +211,7 @@ $ react-native run-ios
 $ react-native bundle --dev false --platform ios --entry-file ./index.ios.js --bundle-output ./ios/app/main.jsbundle
 ```
 
-#### 可能遇到的问题
+#### IOS 可能遇到的问题
 
 ##### Q：一些注意事项
 - 注意切换debug 或 release 版本都需要关闭控制台
