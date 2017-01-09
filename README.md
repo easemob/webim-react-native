@@ -28,6 +28,7 @@ const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 ## Start
 
 ### Initial
+> 每次新的项目都需要执行如下操作，如果同一目录已修改过，可以忽略此步骤
 
 1. **首先：项目初始化 `$ npm run newclear` ，iOS和Android只执行一次即可**
 2. **修改 node_modules/axios/lib/utils.js (http通信使用axios库，但是跟框架不太兼容，需要稍作调整)**
@@ -36,7 +37,6 @@ function isStandardBrowserEnv() {
   return false;
 }
 ```
-
 3. **去工程Librares中找到： RCTNetwork.xcodeproj / RCTNetworking.mm / RCTGenerateFormBoundary -> 去掉特殊字符 / . 等**
    - 因为上传文件时服务端rest服务会限制content-type不能出现特殊字符
    
@@ -44,6 +44,28 @@ function isStandardBrowserEnv() {
 //修改后： 
 const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 ```
+
+### Notice
+
+> 项目初始化之后，编译时注意事项
+
+1. **默认没有添加签名的情况下请编译debug版本，不然release版本会无法正常运行**
+  - IOS安装流程中，如何修改release->debug, 有两处位置
+  - Android中，不要带release参数
+2. **目前代码版本0.2.0，请看项目目录下package.json -> version属性，如果不是请更新代码**
+3. **0.2.0版本部分依赖的模块升级请先运行`npm install`安装升级包**
+4. **install之后清理缓存**
+  - `npm run clean`
+  - 打开xcode项目，选择product -> clean
+  - 如果之前有编译时自动打开的终端，请关闭终端
+5. 编译
+
+### node_modules 
+
+> 根目录下执行` npm run newclear`会生成node_modules，是项目运行所需要的基础依赖包
+ 
+ 由于node_modules比较大，400mb左右, 安装时耗时比较久，所以已经install过node_modules的项目，可以备份node_modules。
+ 当安装新的项目的时候，拷贝node_modules到新项目，并运行`npm install`, 如果此步无法正常运行项目再执行上面的`Initial`流程
 
 ### Android debug and publish
 
@@ -126,6 +148,9 @@ A: 尝试删除已经安装的app
 
 - https://github.com/facebook/react-native/issues/2720
 
+##### Q: Object.freeze can only be called on Object 
+A: `ctrl+m` 调出控制控制台, 选择 `Debug JS Remotely`
+
 ### IOS debug and publish
 
 1. 基础环境安装 ios 和 android https://facebook.github.io/react-native/docs/getting-started.html
@@ -144,7 +169,8 @@ A: 尝试删除已经安装的app
 			- Targets -> app -> General -> Identity -> Bundle Identifier -> 修改唯一id标示
 			- Targets -> appTests -> General -> Signing -> Team
 			- Targets -> appTests -> General -> Signing -> Signing Certificate
-		- `Product -> Scheme -> Edit Scheme (cmd + <), make sure you're in the Run tab from the side` 修改 debug or release
+		- `Product -> Scheme -> Edit Scheme (cmd + <), make sure you're in the Run tab from the side` 修改为 debug or release
+		- `Project -> app -> Configurations -> use 'debug' for command-line builds` 修改为 debug or release
 	- xcode 保证app/main.jsbundle可用，没有自行添加索引
 		- main.jsbundle 生成方式
 			- curl的方式打包  https://github.com/facebook/react-native/issues/5747
