@@ -1,5 +1,5 @@
 // a library to wrap and simplify api calls
-import apisauce from 'apisauce'
+import apisauce from '../Lib/apisauce'
 
 // our "constructor"
 const create = (baseURL = '') => {
