@@ -48,12 +48,6 @@ const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 > 每次新的项目都需要执行如下操作，如果同一目录已修改过，可以忽略此步骤
 
 1. **首先：项目初始化 `$ npm run newclear` ，iOS和Android只执行一次即可**
-2. **修改 node_modules/axios/lib/utils.js (http通信使用axios库，但是跟框架不太兼容，需要稍作调整)**
-```js
-function isStandardBrowserEnv() {
-  return false;
-}
-```
 3. **去工程Librares中找到： RCTNetwork.xcodeproj / RCTNetworking.mm / RCTGenerateFormBoundary -> 去掉特殊字符 / . 等**
    - 因为上传文件时服务端rest服务会限制content-type不能出现特殊字符
    
@@ -61,6 +55,8 @@ function isStandardBrowserEnv() {
 //修改后： 
 const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 ```
+
+注：原先axios模块的修改步骤已取消，防止模块更新时重置，将axios迁移到了项目中维护
 
 ### Notice
 
