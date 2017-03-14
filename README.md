@@ -41,6 +41,12 @@ iOS >= 9.0 , Android >= 4.1 (API 16)
 const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 ```
 
+## 用户问题反馈
+
+1. SyntaxError: Strict mode does not allow function declarations in a lexically nested statement ...
+  - fix: [babel-plugin-transform-remove-strict-mode](https://www.npmjs.com/package/babel-plugin-transform-remove-strict-mode)
+1. 消息发送失败
+ - 需要确认发送消息操作是否在连接正确建立之后才发送的消息 ，见： `WebIM.conn.listen({ // xmpp连接成功 onOpened: (msg) => { }}）`。
 
 ## Start
 
@@ -48,7 +54,8 @@ const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 > 每次新的项目都需要执行如下操作，如果同一目录已修改过，可以忽略此步骤
 
 1. **首先：项目初始化 `$ npm run newclear` ，iOS和Android只执行一次即可**
-3. **去工程Librares中找到： RCTNetwork.xcodeproj / RCTNetworking.mm / RCTGenerateFormBoundary -> 去掉特殊字符 / . 等**
+1. 去`webim-react-native/android/local.properties`文件中，将`sdk.dir=/Users/lwz/Library/Android/sdk`修改为自己的sdk目录
+1. **去工程Librares中找到： RCTNetwork.xcodeproj / RCTNetworking.mm / RCTGenerateFormBoundary -> 去掉特殊字符 / . 等**
    - 因为上传文件时服务端rest服务会限制content-type不能出现特殊字符
    
 ```
