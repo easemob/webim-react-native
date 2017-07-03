@@ -1,5 +1,8 @@
 # React Native and Strophe for real-time Apps  @ 环信
 
+
+**提问请移步(QA) [环信工单系统](https://im.tickets.easemob.com/scp/login.php#reply)**
+
 更详细的QA、IDE配置请参考[文档](https://github.com/wytheme/wytheme.github.io/blob/master/raw/react-native-and-strophe.md)
 
 ## 目录
