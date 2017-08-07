@@ -13,6 +13,7 @@ publish/*
 android/.gradle
 android/app/build
 android/build
+android/local.properties
 yarn-error.log
 ios/build
 npm-debug.log
