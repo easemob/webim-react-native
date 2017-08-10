@@ -48,6 +48,7 @@ const char *boundaryChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 
 1. SyntaxError: Strict mode does not allow function declarations in a lexically nested statement ...
   - fix: [babel-plugin-transform-remove-strict-mode](https://www.npmjs.com/package/babel-plugin-transform-remove-strict-mode)
+  - or: 参考 https://github.com/facebook/react-native/issues/11389#issuecomment-265995961
 1. 消息发送失败
  - 需要确认发送消息操作是否在连接正确建立之后才发送的消息 ，见： `WebIM.conn.listen({ // xmpp连接成功 onOpened: (msg) => { }}）`。
 
